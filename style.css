@@ -1,0 +1,479 @@
+/* === Base Styles === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+body {
+  background: linear-gradient(120deg, #e0f0ff, #f0f4ff);
+  color: #222;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: #111;
+  color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.dark) {
+    background: #111;
+    color: #eee;
+  }
+}
+
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px solid #007acc;
+  outline-offset: 2px;
+}
+
+/* === Header === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #003366;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark header {
+  background: #000033;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.navbar a {
+  color: #ffffffcc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ffffff;
+}
+
+/* === Toggle Switch === */
+.theme-toggle {
+  margin-left: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* === Hero Section === */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #0088cc, #005f99);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+#searchBar {
+  padding: 0.8rem 1.2rem;
+  width: 90%;
+  max-width: 500px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: 0.4s ease;
+}
+
+#searchBar:focus {
+  box-shadow: 0 0 15px #00ccff;
+}
+
+/* === Categories === */
+.categories {
+  padding: 2rem;
+  text-align: center;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.category-list button {
+  padding: 0.6rem 1.4rem;
+  border: none;
+  background: #0055aa;
+  color: white;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.category-list button:hover {
+  background: #0077cc;
+}
+
+/* === Calculator Container === */
+.calculator-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+/* === Individual Calculator Card === */
+.calculator {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+body.dark .calculator {
+  background: #1f1f1f;
+  color: #fff;
+}
+
+.calculator:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.calculator h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #004080;
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+body.dark .calculator h3 {
+  color: #33ccff;
+}
+
+.calculator label {
+  display: block;
+  margin: 0.8rem 0 0.3rem;
+  font-weight: 500;
+}
+
+.calculator input,
+.calculator select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  background: white;
+  color: #222;
+}
+
+body.dark .calculator input,
+body.dark .calculator select {
+  background: #2a2a2a;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+.calculator button {
+  background: #007bff;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.calculator button:hover {
+  background: #005fcc;
+}
+
+/* === Result Output === */
+.result {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #006699;
+}
+
+/* === Step-by-Step Explanation === */
+.result-explanation {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #444;
+  background: #eef6ff;
+  padding: 0.7rem;
+  border-left: 4px solid #007acc;
+  border-radius: 8px;
+}
+
+body.dark .result-explanation {
+  background: #1e2a33;
+  color: #ccc;
+  border-left-color: #33ccff;
+}
+
+/* === Tooltips === */
+.tooltip {
+  position: relative;
+  cursor: help;
+  font-size: 1.1rem;
+  color: #666;
+  margin-left: 4px;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 100;
+  opacity: 1;
+}
+
+body.dark .tooltip {
+  color: #aaa;
+}
+
+/* === Unit Switcher Buttons === */
+.unit-toggle {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.unit-toggle button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.unit-toggle button.active {
+  background: #007acc;
+  color: white;
+}
+
+body.dark .unit-toggle button {
+  background: #2a2a2a;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark .unit-toggle button.active {
+  background: #33ccff;
+  color: black;
+}
+
+/* === Loader === */
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #007acc;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === About Section === */
+.about {
+  background: #f8faff;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+body.dark .about {
+  background: #111;
+  color: #ccc;
+}
+
+/* === Footer === */
+footer {
+  background: #002244;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+body.dark footer {
+  background: #000022;
+}
+
+/* === Scroll to Top Button === */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007acc;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 999;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#scrollTopBtn.show {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+#scrollTopBtn.hide {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+#scrollTopBtn:hover {
+  background: #005f99;
+}
+
+/* === Responsive Adjustments === */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: right;
+  }
+
+  .category-list {
+    flex-direction: column;
+  }
+
+  #searchBar {
+    width: 95%;
+  }
+}
