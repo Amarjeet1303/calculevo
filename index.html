@@ -1,377 +1,367 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculevo - 40 Professional Calculators</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculevo - All Calculators</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+  }
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  /* Sidebar with list */
+  .sidebar {
+    width: 300px;
+    background: #2a9d8f;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+  .sidebar h1 {
+    margin: 0 0 20px 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+  .calc-list {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+  }
+  .calc-list li {
+    background: #3cb79f;
+    margin: 8px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  .calc-list li:hover, .calc-list li.active {
+    background: #1e766a;
+  }
+  .calc-list li i {
+    font-style: normal;
+    margin-right: 12px;
+    font-size: 1.2rem;
+  }
 
-  <!-- TailwindCSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  /* Main content */
+  .main-content {
+    flex: 1;
+    padding: 40px 30px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 0 20px 20px 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  }
 
-  <style>
+  /* Calculator Card */
+  .calculator {
+    max-width: 600px;
+    background: #f0f4f8;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 30px 40px;
+  }
+  .calculator h2 {
+    margin-top: 0;
+    color: #264653;
+  }
+
+  /* Form Elements */
+  .calculator label {
+    display: block;
+    margin: 18px 0 6px;
+    font-weight: 600;
+    color: #264653;
+  }
+  .calculator input[type="number"] {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  .calculator input[type="number"]:focus {
+    border-color: #2a9d8f;
+    outline: none;
+  }
+  .calculator button {
+    margin-top: 25px;
+    background: #2a9d8f;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .calculator button:hover {
+    background: #1e766a;
+  }
+
+  /* Result */
+  .result {
+    margin-top: 25px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e76f51;
+  }
+
+  /* Responsive */
+  @media(max-width: 768px) {
     body {
-      font-family: 'Poppins', sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      flex-direction: column;
     }
-    .dark body {
-      background-color: #1a202c;
-      color: #cbd5e1;
+    .sidebar {
+      width: 100%;
+      display: flex;
+      overflow-x: auto;
+      padding: 10px 0;
     }
-    /* Scrollbar for sidebar */
-    ::-webkit-scrollbar {
-      width: 8px;
+    .calc-list {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 0 10px;
     }
-    ::-webkit-scrollbar-thumb {
-      background-color: #4f46e5;
-      border-radius: 4px;
+    .calc-list li {
+      flex: 0 0 auto;
+      margin: 0 10px;
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
+    .main-content {
+      border-radius: 0;
+      padding: 20px 15px;
     }
-    /* Simple fade-in animation */
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
-      opacity: 0;
+    .calculator {
+      max-width: 100%;
+      padding: 20px;
     }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
+<body>
 
-  <!-- Header -->
-  <header class="bg-indigo-700 dark:bg-indigo-900 text-white p-4 text-center font-bold text-3xl shadow-md sticky top-0 z-50 select-none">
-    Calculevo - 40 Professional Calculators
-  </header>
+<div class="sidebar">
+  <h1>Calculevo</h1>
+  <ul class="calc-list" id="calculatorList">
+    <!-- Calculator items will be dynamically inserted -->
+  </ul>
+</div>
 
-  <!-- Dark Mode Toggle Button -->
-  <div class="fixed top-4 right-4 z-50">
-    <button id="darkToggle" aria-label="Toggle Dark Mode" class="bg-indigo-600 hover:bg-indigo-800 text-white px-3 py-2 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-400">
-      Toggle Dark Mode
-    </button>
-  </div>
+<div class="main-content" id="mainContent">
+  <p>Select a calculator from the left to begin.</p>
+</div>
 
-  <div class="flex flex-col lg:flex-row min-h-screen">
-
-    <!-- Sidebar -->
-    <aside class="w-full lg:w-1/4 bg-indigo-100 dark:bg-gray-800 p-6 overflow-y-auto sticky top-16 h-[calc(100vh-64px)]">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-800 dark:text-indigo-400">Calculators</h2>
-      <nav class="space-y-2" id="calculator-list" aria-label="Calculator Navigation">
-        <!-- Links inserted by JS -->
-      </nav>
-    </aside>
-
-    <!-- Main content -->
-    <main class="flex-1 p-6 space-y-10" id="calculator-container" tabindex="0" aria-live="polite">
-      <!-- Calculator sections inserted by JS -->
-    </main>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-indigo-700 dark:bg-indigo-900 text-white p-4 text-center select-none mt-auto">
-    &copy; 2025 Calculevo | All Rights Reserved
-  </footer>
-
-  <script>
-    (() => {
-      // Dark mode toggle setup
-      const darkToggle = document.getElementById('darkToggle');
-      const root = document.documentElement;
-
-      function setDarkMode(enabled) {
-        if (enabled) {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('calculevo-dark', 'true');
-          darkToggle.textContent = 'Light Mode';
-        } else {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('calculevo-dark', 'false');
-          darkToggle.textContent = 'Dark Mode';
-        }
-      }
-
-      darkToggle.addEventListener('click', () => {
-        const enabled = document.documentElement.classList.contains('dark');
-        setDarkMode(!enabled);
-      });
-
-      // Initialize dark mode based on localStorage or prefers-color-scheme
-      if (localStorage.getItem('calculevo-dark') === 'true' || (!localStorage.getItem('calculevo-dark') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        setDarkMode(true);
-      } else {
-        setDarkMode(false);
-      }
-
-      // Calculator data and formulas
-      const calculators = [
-        // Finance Calculators (15)
-        { id: 'emi', name: 'EMI Calculator', fields: ['Principal Amount', 'Annual Interest Rate (%)', 'Loan Tenure (years)'], formula: (p, r, n) => {
-          r = r / 100 / 12;
-          n = n * 12;
-          return ((p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)).toFixed(2);
-        }},
-        { id: 'sip', name: 'SIP Calculator', fields: ['Monthly Investment', 'Expected Annual Return (%)', 'Investment Period (years)'], formula: (p, r, n) => {
-          r = r / 100 / 12;
-          n = n * 12;
-          const fv = p * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-          return fv.toFixed(2);
-        }},
-        { id: 'fd', name: 'FD Calculator', fields: ['Principal', 'Rate of Interest (%)', 'Time (years)'], formula: (p, r, t) => {
-          const maturity = p * Math.pow(1 + (r/100), t);
-          return maturity.toFixed(2);
-        }},
-        { id: 'rd', name: 'RD Calculator', fields: ['Monthly Deposit', 'Interest Rate (%)', 'Tenure (months)'], formula: (p, r, n) => {
-          return (p * n + p * n * (n + 1) * r / 2400).toFixed(2);
-        }},
-        { id: 'simple_interest', name: 'Simple Interest Calculator', fields: ['Principal', 'Rate (%)', 'Time (years)'], formula: (p, r, t) => {
-          return ((p * r * t) / 100).toFixed(2);
-        }},
-        { id: 'compound_interest', name: 'Compound Interest Calculator', fields: ['Principal', 'Rate (%)', 'Time (years)'], formula: (p, r, t) => {
-          return (p * (Math.pow((1 + r / 100), t) - 1)).toFixed(2);
-        }},
-        { id: 'loan', name: 'Loan Calculator', fields: ['Loan Amount', 'Annual Interest Rate (%)', 'Tenure (years)'], formula: (p, r, n) => {
-          r = r / 100 / 12;
-          n = n * 12;
-          return ((p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)).toFixed(2);
-        }},
-        { id: 'credit_card', name: 'Credit Card Payoff Calculator', fields: ['Balance', 'Interest Rate (%)', 'Monthly Payment'], formula: (b, r, m) => {
-          r = r / 100 / 12;
-          if (m <= b * r) return 'Payment too low';
-          let months = 0;
-          let balance = b;
-          while(balance > 0) {
-            balance = balance + balance * r - m;
-            months++;
-            if (months > 1000) return 'Too many months';
-          }
-          return months;
-        }},
-        { id: 'tax', name: 'Income Tax Calculator (Simple)', fields: ['Income'], formula: (inc) => {
-          let tax = 0;
-          if (inc <= 250000) tax = 0;
-          else if (inc <= 500000) tax = (inc - 250000) * 0.05;
-          else if (inc <= 1000000) tax = 12500 + (inc - 500000) * 0.2;
-          else tax = 112500 + (inc - 1000000) * 0.3;
-          return tax.toFixed(2);
-        }},
-        { id: 'gst', name: 'GST Calculator', fields: ['Amount', 'GST Rate (%)'], formula: (amt, rate) => {
-          return (amt * rate / 100).toFixed(2);
-        }},
-        { id: 'inflation', name: 'Inflation Calculator', fields: ['Present Value', 'Inflation Rate (%)', 'Years'], formula: (pv, r, y) => {
-          return (pv * Math.pow(1 + r/100, y)).toFixed(2);
-        }},
-        { id: 'currency', name: 'Currency Converter (USD to INR)', fields: ['Amount in USD'], formula: (usd) => {
-          const rate = 82; // sample rate
-          return (usd * rate).toFixed(2);
-        }},
-        { id: 'home_loan', name: 'Home Loan Calculator', fields: ['Loan Amount', 'Annual Interest Rate (%)', 'Tenure (years)'], formula: (p, r, n) => {
-          r = r / 100 / 12;
-          n = n * 12;
-          return ((p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)).toFixed(2);
-        }},
-        { id: 'car_loan', name: 'Car Loan Calculator', fields: ['Loan Amount', 'Annual Interest Rate (%)', 'Tenure (years)'], formula: (p, r, n) => {
-          r = r / 100 / 12;
-          n = n * 12;
-          return ((p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)).toFixed(2);
-        }},
-
-        // Math Calculators (10)
-        { id: 'percentage', name: 'Percentage Calculator', fields: ['Part', 'Total'], formula: (a, b) => ((a / b) * 100).toFixed(2) },
-        { id: 'average', name: 'Average Calculator', fields: ['Number 1', 'Number 2', 'Number 3'], formula: (a, b, c) => ((a + b + c) / 3).toFixed(2) },
-        { id: 'ratio', name: 'Ratio Calculator', fields: ['Value 1', 'Value 2'], formula: (a, b) => `${a}:${b}` },
-        { id: 'proportion', name: 'Proportion Calculator', fields: ['a', 'b', 'c'], formula: (a, b, c) => ((b * c) / a).toFixed(2) },
-        { id: 'age', name: 'Age Calculator', fields: ['Date of Birth'], formula: (dob) => {
-          const birth = new Date(dob);
-          const now = new Date();
-          let age = now.getFullYear() - birth.getFullYear();
-          const m = now.getMonth() - birth.getMonth();
-          if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
-          return age;
-        }},
-        { id: 'unit_converter', name: 'Unit Converter (km to miles)', fields: ['Kilometers'], formula: (km) => (km * 0.621371).toFixed(2) },
-        { id: 'prime_checker', name: 'Prime Number Checker', fields: ['Number'], formula: (n) => {
-          if(n<=1) return 'No';
-          for(let i=2; i<=Math.sqrt(n); i++) if(n%i===0) return 'No';
-          return 'Yes';
-        }},
-        { id: 'factorial', name: 'Factorial Calculator', fields: ['Number'], formula: (n) => {
-          if(n<0) return 'Undefined';
-          let fact=1; for(let i=1;i<=n;i++) fact*=i; return fact;
-        }},
-        { id: 'hcf_lcm', name: 'HCF and LCM Calculator', fields: ['Number 1', 'Number 2'], formula: (a,b) => {
-          const gcd = (x,y) => y === 0 ? x : gcd(y, x % y);
-          const hcf = gcd(a,b);
-          const lcm = (a*b)/hcf;
-          return `HCF: ${hcf}, LCM: ${lcm}`;
-        }},
-        { id: 'number_to_words', name: 'Number to Words Converter', fields: ['Number'], formula: (num) => {
-          if(num === 0) return 'Zero';
-          const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
-          const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-          function inWords(n) {
-            if(n < 20) return a[n];
-            if(n < 100) return b[Math.floor(n/10)] + (n%10 ? ' ' + a[n%10] : '');
-            if(n < 1000) return a[Math.floor(n/100)] + ' Hundred ' + (n%100 ? inWords(n%100) : '');
-            if(n < 1000000) return inWords(Math.floor(n/1000)) + ' Thousand ' + (n%1000 ? inWords(n%1000) : '');
-            return 'Number too large';
-          }
-          return inWords(num);
-        }},
-
-        // Health & Fitness Calculators (10)
-        { id: 'bmi', name: 'BMI Calculator', fields: ['Weight (kg)', 'Height (m)'], formula: (w, h) => (w / (h*h)).toFixed(2) },
-        { id: 'bmr', name: 'BMR Calculator', fields: ['Weight (kg)', 'Height (cm)', 'Age', 'Gender (male/female)'], formula: (w, h, a, g) => {
-          g = g.toLowerCase();
-          if(g === 'male') return (10*w + 6.25*h - 5*a + 5).toFixed(2);
-          if(g === 'female') return (10*w + 6.25*h - 5*a - 161).toFixed(2);
-          return 'Invalid gender';
-        }},
-        { id: 'body_fat', name: 'Body Fat Percentage Calculator', fields: ['Weight (kg)', 'Body Fat (%)'], formula: (w, bf) => ((w * bf)/100).toFixed(2) },
-        { id: 'calorie', name: 'Calorie Calculator', fields: ['Age', 'Weight (kg)', 'Height (cm)', 'Gender (male/female)'], formula: (a, w, h, g) => {
-          g = g.toLowerCase();
-          if(g === 'male') return (10*w + 6.25*h - 5*a + 5).toFixed(0);
-          if(g === 'female') return (10*w + 6.25*h - 5*a - 161).toFixed(0);
-          return 'Invalid gender';
-        }},
-        { id: 'water_intake', name: 'Water Intake Calculator (ml)', fields: ['Weight (kg)'], formula: (w) => (w*35).toFixed(0) },
-        { id: 'heart_rate', name: 'Target Heart Rate Calculator', fields: ['Age'], formula: (a) => {
-          const maxHR = 220 - a;
-          const lower = (maxHR * 0.5).toFixed(0);
-          const upper = (maxHR * 0.85).toFixed(0);
-          return `Target HR Zone: ${lower} - ${upper} bpm`;
-        }},
-        { id: 'ideal_weight', name: 'Ideal Weight Calculator (Devine Formula)', fields: ['Height (cm)', 'Gender (male/female)'], formula: (h, g) => {
-          g = g.toLowerCase();
-          const inches = h / 2.54;
-          if(g === 'male') return ((50 + 2.3 * (inches - 60)) * 0.453592).toFixed(2) + ' kg';
-          if(g === 'female') return ((45.5 + 2.3 * (inches - 60)) * 0.453592).toFixed(2) + ' kg';
-          return 'Invalid gender';
-        }},
-        { id: 'pregnancy_due_date', name: 'Pregnancy Due Date Calculator', fields: ['Last Menstrual Period (Date)'], formula: (lmp) => {
-          const lmpDate = new Date(lmp);
-          if(isNaN(lmpDate)) return 'Invalid date';
-          const due = new Date(lmpDate);
-          due.setDate(due.getDate() + 280);
-          return due.toDateString();
-        }},
-        { id: 'ovulation', name: 'Ovulation Calculator', fields: ['Last Menstrual Period (Date)', 'Cycle Length (days)'], formula: (lmp, cl) => {
-          const lmpDate = new Date(lmp);
-          if(isNaN(lmpDate)) return 'Invalid date';
-          const ovulation = new Date(lmpDate);
-          ovulation.setDate(ovulation.getDate() + cl - 14);
-          return ovulation.toDateString();
-        }},
-        { id: 'macro_nutrient', name: 'Macro Nutrient Calculator', fields: ['Calories', 'Carbs (%)', 'Protein (%)', 'Fat (%)'], formula: (cal, c, p, f) => {
-          const carbs = (cal * c / 100 / 4).toFixed(2) + ' g';
-          const protein = (cal * p / 100 / 4).toFixed(2) + ' g';
-          const fat = (cal * f / 100 / 9).toFixed(2) + ' g';
-          return `Carbs: ${carbs}, Protein: ${protein}, Fat: ${fat}`;
-        }},
-
-        // Utility Calculators (5)
-        { id: 'discount', name: 'Discount Calculator', fields: ['Price', 'Discount (%)'], formula: (price, disc) => (price - price * disc / 100).toFixed(2) },
-        { id: 'fuel_cost', name: 'Fuel Cost Calculator', fields: ['Distance (km)', 'Mileage (km/l)', 'Fuel Price (per litre)'], formula: (d, m, f) => ((d/m)*f).toFixed(2) },
-        { id: 'time_diff', name: 'Time Duration Calculator', fields: ['Start Time (HH:MM)', 'End Time (HH:MM)'], formula: (start, end) => {
-          function toMinutes(t) {
-            const [h,m] = t.split(':').map(Number);
-            return h*60 + m;
-          }
-          let diff = toMinutes(end) - toMinutes(start);
-          if(diff < 0) diff += 24*60;
-          return `${Math.floor(diff/60)} hr ${diff%60} min`;
-        }},
-        { id: 'date_diff', name: 'Date Difference Calculator', fields: ['Date 1', 'Date 2'], formula: (d1, d2) => {
-          const date1 = new Date(d1);
-          const date2 = new Date(d2);
-          const diff = Math.abs(date2 - date1);
-          return Math.floor(diff / (1000 * 60 * 60 * 24)) + ' days';
-        }},
-        { id: 'salary_hike', name: 'Salary Hike Calculator', fields: ['Current Salary', 'Hike (%)'], formula: (s, h) => (s * (1 + h/100)).toFixed(2) },
-      ];
-
-      // Generate sidebar links and calculators
-      const list = document.getElementById('calculator-list');
-      const container = document.getElementById('calculator-container');
-
-      calculators.forEach(calc => {
-        // Sidebar link
-        const link = document.createElement('a');
-        link.href = `#${calc.id}`;
-        link.className = 'block px-4 py-2 rounded hover:bg-indigo-300 dark:hover:bg-indigo-600 cursor-pointer transition';
-        link.textContent = calc.name;
-        list.appendChild(link);
-
-        // Calculator form section
-        const section = document.createElement('section');
-        section.id = calc.id;
-        section.className = 'bg-white dark:bg-gray-800 p-6 rounded shadow fade-in';
-        section.setAttribute('tabindex', '-1');
-        section.setAttribute('aria-label', calc.name);
-
-        // Build form inputs
-        let inputsHTML = '';
-        calc.fields.forEach((label, idx) => {
-          // For date fields or time, select input type accordingly
-          let type = 'number';
-          if(label.toLowerCase().includes('date')) type = 'date';
-          if(label.toLowerCase().includes('time')) type = 'time';
-          if(label.toLowerCase().includes('gender')) type = 'text';
-
-          inputsHTML += `
-            <div class="mb-4">
-              <label for="${calc.id}-field-${idx}" class="block font-semibold mb-1">${label}</label>
-              <input
-                id="${calc.id}-field-${idx}"
-                name="${calc.id}-field-${idx}"
-                type="${type}"
-                step="any"
-                required
-                class="w-full border border-gray-300 rounded px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="${type === 'text' ? 'e.g. male or female' : ''}"
-                autocomplete="off"
-              />
-            </div>
-          `;
-        });
-
-        section.innerHTML = `
-          <h3 class="text-2xl font-bold mb-4">${calc.name}</h3>
-          <form id="${calc.id}-form" aria-describedby="${calc.id}-result" novalidate>
-            ${inputsHTML}
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded transition focus:outline-none focus:ring-2 focus:ring-indigo-500">Calculate</button>
-          </form>
-          <div id="${calc.id}-result" class="mt-4 text-lg font-semibold text-indigo-700 dark:text-indigo-300" role="region" aria-live="polite"></div>
+<script>
+  // List of calculators with name, icon, and function to render UI & logic
+  const calculators = [
+    {
+      id: 'bmi',
+      name: 'BMI Calculator',
+      icon: '⚖️',
+      render: function(container) {
+        container.innerHTML = `
+          <div class="calculator">
+            <h2>BMI Calculator</h2>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" placeholder="e.g. 70" />
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" placeholder="e.g. 170" />
+            <button id="calcBtn">Calculate BMI</button>
+            <div class="result" id="result"></div>
+          </div>
         `;
 
-        container.appendChild(section);
+        const btn = container.querySelector('#calcBtn');
+        const resultDiv = container.querySelector('#result');
 
-        // Event listener for calculation
-        section.querySelector('form').addEventListener('submit', e => {
-          e.preventDefault();
-          const inputs = Array.from(e.target.elements).filter(el => el.tagName === 'INPUT');
-          try {
-            // Gather input values converting number/date/time as needed
-            const values = inputs.map(input => {
-              if(input.type === 'number') return parseFloat(input.value);
-              if(input.type === 'date' || input.type === 'time') return input.value;
-              return input.value.trim();
-            });
-
-            const res = calc.formula(...values);
-            document.getElementById(calc.id + '-result').textContent = `Result: ${res}`;
-          } catch (error) {
-            document.getElementById(calc.id + '-result').textContent = 'Error in calculation. Please check inputs.';
+        btn.addEventListener('click', () => {
+          const weight = parseFloat(container.querySelector('#weight').value);
+          const height = parseFloat(container.querySelector('#height').value) / 100;
+          if (!weight || !height || weight <= 0 || height <= 0) {
+            resultDiv.textContent = 'Please enter valid positive numbers.';
+            return;
           }
+          const bmi = weight / (height * height);
+          resultDiv.textContent = `Your BMI is ${bmi.toFixed(2)}`;
         });
-      });
-    })();
-  </script>
+      }
+    },
+    {
+      id: 'simple_interest',
+      name: 'Simple Interest',
+      icon: '💰',
+      render: function(container) {
+        container.innerHTML = `
+          <div class="calculator">
+            <h2>Simple Interest Calculator</h2>
+            <label for="principal">Principal Amount (₹):</label>
+            <input type="number" id="principal" placeholder="e.g. 10000" />
+            <label for="rate">Rate of Interest (% per annum):</label>
+            <input type="number" id="rate" placeholder="e.g. 5" />
+            <label for="time">Time (years):</label>
+            <input type="number" id="time" placeholder="e.g. 3" />
+            <button id="calcBtn">Calculate Interest</button>
+            <div class="result" id="result"></div>
+          </div>
+        `;
 
+        const btn = container.querySelector('#calcBtn');
+        const resultDiv = container.querySelector('#result');
+
+        btn.addEventListener('click', () => {
+          const P = parseFloat(container.querySelector('#principal').value);
+          const R = parseFloat(container.querySelector('#rate').value);
+          const T = parseFloat(container.querySelector('#time').value);
+          if (!P || !R || !T || P <= 0 || R <= 0 || T <= 0) {
+            resultDiv.textContent = 'Please enter valid positive numbers.';
+            return;
+          }
+          const SI = (P * R * T) / 100;
+          resultDiv.textContent = `Simple Interest = ₹${SI.toFixed(2)}`;
+        });
+      }
+    },
+    {
+      id: 'compound_interest',
+      name: 'Compound Interest',
+      icon: '📈',
+      render: function(container) {
+        container.innerHTML = `
+          <div class="calculator">
+            <h2>Compound Interest Calculator</h2>
+            <label for="principal">Principal Amount (₹):</label>
+            <input type="number" id="principal" placeholder="e.g. 10000" />
+            <label for="rate">Annual Interest Rate (%):</label>
+            <input type="number" id="rate" placeholder="e.g. 5" />
+            <label for="time">Time (years):</label>
+            <input type="number" id="time" placeholder="e.g. 3" />
+            <label for="n">Compounds per year:</label>
+            <input type="number" id="n" placeholder="e.g. 4" value="4" />
+            <button id="calcBtn">Calculate Amount</button>
+            <div class="result" id="result"></div>
+          </div>
+        `;
+
+        const btn = container.querySelector('#calcBtn');
+        const resultDiv = container.querySelector('#result');
+
+        btn.addEventListener('click', () => {
+          const P = parseFloat(container.querySelector('#principal').value);
+          const R = parseFloat(container.querySelector('#rate').value) / 100;
+          const T = parseFloat(container.querySelector('#time').value);
+          const n = parseInt(container.querySelector('#n').value) || 1;
+          if (!P || !R || !T || P <= 0 || R <= 0 || T <= 0 || n <= 0) {
+            resultDiv.textContent = 'Please enter valid positive numbers.';
+            return;
+          }
+          const A = P * Math.pow(1 + R/n, n * T);
+          const CI = A - P;
+          resultDiv.textContent = `Amount = ₹${A.toFixed(2)} | Compound Interest = ₹${CI.toFixed(2)}`;
+        });
+      }
+    },
+    {
+      id: 'triangle_area',
+      name: 'Triangle Area',
+      icon: '🔺',
+      render: function(container) {
+        container.innerHTML = `
+          <div class="calculator">
+            <h2>Triangle Area Calculator</h2>
+            <label for="base">Base (units):</label>
+            <input type="number" id="base" placeholder="e.g. 10" />
+            <label for="height">Height (units):</label>
+            <input type="number" id="height" placeholder="e.g. 5" />
+            <button id="calcBtn">Calculate Area</button>
+            <div class="result" id="result"></div>
+          </div>
+        `;
+        const btn = container.querySelector('#calcBtn');
+        const resultDiv = container.querySelector('#result');
+
+        btn.addEventListener('click', () => {
+          const base = parseFloat(container.querySelector('#base').value);
+          const height = parseFloat(container.querySelector('#height').value);
+          if (!base || !height || base <= 0 || height <= 0) {
+            resultDiv.textContent = 'Please enter valid positive numbers.';
+            return;
+          }
+          const area = 0.5 * base * height;
+          resultDiv.textContent = `Area of triangle = ${area.toFixed(2)} square units`;
+        });
+      }
+    },
+    {
+      id: 'circle_area',
+      name: 'Circle Area',
+      icon: '⚪',
+      render: function(container) {
+        container.innerHTML = `
+          <div class="calculator">
+            <h2>Circle Area Calculator</h2>
+            <label for="radius">Radius (units):</label>
+            <input type="number" id="radius" placeholder="e.g. 7" />
+            <button id="calcBtn">Calculate Area</button>
+            <div class="result" id="result"></div>
+          </div>
+        `;
+        const btn = container.querySelector('#calcBtn');
+        const resultDiv = container.querySelector('#result');
+
+        btn.addEventListener('click', () => {
+          const r = parseFloat(container.querySelector('#radius').value);
+          if (!r || r <= 0) {
+            resultDiv.textContent = 'Please enter valid positive number.';
+            return;
+          }
+          const area = Math.PI * r * r;
+          resultDiv.textContent = `Area of circle = ${area.toFixed(2)} square units`;
+        });
+      }
+    }
+  ];
+
+  const calculatorList = document.getElementById('calculatorList');
+  const mainContent = document.getElementById('mainContent');
+
+  function clearActive() {
+    [...calculatorList.children].forEach(li => li.classList.remove('active'));
+  }
+
+  // Load calculator list dynamically
+  function loadCalculatorList() {
+    calculators.forEach(calc => {
+      const li = document.createElement('li');
+      li.innerHTML = `<i>${calc.icon}</i> ${calc.name}`;
+      li.dataset.calcId = calc.id;
+      li.addEventListener('click', () => {
+        clearActive();
+        li.classList.add('active');
+        // Render selected calculator
+        calc.render(mainContent);
+      });
+      calculatorList.appendChild(li);
+    });
+  }
+
+  loadCalculatorList();
+</script>
 </body>
 </html>
