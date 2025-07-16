@@ -2,28 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculevo - All Calculators</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculevo - Smart Calculators</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .calculator-card {
+      @apply bg-white rounded-2xl shadow-lg p-6 w-full max-w-xl mx-auto;
+    }
+    .calculator-input {
+      @apply w-full border border-gray-300 p-2 rounded-lg mb-3;
+    }
+    .calculator-button {
+      @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl;
+    }
+    .result {
+      @apply mt-4 text-lg font-semibold text-green-600;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex flex-col md:flex-row">
+    <!-- Sidebar -->
+    <aside class="bg-blue-800 text-white w-full md:w-64 p-4 space-y-4">
+      <h1 class="text-2xl font-bold mb-4">Calculevo</h1>
+      <div id="categoryButtons" class="space-y-2"></div>
+    </aside>
 
-  <!-- Sidebar -->
-  <aside id="sidebar" role="navigation" aria-label="Calculator selection menu">
-    <h1>Calculevo</h1>
-    <input type="search" id="searchInput" placeholder="Search calculators..." aria-label="Search calculators" />
-    <div id="calcList" tabindex="0" aria-live="polite"></div>
-  </aside>
+    <!-- Main Content -->
+    <main class="flex-1 p-4">
+      <div id="calculatorList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6"></div>
+      <div id="calculatorContainer" class="calculator-card"></div>
+    </main>
+  </div>
 
-  <!-- Main calculator container -->
-  <main id="main" role="main">
-    <div id="calcContainer" aria-live="polite" aria-atomic="true">
-      <p style="text-align:center; color:#888;">Select a calculator from the left menu to get started.</p>
-    </div>
-  </main>
+  <script>
+    const calculators = [
+      {
+        id: 'age_calculator',
+        name: 'Age Calculator',
+        icon: '🎂',
+        category: 'Math',
+        render: container => {
+          container.innerHTML = `
+            <h2 class="text-xl font-semibold mb-4">Age Calculator</h2>
+            <input type="date" id="birthdate" class="calculator-input" />
+            <button id="calcBtn" class="calculator-button">Calculate Age</button>
+            <div class="result" id="result"></div>
+          `;
+          container.querySelector('#calcBtn').onclick = () => {
+            const birthdateStr = container.querySelector('#birthdate').value;
+            const resultDiv = container.querySelector('#result');
+            if (!birthdateStr) {
+              resultDiv.textContent = 'Please select your birthdate.';
+              return;
+            }
+            const birthdate = new Date(birthdateStr);
+            const today = new Date();
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const m = today.getMonth() - birthdate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+              age--;
+            }
+            resultDiv.textContent = `Age: ${age} years`;
+          };
+        }
+      },
+      {
+        id: 'bmi_calculator',
+        name: 'BMI Calculator',
+        icon: '⚖️',
+        category: 'Health',
+        render: container => {
+          container.innerHTML = `
+            <h2 class="text-xl font-semibold mb-4">BMI Calculator</h2>
+            <input type="number" id="weight" class="calculator-input" placeholder="Weight (kg)" />
+            <input type="number" id="height" class="calculator-input" placeholder="Height (cm)" />
+            <button id="calcBtn" class="calculator-button">Calculate BMI</button>
+            <div class="result" id="result"></div>
+          `;
+          container.querySelector('#calcBtn').onclick = () => {
+            const weight = parseFloat(container.querySelector('#weight').value);
+            const height = parseFloat(container.querySelector('#height').value) / 100;
+            const resultDiv = container.querySelector('#result');
+            if (weight <= 0 || height <= 0) {
+              resultDiv.textContent = 'Please enter valid numbers.';
+              return;
+            }
+            const bmi = weight / (height * height);
+            resultDiv.textContent = `BMI = ${bmi.toFixed(2)}`;
+          };
+        }
+      }
+    ];
 
-  <!-- Scripts -->
-  <script src="calculators.js"></script>
-  <script src="app.js"></script>
+    const categoryButtons = document.getElementById('categoryButtons');
+    const calculatorList = document.getElementById('calculatorList');
+    const calculatorContainer = document.getElementById('calculatorContainer');
+
+    const categories = [...new Set(calculators.map(calc => calc.category))];
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.textContent = cat;
+      btn.className = 'block w-full bg-blue-600 hover:bg-blue-700 py-2 rounded text-white font-semibold';
+      btn.onclick = () => loadCalculatorList(cat);
+      categoryButtons.appendChild(btn);
+    });
+
+    function loadCalculatorList(category) {
+      calculatorList.innerHTML = '';
+      calculatorContainer.innerHTML = '';
+      const filtered = calculators.filter(calc => calc.category === category);
+      filtered.forEach(calc => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl p-4 shadow cursor-pointer hover:bg-gray-100';
+        card.innerHTML = `<div class="text-3xl mb-2">${calc.icon}</div><div class="font-bold">${calc.name}</div>`;
+        card.onclick = () => {
+          calculatorContainer.innerHTML = '';
+          calc.render(calculatorContainer);
+        };
+        calculatorList.appendChild(card);
+      });
+    }
+  </script>
 </body>
 </html>
