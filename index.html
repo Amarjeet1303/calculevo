@@ -7,6 +7,26 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bounce-in {
+      animation: bounceIn 1s ease;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white">
   <!-- Header -->
@@ -19,25 +39,25 @@
         <input id="search" type="text" placeholder="Search calculators..." onkeyup="searchCalculators()" class="hidden md:block px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
       </div>
       <div class="flex items-center gap-3">
-        <button onclick="toggleDarkMode()" class="bg-cyan-100 dark:bg-cyan-700 text-cyan-800 dark:text-white px-3 py-2 rounded-full hover:shadow">🌙 / ☀️</button>
-        <button onclick="toggleMenu()" class="md:hidden text-2xl">☰</button>
+        <button onclick="toggleDarkMode()" class="bg-cyan-100 dark:bg-cyan-700 text-cyan-800 dark:text-white px-3 py-2 rounded-full hover:shadow bounce-in">🌙 / ☀️</button>
+        <button onclick="toggleMenu()" class="md:hidden text-2xl bounce-in">☰</button>
       </div>
     </div>
     <!-- Mobile Menu -->
     <nav id="mobile-menu" class="mobile-nav md:hidden mt-4 hidden">
       <ul class="space-y-2 text-gray-800 dark:text-gray-200">
-        <li><a href="#" onclick="showCalculator('health')">🧘 Health</a></li>
-        <li><a href="#" onclick="showCalculator('finance')">💰 Finance</a></li>
-        <li><a href="#" onclick="showCalculator('math')">📐 Math</a></li>
-        <li><a href="#" onclick="showCalculator('chat')">💬 Chat</a></li>
+        <li><a href="#" onclick="showCalculator('health')" class="bounce-in">🧘 Health</a></li>
+        <li><a href="#" onclick="showCalculator('finance')" class="bounce-in">💰 Finance</a></li>
+        <li><a href="#" onclick="showCalculator('math')" class="bounce-in">📐 Math</a></li>
+        <li><a href="#" onclick="showCalculator('chat')" class="bounce-in">💬 Chat</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Homepage Animation -->
   <section class="text-center py-20 px-4 bg-white dark:bg-gray-900 fade-in">
-    <h2 class="text-4xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Welcome to Calculevo</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+    <h2 class="text-4xl font-bold text-cyan-600 dark:text-cyan-400 mb-4 bounce-in">Welcome to Calculevo</h2>
+    <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto bounce-in">
       A smart hub of calculators for everyday life — finance, health, math, and even AI tools. Select a category to begin.
     </p>
   </section>
@@ -48,10 +68,10 @@
     <aside class="w-full md:w-1/4 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-6 hidden md:block">
       <h2 class="text-xl font-semibold mb-4 text-cyan-700 dark:text-cyan-300">Categories</h2>
       <nav class="space-y-4">
-        <a href="#" onclick="showCalculator('health')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">🧘 Health</a>
-        <a href="#" onclick="showCalculator('finance')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">💰 Finance</a>
-        <a href="#" onclick="showCalculator('math')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">📐 Math</a>
-        <a href="#" onclick="showCalculator('chat')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">💬 Chat Tools</a>
+        <a href="#" onclick="showCalculator('health')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600 bounce-in">🧘 Health</a>
+        <a href="#" onclick="showCalculator('finance')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600 bounce-in">💰 Finance</a>
+        <a href="#" onclick="showCalculator('math')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600 bounce-in">📐 Math</a>
+        <a href="#" onclick="showCalculator('chat')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600 bounce-in">💬 Chat Tools</a>
       </nav>
     </aside>
 
