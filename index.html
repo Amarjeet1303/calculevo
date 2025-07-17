@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Calculevo - Your Ultimate Smart Calculator Hub" />
+  <title>Calculevo | Smart Calculators Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">📊 Calculevo</div>
+    <nav class="navbar" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="fitness.html">Fitness</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle" aria-label="Toggle Dark Mode" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <h1>Welcome to Calculevo</h1>
+      <p>Your all-in-one smart calculator hub — 10 powerful calculators, one place.</p>
+      <input
+        type="search"
+        id="searchBar"
+        placeholder="🔍 Search calculators..."
+        aria-label="Search calculators"
+        oninput="filterCalculators()"
+      />
+    </section>
+
+    <section class="categories" id="categories">
+      <h2>📂 Calculator Categories</h2>
+      <div class="category-list" role="list" aria-label="Calculator categories">
+        <button onclick="showCategory('all')" class="category-btn active" aria-pressed="true">All</button>
+        <button onclick="showCategory('finance')" class="category-btn" aria-pressed="false">💰 Finance</button>
+        <button onclick="showCategory('health')" class="category-btn" aria-pressed="false">❤️ Health</button>
+        <button onclick="showCategory('math')" class="category-btn" aria-pressed="false">📐 Math</button>
+        <button onclick="showCategory('conversion')" class="category-btn" aria-pressed="false">🔄 Conversion</button>
+        <button onclick="showCategory('datetime')" class="category-btn" aria-pressed="false">📅 Date & Time</button>
+      </div>
+
+      <div id="calculatorContainer" class="calculator-container" aria-live="polite" aria-atomic="true"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Calculevo. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
