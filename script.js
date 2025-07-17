@@ -1,300 +1,167 @@
-// Updated script.js for Calculevo with full logic, formulas, and unit options including math and chat tools
+document.addEventListener("DOMContentLoaded", () => {
+  const calculators = [
+    bmiCalc(), ageCalc(), emiCalc(), sipCalc(),
+    bmrCalc(), percentCalc(), loanCalc(),
+    unitConvCalc(), wordCountCalc(), taxCalc()
+  ];
 
-document.addEventListener('DOMContentLoaded', () => {
-  showCalculator('health');
-  document.getElementById('search').addEventListener('input', searchCalculators);
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.getAttribute('data-category');
-      showCalculator(category);
+  const list = document.getElementById("calculator-list");
+  const search = document.getElementById("search");
+
+  function render(calcs) {
+    list.innerHTML = '';
+    calcs.forEach(calc => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h2>${calc.name}</h2>${calc.form}<div class="result" id="${calc.resultId}"></div>`;
+      list.appendChild(card);
     });
+  }
+
+  search.addEventListener("input", () => {
+    const term = search.value.toLowerCase();
+    const filtered = calculators.filter(c => c.name.toLowerCase().includes(term));
+    render(filtered);
   });
+
+  render(calculators);
 });
 
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
+// ---------- CALCULATOR FUNCTIONS ----------
+
+function bmiCalc() {
+  return {
+    name: "BMI Calculator",
+    resultId: "bmiResult",
+    form: `
+      <input id="bmi-weight" type="number" placeholder="Weight (kg)">
+      <input id="bmi-height" type="number" placeholder="Height (cm)">
+      <button onclick="let w=parseFloat(bmiWeight.value), h=parseFloat(bmiHeight.value)/100, r=(w/(h*h)).toFixed(2);bmiResult.innerText='BMI: '+r;">Calculate</button>`
+  };
 }
 
-function toggleMenu() {
-  const menu = document.getElementById('mobile-menu');
-  menu.classList.toggle('hidden');
-}
-
-function searchCalculators() {
-  const query = document.getElementById('search').value.toLowerCase();
-  const main = document.querySelector('main');
-  const allCalculators = [
-    ...getCalculatorsByCategory('health'),
-    ...getCalculatorsByCategory('finance'),
-    ...getCalculatorsByCategory('math'),
-    ...getCalculatorsByCategory('chat')
-  ];
-  main.innerHTML = '';
-  const filtered = allCalculators.filter(calc => calc.name.toLowerCase().includes(query));
-  if (filtered.length === 0) {
-    main.innerHTML = '<p class="text-center text-gray-500">No calculators found.</p>';
-    return;
-  }
-  filtered.forEach(calc => renderCalculator(calc));
-  triggerScrollAnimations();
-}
-
-function showCalculator(category) {
-  const main = document.querySelector('main');
-  main.innerHTML = '';
-  const calculators = getCalculatorsByCategory(category);
-  calculators.forEach(calc => renderCalculator(calc));
-  triggerScrollAnimations();
-}
-
-function renderCalculator(calc) {
-  const main = document.querySelector('main');
-  const section = document.createElement('section');
-  section.className = 'bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md scroll-animate';
-  section.innerHTML = `
-    <h3 class="text-xl font-bold mb-4 text-cyan-600">${calc.name}</h3>
-    <div>${calc.form}</div>
-    <p id="${calc.resultId}" class="mt-4 text-lg text-gray-700 dark:text-gray-300"></p>
-  `;
-  main.appendChild(section);
-}
-
-function getCalculatorsByCategory(category) {
-  switch(category) {
-    case 'health':
-      return [bmiCalc(), bmrCalc(), idealWeightCalc(), waterIntakeCalc()];
-    case 'finance':
-      return [emiCalc(), sipCalc(), loanCalc(), taxCalc()];
-    case 'math':
-      return [ageCalc(), percentageCalc(), unitConvertCalc()];
-    case 'chat':
-      return [wordCountCalc(), lineCountCalc()];
-    default:
-      return [];
-  }
-}
-
-function triggerScrollAnimations() {
-  const elements = document.querySelectorAll('.scroll-animate');
-  elements.forEach((el, i) => {
-    el.style.opacity = 0;
-    setTimeout(() => {
-      el.style.transition = 'opacity 0.5s ease';
-      el.style.opacity = 1;
-    }, 100 * i);
-  });
-}
-
-// ------------------ MATH CALCULATORS ------------------
 function ageCalc() {
   return {
-    name: 'Age Calculator',
-    resultId: 'age-result',
+    name: "Age Calculator",
+    resultId: "ageResult",
     form: `
-      <input type="date" id="dob" class="input-box">
-      <button onclick="calculateAge()" class="btn">Calculate</button>`
+      <input id="dob" type="date">
+      <button onclick="let d=new Date(dob.value),t=new Date(),a=t.getFullYear()-d.getFullYear();ageResult.innerText='Age: '+a+' years';">Calculate</button>`
   };
 }
 
-function calculateAge() {
-  const dob = new Date(document.getElementById('dob').value);
-  const today = new Date();
-  let age = today.getFullYear() - dob.getFullYear();
-  const m = today.getMonth() - dob.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-    age--;
-  }
-  document.getElementById('age-result').innerText = `Age: ${age} years`;
-}
-
-function percentageCalc() {
-  return {
-    name: 'Percentage Calculator',
-    resultId: 'percent-result',
-    form: `
-      <input type="number" id="percent-value" placeholder="Value" class="input-box">
-      <input type="number" id="percent-total" placeholder="Total" class="input-box">
-      <button onclick="calculatePercentage()" class="btn">Calculate</button>`
-  };
-}
-
-function calculatePercentage() {
-  const value = parseFloat(document.getElementById('percent-value').value);
-  const total = parseFloat(document.getElementById('percent-total').value);
-  if (value && total) {
-    const percent = (value / total * 100).toFixed(2);
-    document.getElementById('percent-result').innerText = `${percent}%`;
-  }
-}
-
-function unitConvertCalc() {
-  return {
-    name: 'Unit Converter (Length)',
-    resultId: 'unit-result',
-    form: `
-      <input type="number" id="unit-value" placeholder="Enter value" class="input-box">
-      <select id="unit-from" class="input-box">
-        <option value="meter">Meter</option>
-        <option value="kilometer">Kilometer</option>
-        <option value="centimeter">Centimeter</option>
-      </select>
-      <select id="unit-to" class="input-box">
-        <option value="meter">Meter</option>
-        <option value="kilometer">Kilometer</option>
-        <option value="centimeter">Centimeter</option>
-      </select>
-      <button onclick="convertUnit()" class="btn">Convert</button>`
-  };
-}
-
-function convertUnit() {
-  const val = parseFloat(document.getElementById('unit-value').value);
-  const from = document.getElementById('unit-from').value;
-  const to = document.getElementById('unit-to').value;
-  const rates = {
-    meter: 1,
-    kilometer: 0.001,
-    centimeter: 100
-  };
-  const converted = (val / rates[from]) * rates[to];
-  document.getElementById('unit-result').innerText = `Converted: ${converted.toFixed(4)} ${to}`;
-}
-
-// ------------------ CHAT TOOLS ------------------
-function wordCountCalc() {
-  return {
-    name: 'Word Counter',
-    resultId: 'word-result',
-    form: `
-      <textarea id="word-input" rows="4" class="input-box" placeholder="Enter text..."></textarea>
-      <button onclick="countWords()" class="btn">Count Words</button>`
-  };
-}
-
-function countWords() {
-  const text = document.getElementById('word-input').value.trim();
-  const words = text.split(/\s+/).filter(w => w.length > 0);
-  document.getElementById('word-result').innerText = `Word Count: ${words.length}`;
-}
-
-function lineCountCalc() {
-  return {
-    name: 'Line Counter',
-    resultId: 'line-result',
-    form: `
-      <textarea id="line-input" rows="4" class="input-box" placeholder="Enter text..."></textarea>
-      <button onclick="countLines()" class="btn">Count Lines</button>`
-  };
-}
-
-function countLines() {
-  const text = document.getElementById('line-input').value.trim();
-  const lines = text.split(/\n+/).filter(l => l.trim().length > 0);
-  document.getElementById('line-result').innerText = `Line Count: ${lines.length}`;
-}
-
-// ------------------ FINANCE CALCULATORS ------------------
 function emiCalc() {
   return {
-    name: 'EMI Calculator',
-    resultId: 'emi-result',
+    name: "EMI Calculator",
+    resultId: "emiResult",
     form: `
-      <input type="number" id="emi-principal" placeholder="Loan Amount (₹)" class="input-box">
-      <input type="number" id="emi-rate" placeholder="Annual Interest Rate (%)" class="input-box">
-      <input type="number" id="emi-tenure" placeholder="Loan Tenure (months)" class="input-box">
-      <button onclick="calculateEMI()" class="btn">Calculate EMI</button>
-    `
+      <input id="emi-principal" type="number" placeholder="Principal">
+      <input id="emi-rate" type="number" placeholder="Interest Rate (%)">
+      <input id="emi-tenure" type="number" placeholder="Tenure (months)">
+      <button onclick="
+        let p=+emiPrincipal.value,r=+emiRate.value/12/100,n=+emiTenure.value,
+        e=(p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+        emiResult.innerText='EMI: ₹'+e.toFixed(2);">Calculate</button>`
   };
-}
-
-function calculateEMI() {
-  const P = parseFloat(document.getElementById('emi-principal').value);
-  const annualRate = parseFloat(document.getElementById('emi-rate').value);
-  const N = parseInt(document.getElementById('emi-tenure').value);
-
-  const R = annualRate / 12 / 100;
-  if (!isNaN(P) && !isNaN(R) && !isNaN(N)) {
-    const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
-    document.getElementById('emi-result').innerText = `Monthly EMI: ₹${emi.toFixed(2)}`;
-  }
 }
 
 function sipCalc() {
   return {
-    name: 'SIP Calculator',
-    resultId: 'sip-result',
+    name: "SIP Calculator",
+    resultId: "sipResult",
     form: `
-      <input type="number" id="sip-amount" placeholder="Monthly Investment (₹)" class="input-box">
-      <input type="number" id="sip-rate" placeholder="Expected Annual Return (%)" class="input-box">
-      <input type="number" id="sip-years" placeholder="Investment Duration (years)" class="input-box">
-      <button onclick="calculateSIP()" class="btn">Calculate Returns</button>
-    `
+      <input id="sip-amount" type="number" placeholder="Monthly Investment">
+      <input id="sip-rate" type="number" placeholder="Annual Interest Rate (%)">
+      <input id="sip-years" type="number" placeholder="Years">
+      <button onclick="
+        let a=+sipAmount.value,r=(+sipRate.value)/100/12,n=+sipYears.value*12,
+        f=a*((Math.pow(1+r,n)-1)/r)*(1+r);
+        sipResult.innerText='Maturity Value: ₹'+f.toFixed(2);">Calculate</button>`
   };
 }
 
-function calculateSIP() {
-  const P = parseFloat(document.getElementById('sip-amount').value);
-  const annualRate = parseFloat(document.getElementById('sip-rate').value);
-  const years = parseFloat(document.getElementById('sip-years').value);
+function bmrCalc() {
+  return {
+    name: "BMR Calculator (Mifflin-St Jeor)",
+    resultId: "bmrResult",
+    form: `
+      <input id="bmr-weight" type="number" placeholder="Weight (kg)">
+      <input id="bmr-height" type="number" placeholder="Height (cm)">
+      <input id="bmr-age" type="number" placeholder="Age">
+      <select id="bmr-gender">
+        <option value="male">Male</option><option value="female">Female</option>
+      </select>
+      <button onclick="
+        let w=+bmrWeight.value,h=+bmrHeight.value,a=+bmrAge.value,g=bmrGender.value,
+        r=g==='male'? 10*w + 6.25*h - 5*a + 5 : 10*w + 6.25*h - 5*a - 161;
+        bmrResult.innerText='BMR: '+r.toFixed(2)+' kcal/day';">Calculate</button>`
+  };
+}
 
-  const r = annualRate / 12 / 100;
-  const n = years * 12;
-
-  if (!isNaN(P) && !isNaN(r) && !isNaN(n)) {
-    const futureValue = P * ((Math.pow(1 + r, n) - 1) * (1 + r)) / r;
-    document.getElementById('sip-result').innerText = `Future Value: ₹${futureValue.toFixed(2)}`;
-  }
+function percentCalc() {
+  return {
+    name: "Percentage Calculator",
+    resultId: "percentResult",
+    form: `
+      <input id="part" type="number" placeholder="Part">
+      <input id="whole" type="number" placeholder="Whole">
+      <button onclick="let p=+part.value,w=+whole.value,r=(p/w*100).toFixed(2);percentResult.innerText='Result: '+r+'%';">Calculate</button>`
+  };
 }
 
 function loanCalc() {
   return {
-    name: 'Loan Eligibility Calculator',
-    resultId: 'loan-result',
+    name: "Loan Calculator",
+    resultId: "loanResult",
     form: `
-      <input type="number" id="loan-income" placeholder="Monthly Income (₹)" class="input-box">
-      <input type="number" id="loan-expense" placeholder="Monthly Expenses (₹)" class="input-box">
-      <input type="number" id="loan-rate" placeholder="Interest Rate (%)" class="input-box">
-      <input type="number" id="loan-tenure" placeholder="Tenure (years)" class="input-box">
-      <button onclick="calculateLoanEligibility()" class="btn">Calculate Eligibility</button>
-    `
+      <input id="loan-amount" type="number" placeholder="Loan Amount">
+      <input id="loan-rate" type="number" placeholder="Interest Rate (%)">
+      <input id="loan-years" type="number" placeholder="Years">
+      <button onclick="
+        let p=+loanAmount.value,r=(+loanRate.value)/100/12,n=+loanYears.value*12,
+        emi=(p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1),
+        total=emi*n;
+        loanResult.innerText='Total Repayment: ₹'+total.toFixed(2);">Calculate</button>`
   };
 }
 
-function calculateLoanEligibility() {
-  const income = parseFloat(document.getElementById('loan-income').value);
-  const expense = parseFloat(document.getElementById('loan-expense').value);
-  const rate = parseFloat(document.getElementById('loan-rate').value) / 12 / 100;
-  const tenureYears = parseFloat(document.getElementById('loan-tenure').value);
-  const months = tenureYears * 12;
+function unitConvCalc() {
+  return {
+    name: "Unit Converter (cm <-> m)",
+    resultId: "unitResult",
+    form: `
+      <input id="unit-value" type="number" placeholder="Value">
+      <select id="unit-from">
+        <option value="cm">Centimeter</option>
+        <option value="m">Meter</option>
+      </select>
+      <select id="unit-to">
+        <option value="cm">Centimeter</option>
+        <option value="m">Meter</option>
+      </select>
+      <button onclick="
+        let v=+unitValue.value,f=unitFrom.value,t=unitTo.value;
+        let r = f==='cm'&&t==='m'?v/100:f==='m'&&t==='cm'?v*100:v;
+        unitResult.innerText='Converted: '+r+' '+t;">Convert</button>`
+  };
+}
 
-  const surplus = income - expense;
-
-  if (!isNaN(surplus) && surplus > 0 && !isNaN(rate) && !isNaN(months)) {
-    const loanEligibility = surplus * (1 - Math.pow(1 + rate, -months)) / rate;
-    document.getElementById('loan-result').innerText = `Eligible Loan Amount: ₹${loanEligibility.toFixed(2)}`;
-  }
+function wordCountCalc() {
+  return {
+    name: "Word Counter",
+    resultId: "wordResult",
+    form: `
+      <textarea id="text" rows="4" placeholder="Enter text..."></textarea>
+      <button onclick="let w=text.value.trim().split(/\\s+/).filter(a=>a).length;wordResult.innerText='Words: '+w;">Count</button>`
+  };
 }
 
 function taxCalc() {
   return {
-    name: 'Income Tax Calculator (India)',
-    resultId: 'tax-result',
+    name: "Tax Calculator (India 5%)",
+    resultId: "taxResult",
     form: `
-      <input type="number" id="tax-income" placeholder="Annual Income (₹)" class="input-box">
-      <button onclick="calculateTax()" class="btn">Calculate Tax</button>
-    `
+      <input id="income" type="number" placeholder="Income (₹)">
+      <button onclick="let i=+income.value,t=(i*0.05).toFixed(2);taxResult.innerText='Tax (5%): ₹'+t;">Calculate</button>`
   };
-}
-
-function calculateTax() {
-  const income = parseFloat(document.getElementById('tax-income').value);
-  let tax = 0;
-
-  if (income <= 250000) tax = 0;
-  else if (income <= 500000) tax = (income - 250000) * 0.05;
-  else if (income <= 1000000)
-    tax = 12500 + (income - 500000) * 0.2;
-  else tax = 112500 + (income - 1000000) * 0.3;
-
-  document.getElementById('tax-result').innerText = `Estimated Tax: ₹${tax.toFixed(2)}`;
 }
