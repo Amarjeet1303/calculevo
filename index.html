@@ -4,14 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculevo - Smart Calculators</title>
+
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Optional custom styles -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Animations -->
   <style>
     .fade-in {
       animation: fadeIn 1.5s ease-in-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -20,7 +27,6 @@
     .bounce-in {
       animation: bounceIn 1s ease;
     }
-
     @keyframes bounceIn {
       0% { transform: scale(0.9); opacity: 0; }
       50% { transform: scale(1.05); opacity: 1; }
@@ -29,6 +35,7 @@
   </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white">
+
   <!-- Header -->
   <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow p-4">
     <div class="flex justify-between items-center">
@@ -43,6 +50,7 @@
         <button onclick="toggleMenu()" class="md:hidden text-2xl bounce-in">☰</button>
       </div>
     </div>
+
     <!-- Mobile Menu -->
     <nav id="mobile-menu" class="mobile-nav md:hidden mt-4 hidden">
       <ul class="space-y-2 text-gray-800 dark:text-gray-200">
@@ -76,14 +84,13 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="w-full md:w-3/4 p-6 space-y-12">
+    <main id="main" class="w-full md:w-3/4 p-6 space-y-12">
       <section id="placeholder" class="text-center text-gray-600 dark:text-gray-400">Choose a category to start using calculators.</section>
-
-      <!-- Calculator sections will be inserted here dynamically -->
-
+      <!-- JS will dynamically insert calculators here -->
     </main>
   </div>
 
+  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
