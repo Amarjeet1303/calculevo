@@ -9,15 +9,25 @@
   <link rel="icon" type="image/png" href="assets/logo.png" />
 </head>
 <body>
+  <!-- === Header === -->
   <header class="header">
     <div class="logo">📊 Calculevo</div>
-    <nav class="navbar" aria-label="Main navigation">
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+      ☰
+    </button>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar" aria-label="Main navigation">
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="fitness.html">Fitness</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
     </nav>
+
+    <!-- Dark Mode Switch -->
     <div class="theme-toggle">
       <label class="switch">
         <input type="checkbox" id="darkModeToggle" aria-label="Toggle Dark Mode" />
@@ -26,7 +36,9 @@
     </div>
   </header>
 
+  <!-- === Main Content === -->
   <main>
+    <!-- Hero Section -->
     <section class="hero" id="home">
       <h1>Welcome to Calculevo</h1>
       <p>Your all-in-one smart calculator hub — 10 powerful calculators, one place.</p>
@@ -39,6 +51,7 @@
       />
     </section>
 
+    <!-- Categories -->
     <section class="categories" id="categories">
       <h2>📂 Calculator Categories</h2>
       <div class="category-list" role="list" aria-label="Calculator categories">
@@ -50,14 +63,19 @@
         <button onclick="showCategory('datetime')" class="category-btn" aria-pressed="false">📅 Date & Time</button>
       </div>
 
-      <div id="calculatorContainer" class="calculator-container" aria-live="polite" aria-atomic="true"></div>
+      <!-- Calculator Display Container -->
+      <div id="calculatorContainer" class="calculator-container" aria-live="polite" aria-atomic="true">
+        <!-- Calculators will be injected here -->
+      </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>© 2025 Calculevo. All Rights Reserved.</p>
   </footer>
 
+  <!-- JavaScript -->
   <script src="script.js" defer></script>
 </body>
 </html>
