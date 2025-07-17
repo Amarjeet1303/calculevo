@@ -10,12 +10,12 @@
 </head>
 <body>
   <header class="header" role="banner">
-    <div class="logo">📊 Calculevo</div>
+    <div class="logo" aria-label="Calculevo Logo">📊 Calculevo</div>
     <nav class="navbar" role="navigation" aria-label="Primary Navigation">
       <ul>
         <li><a href="#" class="active" aria-current="page">Home</a></li>
-        <li><a href="#">Fitness</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#" tabindex="-1" aria-disabled="true">Fitness</a></li>
+        <li><a href="#" tabindex="-1" aria-disabled="true">About</a></li>
       </ul>
     </nav>
     <div class="theme-toggle">
@@ -38,6 +38,7 @@
         aria-label="Search calculators"
         autocomplete="off"
         spellcheck="false"
+        role="search"
       />
     </section>
 
