@@ -2,77 +2,118 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Calculevo - Smart Calculator Hub" />
-  <title>Calculevo - Smart Calculator Hub</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculevo - Smart Calculators</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .mobile-nav {
+      transition: max-height 0.3s ease-in-out;
+    }
+    .calculator-section {
+      display: none;
+    }
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .calc-card:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  </style>
 </head>
-<body>
-  <header class="header" role="banner">
-    <div class="logo" aria-label="Calculevo Logo">📊 Calculevo</div>
-    <nav class="navbar" role="navigation" aria-label="Primary Navigation">
-      <ul class="nav-list">
-        <li><a href="#" class="active" aria-current="page">Home</a></li>
-        <li><a href="#" tabindex="-1" aria-disabled="true">Fitness</a></li>
+<body class="bg-gradient-to-br from-cyan-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow p-4">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <h1 class="text-3xl font-extrabold text-cyan-600 dark:text-cyan-400 flex items-center fade-in">
+          ⚡ Calculevo
+        </h1>
+        <input id="search" type="text" placeholder="Search calculators..." onkeyup="searchCalculators()" class="hidden md:block px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleDarkMode()" class="bg-cyan-100 dark:bg-cyan-700 text-cyan-800 dark:text-white px-3 py-2 rounded-full hover:shadow">🌙 / ☀️</button>
+        <button onclick="toggleMenu()" class="md:hidden text-2xl">☰</button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="mobile-nav md:hidden mt-4 hidden">
+      <ul class="space-y-2 text-gray-800 dark:text-gray-200">
+        <li><a href="#" onclick="showCalculator('health')">🧘 Health</a></li>
+        <li><a href="#" onclick="showCalculator('finance')">💰 Finance</a></li>
+        <li><a href="#" onclick="showCalculator('math')">📐 Math</a></li>
+        <li><a href="#" onclick="showCalculator('chat')">💬 Chat</a></li>
       </ul>
     </nav>
-    <div class="theme-toggle">
-      <label class="switch" aria-label="Toggle Dark Mode">
-        <input type="checkbox" id="darkModeToggle" />
-        <span class="slider"></span>
-      </label>
-    </div>
-    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
   </header>
 
-  <main role="main">
-    <div class="main-wrapper">
-      <section class="hero" aria-label="Hero Section">
-        <h1>Welcome to Calculevo</h1>
-        <p>Premium Calculator Hub Inspired by BMW &amp; Apple Design</p>
-        <input
-          type="search"
-          id="searchBar"
-          placeholder="Search calculators..."
-          aria-label="Search calculators"
-          autocomplete="off"
-          spellcheck="false"
-          role="search"
-        />
-      </section>
+  <!-- Homepage Animation -->
+  <section class="text-center py-20 px-4 bg-white dark:bg-gray-900 fade-in">
+    <h2 class="text-4xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Welcome to Calculevo</h2>
+    <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+      A smart hub of calculators for everyday life — finance, health, math, and even AI tools. Select a category to begin.
+    </p>
+  </section>
 
-      <section class="categories" aria-label="Calculator Categories">
-        <h2>Choose a Category</h2>
-        <div class="category-buttons" role="list" aria-label="Calculator categories">
-          <button class="category-btn active" data-category="all" aria-pressed="true">All</button>
-          <button class="category-btn" data-category="finance" aria-pressed="false">💰 Finance</button>
-          <button class="category-btn" data-category="health" aria-pressed="false">❤️ Health</button>
-          <button class="category-btn" data-category="math" aria-pressed="false">📐 Math</button>
-          <button class="category-btn" data-category="conversion" aria-pressed="false">🔄 Conversion</button>
-          <button class="category-btn" data-category="datetime" aria-pressed="false">📅 Date &amp; Time</button>
-          <button class="category-btn" data-category="physics" aria-pressed="false">⚡ Physics</button>
-        </div>
-      </section>
+  <!-- Sidebar & Main -->
+  <div class="flex flex-col md:flex-row">
+    <!-- Sidebar -->
+    <aside class="w-full md:w-1/4 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-6 hidden md:block">
+      <h2 class="text-xl font-semibold mb-4 text-cyan-700 dark:text-cyan-300">Categories</h2>
+      <nav class="space-y-4">
+        <a href="#" onclick="showCalculator('health')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">🧘 Health</a>
+        <a href="#" onclick="showCalculator('finance')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">💰 Finance</a>
+        <a href="#" onclick="showCalculator('math')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">📐 Math</a>
+        <a href="#" onclick="showCalculator('chat')" class="block text-gray-800 dark:text-gray-200 hover:text-cyan-600">💬 Chat Tools</a>
+      </nav>
+    </aside>
 
-      <section
-        id="calculatorContainer"
-        class="calculator-container"
-        aria-live="polite"
-        aria-relevant="additions removals"
-        tabindex="0"
-        role="region"
-        aria-label="Calculator display area"
-      >
-        <!-- Calculators will load here -->
-      </section>
-    </div>
-  </main>
+    <!-- Main Content -->
+    <main class="w-full md:w-3/4 p-6 space-y-12">
+      <!-- Sections will be added here in the next step -->
+      <section id="placeholder" class="text-center text-gray-600 dark:text-gray-400">Choose a category to start using calculators.</section>
+    </main>
+  </div>
 
-  <footer role="contentinfo">
-    <p>© 2025 Calculevo. All rights reserved.</p>
-  </footer>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
 
-  <script src="script.js"></script>
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function searchCalculators() {
+      let input = document.getElementById('search').value.toLowerCase();
+      let items = document.querySelectorAll('.calc-item');
+      items.forEach((item) => {
+        item.style.display = item.innerText.toLowerCase().includes(input)
+          ? 'block'
+          : 'none';
+      });
+    }
+
+    function showCalculator(id) {
+      document.querySelectorAll('.calculator-section').forEach((el) => {
+        el.style.display = 'none';
+      });
+      const section = document.getElementById(id);
+      if (section) {
+        section.style.display = 'block';
+        section.classList.add('fade-in');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  </script>
 </body>
 </html>
