@@ -1,4 +1,3 @@
-// Calculator data with 10 calculators and their HTML + logic ids
 const calculators = [
   {
     id: "bmi",
@@ -291,10 +290,138 @@ const calculators = [
       res.textContent = `${amount.toFixed(2)} ${from} = ${converted.toFixed(2)} ${to}`;
     }
   },
+  // --- 5 New Calculators Added Below ---
+  {
+    id: "compound-int",
+    name: "Compound Interest Calculator",
+    category: "finance",
+    html: `
+      <h3>Compound Interest Calculator</h3>
+      <label for="ciPrincipal">Principal Amount:</label>
+      <input type="number" id="ciPrincipal" min="0" step="any" placeholder="e.g., 10000" />
+      <label for="ciRate">Interest Rate (% per annum):</label>
+      <input type="number" id="ciRate" min="0" step="any" placeholder="e.g., 5" />
+      <label for="ciTime">Time (years):</label>
+      <input type="number" id="ciTime" min="0" step="any" placeholder="e.g., 3" />
+      <label for="ciFreq">Compounding Frequency:</label>
+      <select id="ciFreq">
+        <option value="1">Annually</option>
+        <option value="4">Quarterly</option>
+        <option value="12">Monthly</option>
+        <option value="365">Daily</option>
+      </select>
+      <button id="ciCalcBtn">Calculate</button>
+      <p class="result" id="ciResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const P = parseFloat(document.getElementById("ciPrincipal").value);
+      const r = parseFloat(document.getElementById("ciRate").value) / 100;
+      const t = parseFloat(document.getElementById("ciTime").value);
+      const n = parseInt(document.getElementById("ciFreq").value);
+      const res = document.getElementById("ciResult");
+      if (!P || !r || !t || !n || P <= 0 || r < 0 || t <= 0) {
+        res.textContent = "Please enter valid input values.";
+        return;
+      }
+      const amount = P * Math.pow(1 + r / n, n * t);
+      const ci = amount - P;
+      res.textContent = `Compound Interest = ₹${ci.toFixed(2)} | Amount = ₹${amount.toFixed(2)}`;
+    }
+  },
+  {
+    id: "calorie",
+    name: "Calorie Calculator",
+    category: "health",
+    html: `
+      <h3>Calorie Calculator</h3>
+      <label for="calWeight">Weight (kg):</label>
+      <input type="number" id="calWeight" min="0" step="any" placeholder="e.g., 70" />
+      <label for="calHeight">Height (cm):</label>
+      <input type="number" id="calHeight" min="0" step="any" placeholder="e.g., 170" />
+      <label for="calAge">Age (years):</label>
+      <input type="number" id="calAge" min="0" step="any" placeholder="e.g., 25" />
+      <label for="calGender">Gender:</label>
+      <select id="calGender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <button id="calCalcBtn">Calculate</button>
+      <p class="result" id="calResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const w = parseFloat(document.getElementById("calWeight").value);
+      const h = parseFloat(document.getElementById("calHeight").value);
+      const age = parseInt(document.getElementById("calAge").value);
+      const gender = document.getElementById("calGender").value;
+      const res = document.getElementById("calResult");
+      if (!w || !h || !age || w <= 0 || h <= 0 || age <= 0) {
+        res.textContent = "Please enter valid inputs.";
+        return;
+      }
+      let bmr;
+      if (gender === "male") {
+        bmr = 88.362 + 13.397 * w + 4.799 * h - 5.677 * age;
+      } else {
+        bmr = 447.593 + 9.247 * w + 3.098 * h - 4.330 * age;
+      }
+      res.textContent = `Estimated BMR (calories/day): ${bmr.toFixed(2)}`;
+    }
+  },
+  {
+    id: "discount",
+    name: "Discount Calculator",
+    category: "finance",
+    html: `
+      <h3>Discount Calculator</h3>
+      <label for="discOriginal">Original Price:</label>
+      <input type="number" id="discOriginal" min="0" step="any" placeholder="e.g., 1000" />
+      <label for="discPercent">Discount Percentage (%):</label>
+      <input type="number" id="discPercent" min="0" step="any" placeholder="e.g., 10" />
+      <button id="discCalcBtn">Calculate</button>
+      <p class="result" id="discResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const original = parseFloat(document.getElementById("discOriginal").value);
+      const percent = parseFloat(document.getElementById("discPercent").value);
+      const res = document.getElementById("discResult");
+      if (!original || !percent || original <= 0 || percent < 0) {
+        res.textContent = "Please enter valid values.";
+        return;
+      }
+      const discount = (percent / 100) * original;
+      const finalPrice = original - discount;
+      res.textContent = `Discount: ₹${discount.toFixed(2)} | Final Price: ₹${finalPrice.toFixed(2)}`;
+    }
+  },
+  {
+    id: "speed",
+    name: "Speed Calculator",
+    category: "math",
+    html: `
+      <h3>Speed Calculator</h3>
+      <label for="speedDistance">Distance (km):</label>
+      <input type="number" id="speedDistance" min="0" step="any" placeholder="e.g., 100" />
+      <label for="speedTime">Time (hours):</label>
+      <input type="number" id="speedTime" min="0" step="any" placeholder="e.g., 2" />
+      <button id="speedCalcBtn">Calculate</button>
+      <p class="result" id="speedResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const d = parseFloat(document.getElementById("speedDistance").value);
+      const t = parseFloat(document.getElementById("speedTime").value);
+      const res = document.getElementById("speedResult");
+      if (!d || !t || d <= 0 || t <= 0) {
+        res.textContent = "Please enter valid values.";
+        return;
+      }
+      const speed = d / t;
+      res.textContent = `Speed = ${speed.toFixed(2)} km/h`;
+    }
+  }
 ];
 
-// Render calculators into container
-function renderCalculators(calcList) {
+// Renders calculator list as buttons
+function renderCalculatorList(calcList) {
   const container = document.getElementById("calculatorContainer");
   if (!container) return;
 
@@ -306,27 +433,52 @@ function renderCalculators(calcList) {
   container.innerHTML = calcList
     .map(
       (calc) => `
-    <article class="calculator-card" id="${calc.id}" role="region" aria-labelledby="${calc.id}-title" tabindex="0">
-      ${calc.html.replace(/<h3>(.*?)<\/h3>/, `<h3 id="${calc.id}-title">$1</h3>`)}
-    </article>
-  `
+      <button class="calc-list-btn" data-id="${calc.id}" aria-label="Open ${calc.name}">
+        ${calc.name}
+      </button>
+    `
     )
     .join("");
 
-  attachHandlers(calcList);
-}
-
-// Attach event listeners to buttons of each calculator
-function attachHandlers(calcList) {
+  // Attach click handlers to buttons to load individual calculator
   calcList.forEach((calc) => {
-    const btn = document.getElementById(`${calc.id}CalcBtn`);
+    const btn = container.querySelector(`button[data-id="${calc.id}"]`);
     if (btn) {
-      btn.onclick = calc.calcFunc;
+      btn.onclick = () => loadCalculator(calc.id);
     }
   });
 }
 
-// Filter calculators by category
+// Load single calculator UI and attach its logic
+function loadCalculator(calcId) {
+  const container = document.getElementById("calculatorContainer");
+  const calc = calculators.find((c) => c.id === calcId);
+  if (!calc) return;
+
+  container.innerHTML = `
+    <button id="backToListBtn" aria-label="Back to calculator list">&larr; Back to list</button>
+    <article class="calculator-card" role="region" aria-labelledby="${calc.id}-title" tabindex="0">
+      ${calc.html.replace(/<h3>(.*?)<\/h3>/, `<h3 id="${calc.id}-title">$1</h3>`)}
+    </article>
+  `;
+
+  document.getElementById("backToListBtn").onclick = () => {
+    const activeCategoryBtn = document.querySelector(".category-btn.active");
+    const activeCategory = activeCategoryBtn ? activeCategoryBtn.dataset.category : "all";
+    if (activeCategory === "all") {
+      renderCalculatorList(calculators);
+    } else {
+      renderCalculatorList(calculators.filter(c => c.category === activeCategory));
+    }
+  };
+
+  // Attach calculator specific event listener
+  const btnId = `${calc.id}CalcBtn`;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.onclick = calc.calcFunc;
+}
+
+// Show calculators filtered by category (renders list)
 function showCategory(category) {
   const buttons = document.querySelectorAll(".category-btn");
   buttons.forEach((btn) => {
@@ -336,14 +488,13 @@ function showCategory(category) {
   });
 
   if (category === "all") {
-    renderCalculators(calculators);
+    renderCalculatorList(calculators);
   } else {
-    const filtered = calculators.filter((c) => c.category === category);
-    renderCalculators(filtered);
+    renderCalculatorList(calculators.filter((c) => c.category === category));
   }
 }
 
-// Filter calculators by search input
+// Filter calculators by search input (on list of calculator buttons)
 let searchTimeout;
 function filterCalculators() {
   clearTimeout(searchTimeout);
@@ -353,12 +504,12 @@ function filterCalculators() {
 
     const term = input.value.trim().toLowerCase();
     if (!term) {
-      // If search empty, show active category calculators
+      // Show active category calculators list
       const activeBtn = document.querySelector(".category-btn.active");
       if (activeBtn) {
         showCategory(activeBtn.dataset.category);
       } else {
-        renderCalculators(calculators);
+        renderCalculatorList(calculators);
       }
       return;
     }
@@ -366,14 +517,13 @@ function filterCalculators() {
     const filtered = calculators.filter((calc) =>
       calc.name.toLowerCase().includes(term)
     );
-    renderCalculators(filtered);
+    renderCalculatorList(filtered);
   }, 300);
 }
 
 // Dark mode toggle
 function initDarkMode() {
   const toggle = document.getElementById("darkModeToggle");
-  // Load saved theme
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
     toggle.checked = true;
@@ -398,7 +548,7 @@ function initMobileMenu() {
 
 // Initialization
 document.addEventListener("DOMContentLoaded", () => {
-  renderCalculators(calculators);
+  renderCalculatorList(calculators);
 
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach((btn) =>
