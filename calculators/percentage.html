@@ -1,0 +1,28 @@
+<!-- calculators/percentage.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Percentage Calculator - Calculevo</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Percentage Calculator</h1>
+  <label>Value: <input type="number" id="value"></label>
+  <label>Percentage: <input type="number" id="percent"></label>
+  <button onclick="calcPercentage()">Calculate</button>
+  <p id="percentage-result"></p>
+  <script>
+    function calcPercentage() {
+      const v = parseFloat(document.getElementById('value').value);
+      const p = parseFloat(document.getElementById('percent').value);
+      if (v >= 0 && p >= 0) {
+        const result = (v * p) / 100;
+        document.getElementById('percentage-result').innerText = `${p}% of ${v} is ${result}`;
+      } else {
+        document.getElementById('percentage-result').innerText = 'Enter valid inputs.';
+      }
+    }
+  </script>
+</body>
+</html>
