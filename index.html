@@ -36,7 +36,11 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* ---------- HEADER ---------- */
+    .container {
+      max-width: 1920px;
+      margin: 0 auto;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -46,12 +50,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2.5rem;
+      padding: 2rem 3rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      flex-wrap: wrap;
     }
 
     .title {
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       font-weight: bold;
       letter-spacing: 1px;
     }
@@ -73,20 +78,18 @@
       color: white;
     }
 
-    /* ---------- INTRO ---------- */
     section {
       max-width: 1000px;
-      margin: 3rem auto 2rem;
+      margin: 2rem auto 1rem;
       padding: 0 1.5rem;
     }
 
     section p {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       line-height: 1.8;
       text-align: center;
     }
 
-    /* ---------- CATEGORY BUTTONS ---------- */
     .category-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -118,7 +121,6 @@
       transform: translateY(-5px);
     }
 
-    /* ---------- GRID ---------- */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -155,50 +157,74 @@
       color: var(--accent-hover);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      header {
+        padding: 1.2rem 1rem;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
       .title {
-        font-size: 1.7rem;
+        font-size: 2rem;
+      }
+
+      .dark-toggle {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+      }
+
+      section p {
+        font-size: 1rem;
+        padding: 0 1rem;
       }
 
       .category-buttons {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        padding: 0 1rem;
+      }
+
+      .category-buttons button {
+        max-width: 100%;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="title">Calculevo</div>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-  </header>
+  <div class="container">
+    <header>
+      <div class="title">Calculevo</div>
+      <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </header>
 
-  <section>
-    <p>
-      🧠 <strong>Calculevo</strong> offers 50+ categorized smart calculators for Health 💪, Finance 💰, Math 📐,
-      and Utility 🧰. From budgeting and interest to BMI and age – we've got your everyday needs covered!
-    </p>
-  </section>
+    <section>
+      <p>
+        🧠 <strong>Calculevo</strong> offers 50+ categorized smart calculators for Health 💪, Finance 💰, Math 📐,
+        and Utility 🧰. From budgeting and interest to BMI and age – we've got your everyday needs covered!
+      </p>
+    </section>
 
-  <div class="category-buttons">
-    <button onclick="filterCategory('all')">📋 All Calculators</button>
-    <button onclick="filterCategory('health')">💪 Health</button>
-    <button onclick="filterCategory('finance')">💰 Finance</button>
-    <button onclick="filterCategory('math')">📐 Math</button>
-    <button onclick="filterCategory('utility')">🧰 Utility</button>
-  </div>
+    <div class="category-buttons">
+      <button onclick="filterCategory('all')">📋 All Calculators</button>
+      <button onclick="filterCategory('health')">💪 Health</button>
+      <button onclick="filterCategory('finance')">💰 Finance</button>
+      <button onclick="filterCategory('math')">📐 Math</button>
+      <button onclick="filterCategory('utility')">🧰 Utility</button>
+    </div>
 
-  <div class="grid" id="calculatorGrid">
-    <div class="card health"><a href="calculators/bmi.html">BMI Calculator</a></div>
-    <div class="card math"><a href="calculators/percentage.html">Percentage Calculator</a></div>
-    <div class="card finance"><a href="calculators/emi.html">EMI Calculator</a></div>
-    <div class="card utility"><a href="calculators/age.html">Age Calculator</a></div>
-    <div class="card finance"><a href="calculators/simple-interest.html">Simple Interest Calculator</a></div>
-    <div class="card finance"><a href="calculators/compound-interest.html">Compound Interest Calculator</a></div>
-    <div class="card finance"><a href="calculators/loan.html">Loan Calculator</a></div>
-    <div class="card utility"><a href="calculators/tip.html">Tip Calculator</a></div>
-    <div class="card utility"><a href="calculators/discount.html">Discount Calculator</a></div>
-    <div class="card utility"><a href="calculators/currency.html">Currency Converter</a></div>
+    <div class="grid" id="calculatorGrid">
+      <div class="card health"><a href="calculators/bmi.html">BMI Calculator</a></div>
+      <div class="card math"><a href="calculators/percentage.html">Percentage Calculator</a></div>
+      <div class="card finance"><a href="calculators/emi.html">EMI Calculator</a></div>
+      <div class="card utility"><a href="calculators/age.html">Age Calculator</a></div>
+      <div class="card finance"><a href="calculators/simple-interest.html">Simple Interest Calculator</a></div>
+      <div class="card finance"><a href="calculators/compound-interest.html">Compound Interest Calculator</a></div>
+      <div class="card finance"><a href="calculators/loan.html">Loan Calculator</a></div>
+      <div class="card utility"><a href="calculators/tip.html">Tip Calculator</a></div>
+      <div class="card utility"><a href="calculators/discount.html">Discount Calculator</a></div>
+      <div class="card utility"><a href="calculators/currency.html">Currency Converter</a></div>
+    </div>
   </div>
 
   <script>
