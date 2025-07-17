@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compound Interest Calculator</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Compound Interest Calculator</h1>
+  <label>
+    Principal (₹):
+    <input type="number" id="principal" placeholder="Enter principal amount">
+  </label>
+  <label>
+    Annual Rate (%):
+    <input type="number" id="rate" placeholder="Enter interest rate">
+  </label>
+  <label>
+    Time (years):
+    <input type="number" id="time" placeholder="Enter time in years">
+  </label>
+  <label>
+    Compounded:
+    <select id="frequency">
+      <option value="1">Annually</option>
+      <option value="2">Semi-Annually</option>
+      <option value="4">Quarterly</option>
+      <option value="12">Monthly</option>
+    </select>
+  </label>
+  <button onclick="calculateCompoundInterest()">Calculate</button>
+  <p id="result"></p>
+
+  <script>
+    function calculateCompoundInterest() {
+      const P = parseFloat(document.getElementById('principal').value);
+      const r = parseFloat(document.getElementById('rate').value) / 100;
+      const t = parseFloat(document.getElementById('time').value);
+      const n = parseInt(document.getElementById('frequency').value);
+
+      if (isNaN(P) || isNaN(r) || isNaN(t) || isNaN(n)) {
+        document.getElementById('result').innerText = "Please fill all fields correctly.";
+        return;
+      }
+
+      const A = P * Math.pow(1 + r / n, n * t);
+      const CI = A - P;
+
+      document.getElementById('result').innerText =
+        `Compound Interest: ₹${CI.toFixed(2)}\nTotal Amount: ₹${A.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
