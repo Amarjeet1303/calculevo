@@ -1,80 +1,88 @@
-<!-- 📄 index.html -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculevo - All Calculators</title>
+  <title>Calculevo - Smart Calculators</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Calculevo</h1>
-    <p>Your Smart All-in-One Calculator Hub</p>
-  </header>
-
-  <main>
-    <h2>Popular Calculators</h2>
-    <div class="calculator-categories">
-      <section>
-        <h3>Math</h3>
-        <ul>
-          <li><a href="calculators/percentage.html">Percentage</a></li>
-          <li><a href="calculators/gpa.html">GPA</a></li>
-          <li><a href="calculators/average.html">Average</a></li>
-          <li><a href="calculators/ratio.html">Ratio</a></li>
-          <li><a href="calculators/final-grade.html">Final Grade</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>Finance</h3>
-        <ul>
-          <li><a href="calculators/emi.html">EMI</a></li>
-          <li><a href="calculators/loan.html">Loan</a></li>
-          <li><a href="calculators/sip.html">SIP</a></li>
-          <li><a href="calculators/compound-interest.html">Compound Interest</a></li>
-          <li><a href="calculators/income-tax.html">Income Tax</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>Health</h3>
-        <ul>
-          <li><a href="calculators/bmi.html">BMI</a></li>
-          <li><a href="calculators/bmr.html">BMR</a></li>
-          <li><a href="calculators/calorie.html">Calorie</a></li>
-          <li><a href="calculators/water-intake.html">Water Intake</a></li>
-          <li><a href="calculators/heart-rate.html">Heart Rate</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>Time & Date</h3>
-        <ul>
-          <li><a href="calculators/age.html">Age</a></li>
-          <li><a href="calculators/date-difference.html">Date Difference</a></li>
-          <li><a href="calculators/countdown.html">Countdown</a></li>
-          <li><a href="calculators/retirement.html">Retirement Age</a></li>
-          <li><a href="calculators/leap-year.html">Leap Year</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>Conversions</h3>
-        <ul>
-          <li><a href="calculators/unit.html">Unit</a></li>
-          <li><a href="calculators/currency.html">Currency</a></li>
-          <li><a href="calculators/temperature.html">Temperature</a></li>
-          <li><a href="calculators/length.html">Length</a></li>
-          <li><a href="calculators/weight.html">Weight</a></li>
-        </ul>
-      </section>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Calculevo</p>
-  </footer>
+  <h1>Welcome to Calculevo</h1>
+  <p>Select a calculator:</p>
+  <ul style="list-style: none; padding: 0;">
+    <li><a href="calculators/bmi.html">BMI Calculator</a></li>
+    <li><a href="calculators/percentage.html">Percentage Calculator</a></li>
+    <li><a href="calculators/emi.html">EMI Calculator</a></li>
+    <li><a href="calculators/age.html">Age Calculator</a></li>
+    <li><a href="calculators/simple-interest.html">Simple Interest Calculator</a></li>
+  </ul>
 </body>
 </html>
+
+
+/* css/style.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0077cc;
+}
+
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+input[type="number"],
+input[type="date"] {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 0.5rem;
+}
+
+button {
+  background-color: #0077cc;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+p {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  input[type="number"],
+  input[type="date"] {
+    width: 100%;
+  }
+  label {
+    margin-bottom: 1.5rem;
+  }
+}
