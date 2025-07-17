@@ -7,226 +7,193 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f4f7fb;
-      --text: #1f2937;
+      --bg: #f4f6f9;
+      --text: #1c1c1e;
       --card: #ffffff;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
-      --header-gradient: linear-gradient(90deg, #3b82f6, #9333ea);
+      --accent: #007bff;
+      --header-gradient: linear-gradient(to right, #0052d4, #4364f7, #6fb1fc);
     }
-
     [data-theme="dark"] {
-      --bg: #0f172a;
-      --text: #f3f4f6;
-      --card: #1e293b;
-      --accent: #818cf8;
-      --accent-hover: #6366f1;
-      --header-gradient: linear-gradient(90deg, #312e81, #9333ea);
+      --bg: #121212;
+      --text: #f5f5f5;
+      --card: #1f1f1f;
+      --accent: #1e90ff;
+      --header-gradient: linear-gradient(to right, #1e1e1e, #2a2a2a);
     }
-
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg);
       color: var(--text);
       transition: background 0.3s, color 0.3s;
+      padding-top: 100px;
     }
 
-    .container {
-      max-width: 1920px;
-      margin: 0 auto;
-    }
-
-    header {
+    /* Header */
+    .site-header {
       position: sticky;
       top: 0;
-      z-index: 999;
+      width: 100%;
+      z-index: 1000;
       background: var(--header-gradient);
-      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 1.5rem 0;
+    }
+
+    .header-content {
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2rem 3rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       flex-wrap: wrap;
-    }
-
-    .title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .dark-toggle {
-      background: white;
-      color: var(--accent);
-      border: none;
-      padding: 0.7rem 1.2rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .dark-toggle:hover {
-      background: var(--accent-hover);
       color: white;
     }
 
-    section {
-      max-width: 1000px;
-      margin: 2rem auto 1rem;
-      padding: 0 1.5rem;
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
     }
 
-    section p {
-      font-size: 1.2rem;
-      line-height: 1.8;
+    .dark-toggle {
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dark-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Intro Section */
+    .intro {
+      max-width: 900px;
+      margin: 2rem auto 1rem;
+      padding: 0 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
       text-align: center;
     }
 
+    /* Categories */
     .category-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      margin: 2rem 0;
+      margin: 1.5rem auto;
+      max-width: 1200px;
       padding: 0 1rem;
     }
 
     .category-buttons button {
-      flex: 1 1 150px;
-      max-width: 220px;
-      padding: 1rem;
-      background: var(--card);
-      color: var(--text);
-      border: 2px solid var(--accent);
-      border-radius: 15px;
-      font-size: 1.1rem;
+      flex: 1 1 120px;
+      max-width: 200px;
+      padding: 0.8rem 1.2rem;
+      background: var(--accent);
+      color: white;
       font-weight: 500;
-      text-align: center;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s, color 0.3s;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
+      transition: background 0.3s, transform 0.2s;
     }
 
     .category-buttons button:hover {
-      background: var(--accent);
-      color: white;
-      transform: translateY(-5px);
+      background: #0056b3;
+      transform: scale(1.05);
     }
 
+    /* Calculator Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
-      padding: 0 1.5rem 3rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
       max-width: 1300px;
-      margin: auto;
+      margin: 1rem auto 3rem;
+      padding: 0 2rem;
     }
 
     .card {
       background: var(--card);
-      padding: 1.4rem;
-      border-radius: 16px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
     }
 
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
     .card a {
-      display: block;
       text-decoration: none;
       color: var(--accent);
-      font-size: 1.1rem;
       font-weight: 600;
-      transition: color 0.2s;
+      display: block;
     }
 
-    .card a:hover {
-      color: var(--accent-hover);
-    }
-
+    /* Mobile Styles */
     @media (max-width: 768px) {
-      header {
-        padding: 1.2rem 1rem;
+      .header-content {
         flex-direction: column;
         gap: 1rem;
       }
-
-      .title {
-        font-size: 2rem;
-      }
-
-      .dark-toggle {
-        font-size: 0.9rem;
-        padding: 0.6rem 1rem;
-      }
-
-      section p {
-        font-size: 1rem;
+      .intro {
         padding: 0 1rem;
-      }
-
-      .category-buttons {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0 1rem;
-      }
-
-      .category-buttons button {
-        max-width: 100%;
-        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-content">
       <div class="title">Calculevo</div>
       <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-    </header>
-
-    <section>
-      <p>
-        🧠 <strong>Calculevo</strong> offers 50+ categorized smart calculators for Health 💪, Finance 💰, Math 📐,
-        and Utility 🧰. From budgeting and interest to BMI and age – we've got your everyday needs covered!
-      </p>
-    </section>
-
-    <div class="category-buttons">
-      <button onclick="filterCategory('all')">📋 All Calculators</button>
-      <button onclick="filterCategory('health')">💪 Health</button>
-      <button onclick="filterCategory('finance')">💰 Finance</button>
-      <button onclick="filterCategory('math')">📐 Math</button>
-      <button onclick="filterCategory('utility')">🧰 Utility</button>
     </div>
+  </header>
 
-    <div class="grid" id="calculatorGrid">
-      <div class="card health"><a href="calculators/bmi.html">BMI Calculator</a></div>
-      <div class="card math"><a href="calculators/percentage.html">Percentage Calculator</a></div>
-      <div class="card finance"><a href="calculators/emi.html">EMI Calculator</a></div>
-      <div class="card utility"><a href="calculators/age.html">Age Calculator</a></div>
-      <div class="card finance"><a href="calculators/simple-interest.html">Simple Interest Calculator</a></div>
-      <div class="card finance"><a href="calculators/compound-interest.html">Compound Interest Calculator</a></div>
-      <div class="card finance"><a href="calculators/loan.html">Loan Calculator</a></div>
-      <div class="card utility"><a href="calculators/tip.html">Tip Calculator</a></div>
-      <div class="card utility"><a href="calculators/discount.html">Discount Calculator</a></div>
-      <div class="card utility"><a href="calculators/currency.html">Currency Converter</a></div>
-    </div>
+  <!-- Intro -->
+  <section class="intro">
+    🧠 <strong>Calculevo</strong> is your one-stop hub for 50+ smart, accurate, and categorized calculators.
+    Whether you're budgeting, tracking health, or solving quick math—Calculevo helps you do it faster and smarter!
+  </section>
+
+  <!-- Categories -->
+  <div class="category-buttons">
+    <button onclick="filterCategory('all')">📋 All</button>
+    <button onclick="filterCategory('health')">💪 Health</button>
+    <button onclick="filterCategory('finance')">💰 Finance</button>
+    <button onclick="filterCategory('math')">📐 Math</button>
+    <button onclick="filterCategory('utility')">🧰 Utility</button>
   </div>
 
+  <!-- Calculators -->
+  <div class="grid" id="calculatorGrid">
+    <div class="card health"><a href="calculators/bmi.html">BMI Calculator</a></div>
+    <div class="card math"><a href="calculators/percentage.html">Percentage Calculator</a></div>
+    <div class="card finance"><a href="calculators/emi.html">EMI Calculator</a></div>
+    <div class="card utility"><a href="calculators/age.html">Age Calculator</a></div>
+    <div class="card finance"><a href="calculators/simple-interest.html">Simple Interest Calculator</a></div>
+    <div class="card finance"><a href="calculators/compound-interest.html">Compound Interest Calculator</a></div>
+    <div class="card finance"><a href="calculators/loan.html">Loan Calculator</a></div>
+    <div class="card utility"><a href="calculators/tip.html">Tip Calculator</a></div>
+    <div class="card utility"><a href="calculators/discount.html">Discount Calculator</a></div>
+    <div class="card utility"><a href="calculators/currency.html">Currency Converter</a></div>
+  </div>
+
+  <!-- Script -->
   <script>
     function toggleDarkMode() {
       const current = document.documentElement.getAttribute("data-theme");
@@ -236,7 +203,11 @@
     function filterCategory(cat) {
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
-        card.style.display = (cat === 'all' || card.classList.contains(cat)) ? 'block' : 'none';
+        if (cat === 'all' || card.classList.contains(cat)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
       });
     }
   </script>
