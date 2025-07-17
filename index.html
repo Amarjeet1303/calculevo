@@ -7,91 +7,134 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f9f9f9;
-      --text: #333;
-      --card: #fff;
-      --accent: #0077cc;
+      --bg: #f4f7fb;
+      --text: #1f2937;
+      --card: #ffffff;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --header-bg: #ffffffcc;
     }
+
     [data-theme="dark"] {
-      --bg: #121212;
-      --text: #e0e0e0;
-      --card: #1e1e1e;
-      --accent: #1e90ff;
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --card: #1e293b;
+      --accent: #818cf8;
+      --accent-hover: #6366f1;
+      --header-bg: #1e293bcc;
     }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg);
       color: var(--text);
       transition: background 0.3s, color 0.3s;
-      padding: 2rem;
+      padding-top: 70px;
     }
+
     header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background-color: var(--header-bg);
+      backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
+
     .title {
       font-size: 1.8rem;
-      font-weight: bold;
+      font-weight: 600;
       color: var(--accent);
     }
+
     .dark-toggle {
-      padding: 0.5rem 1rem;
       background: var(--accent);
-      color: white;
+      color: #fff;
       border: none;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      font-size: 1rem;
+      transition: background 0.3s ease;
     }
+
     .dark-toggle:hover {
-      background: #005fa3;
+      background: var(--accent-hover);
     }
+
+    section {
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
     .category-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 0.75rem;
       margin: 1.5rem 0;
     }
+
     .category-buttons button {
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       background: var(--card);
       border: 1px solid var(--accent);
       color: var(--text);
       cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s, transform 0.2s;
+      border-radius: 6px;
+      transition: background 0.3s, transform 0.2s, color 0.3s;
+      font-size: 1rem;
     }
+
     .category-buttons button:hover {
       background: var(--accent);
       color: white;
       transform: scale(1.05);
     }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1rem;
+      padding: 0 1rem 2rem;
+      max-width: 1200px;
+      margin: auto;
     }
+
     .card {
       background: var(--card);
       padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     }
+
     .card a {
       text-decoration: none;
       color: var(--accent);
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 1rem;
     }
+
     @media (max-width: 600px) {
       .category-buttons {
         justify-content: center;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 0.5rem;
       }
     }
   </style>
@@ -102,7 +145,7 @@
     <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
   </header>
 
-  <section style="margin-top: 1.5rem; max-width: 700px;">
+  <section>
     <p style="font-size: 1.1rem; line-height: 1.6;">
       🧠 <strong>Calculevo</strong> is your one-stop hub for over 50+ smart, accurate, and categorized calculators 
       for daily use in health, finance, math, and utility tasks. Whether you're planning your budget, tracking your 
@@ -140,11 +183,7 @@
     function filterCategory(cat) {
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
-        if (cat === 'all' || card.classList.contains(cat)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+        card.style.display = (cat === 'all' || card.classList.contains(cat)) ? 'block' : 'none';
       });
     }
   </script>
