@@ -1,0 +1,30 @@
+<!-- calculators/simple-interest.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Interest Calculator - Calculevo</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Simple Interest Calculator</h1>
+  <label>Principal: <input type="number" id="sip-principal"></label>
+  <label>Rate (%): <input type="number" id="sip-rate"></label>
+  <label>Time (years): <input type="number" id="sip-time"></label>
+  <button onclick="calcSI()">Calculate</button>
+  <p id="si-result"></p>
+  <script>
+    function calcSI() {
+      const p = parseFloat(document.getElementById('sip-principal').value);
+      const r = parseFloat(document.getElementById('sip-rate').value);
+      const t = parseFloat(document.getElementById('sip-time').value);
+      if (p > 0 && r > 0 && t > 0) {
+        const si = (p * r * t) / 100;
+        document.getElementById('si-result').innerText = `Simple Interest is ₹${si.toFixed(2)}`;
+      } else {
+        document.getElementById('si-result').innerText = 'Enter valid inputs.';
+      }
+    }
+  </script>
+</body>
+</html>
