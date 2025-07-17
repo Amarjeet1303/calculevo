@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discount Calculator</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Discount Calculator</h1>
+
+  <label>
+    Original Price (₹):
+    <input type="number" id="originalPrice" placeholder="Enter original price">
+  </label>
+
+  <label>
+    Discount Percentage (%):
+    <input type="number" id="discountPercent" placeholder="Enter discount %">
+  </label>
+
+  <button onclick="calculateDiscount()">Calculate</button>
+
+  <p id="result"></p>
+
+  <script>
+    function calculateDiscount() {
+      const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+      const discountPercent = parseFloat(document.getElementById('discountPercent').value);
+
+      if (isNaN(originalPrice) || isNaN(discountPercent)) {
+        document.getElementById('result').innerText = "Please fill all fields correctly.";
+        return;
+      }
+
+      const discountAmount = (originalPrice * discountPercent) / 100;
+      const finalPrice = originalPrice - discountAmount;
+
+      document.getElementById('result').innerText =
+        `Discount Amount: ₹${discountAmount.toFixed(2)}\nFinal Price: ₹${finalPrice.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
