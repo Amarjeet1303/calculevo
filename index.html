@@ -26,19 +26,25 @@
   <section class="hero">
     <h1>Welcome to Calculevo</h1>
     <p>Premium Calculator Hub Inspired by BMW & Apple Design</p>
-    <input type="text" placeholder="Search calculators..." class="search-bar" id="searchBar" oninput="filterCalculators()" />
+    <input
+      type="text"
+      placeholder="Search calculators..."
+      class="search-bar"
+      id="searchBar"
+    />
   </section>
 
   <section class="categories">
     <h2>Choose a Category</h2>
     <div class="category-buttons">
-      <button onclick="showCategory(event, 'all')" class="category-btn active">All</button>
-      <button onclick="showCategory(event, 'finance')" class="category-btn">💰 Finance</button>
-      <button onclick="showCategory(event, 'health')" class="category-btn">❤️ Health</button>
-      <button onclick="showCategory(event, 'math')" class="category-btn">📐 Math</button>
-      <button onclick="showCategory(event, 'conversion')" class="category-btn">🔄 Conversion</button>
-      <button onclick="showCategory(event, 'datetime')" class="category-btn">📅 Date & Time</button>
+      <button class="category-btn active" data-category="all" aria-pressed="true">All</button>
+      <button class="category-btn" data-category="finance" aria-pressed="false">💰 Finance</button>
+      <button class="category-btn" data-category="health" aria-pressed="false">❤️ Health</button>
+      <button class="category-btn" data-category="math" aria-pressed="false">📐 Math</button>
+      <button class="category-btn" data-category="conversion" aria-pressed="false">🔄 Conversion</button>
+      <button class="category-btn" data-category="datetime" aria-pressed="false">📅 Date & Time</button>
     </div>
+
     <div class="calculator-container" id="calculatorContainer">
       <!-- Calculators will be loaded here -->
     </div>
@@ -48,35 +54,6 @@
     <p>© 2025 Calculevo. All rights reserved.</p>
   </footer>
 
-  <script>
-    // Toggle Menu on Mobile
-    document.getElementById("menuToggle").addEventListener("click", function () {
-      document.getElementById("navbar").classList.toggle("open");
-    });
-
-    function filterCalculators() {
-      const searchValue = document.getElementById("searchBar").value.toLowerCase();
-      const calculators = document.querySelectorAll(".calculator-card");
-      calculators.forEach(calc => {
-        const visible = calc.textContent.toLowerCase().includes(searchValue);
-        calc.style.display = visible ? "block" : "none";
-      });
-    }
-
-    function showCategory(event, category) {
-      const allBtns = document.querySelectorAll(".category-btn");
-      allBtns.forEach(btn => btn.classList.remove("active"));
-      event.target.classList.add("active");
-
-      const allCalcs = document.querySelectorAll(".calculator-card");
-      allCalcs.forEach(card => {
-        if (category === "all" || card.dataset.category === category) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
