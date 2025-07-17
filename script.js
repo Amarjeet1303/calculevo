@@ -1,292 +1,453 @@
-// Calculevo script.js - Full Logic for 30 Calculators with Categories, Search, Dark Mode, Tooltips, Unit Switchers
+"use strict";
 
+// Calculator data for 10 calculators, categories and IDs
 const calculators = [
-  // --- Finance ---
-  { id: 'emi', name: 'EMI Calculator', category: 'finance' },
-  { id: 'loan', name: 'Loan Calculator', category: 'finance' },
-  { id: 'sip', name: 'SIP Calculator', category: 'finance' },
-  { id: 'gst', name: 'GST Calculator', category: 'finance' },
-  { id: 'incomeTax', name: 'Income Tax Calculator', category: 'finance' },
-  { id: 'compoundInterest', name: 'Compound Interest Calculator', category: 'finance' },
+  // Finance
+  { id: "emi", name: "EMI Calculator", category: "finance" },
+  { id: "loan", name: "Loan Calculator", category: "finance" },
 
-  // --- Health ---
-  { id: 'bmi', name: 'BMI Calculator', category: 'health' },
-  { id: 'bmr', name: 'BMR Calculator', category: 'health' },
-  { id: 'idealWeight', name: 'Ideal Weight Calculator', category: 'health' },
-  { id: 'calorie', name: 'Calorie Calculator', category: 'health' },
-  { id: 'bodyFat', name: 'Body Fat Calculator', category: 'health' },
-  { id: 'waterIntake', name: 'Water Intake Calculator', category: 'health' },
+  // Health
+  { id: "bmi", name: "BMI Calculator", category: "health" },
+  { id: "bmr", name: "BMR Calculator", category: "health" },
 
-  // --- Math ---
-  { id: 'percentage', name: 'Percentage Calculator', category: 'math' },
-  { id: 'age', name: 'Age Calculator', category: 'math' },
-  { id: 'discount', name: 'Discount Calculator', category: 'math' },
-  { id: 'average', name: 'Average Calculator', category: 'math' },
-  { id: 'factorial', name: 'Factorial Calculator', category: 'math' },
-  { id: 'power', name: 'Power Calculator', category: 'math' },
+  // Math
+  { id: "percentage", name: "Percentage Calculator", category: "math" },
+  { id: "discount", name: "Discount Calculator", category: "math" },
 
-  // --- Conversion ---
-  { id: 'cmToInch', name: 'CM to Inch Converter', category: 'conversion' },
-  { id: 'inchToCm', name: 'Inch to CM Converter', category: 'conversion' },
-  { id: 'kmToMiles', name: 'KM to Miles Converter', category: 'conversion' },
-  { id: 'celsiusToF', name: 'Celsius to Fahrenheit', category: 'conversion' },
-  { id: 'currency', name: 'Currency Converter', category: 'conversion' },
-  { id: 'timeZone', name: 'Time Zone Converter', category: 'conversion' },
+  // Conversion
+  { id: "cmToInch", name: "CM to Inch Converter", category: "conversion" },
+  { id: "kmToMiles", name: "KM to Miles Converter", category: "conversion" },
 
-  // --- Date & Time ---
-  { id: 'daysBetween', name: 'Days Between Dates', category: 'datetime' },
-  { id: 'futureDate', name: 'Future Date Finder', category: 'datetime' },
-  { id: 'countdown', name: 'Countdown Timer', category: 'datetime' },
-  { id: 'stopwatch', name: 'Stopwatch', category: 'datetime' },
-  { id: 'worldClock', name: 'World Clock', category: 'datetime' },
-  { id: 'reminder', name: 'Daily Reminder Timer', category: 'datetime' }
+  // DateTime
+  { id: "daysBetween", name: "Days Between Dates", category: "datetime" },
+  { id: "futureDate", name: "Future Date Finder", category: "datetime" },
 ];
 
-// Calculator Logic Functions with Validation
-function validateNumber(value) {
-  return typeof value === 'number' && !isNaN(value) && value >= 0;
-}
+// Sticky header on scroll (optional)
+window.addEventListener("scroll", () => {
+  const header = document.querySelector(".header");
+  if (window.scrollY > 10) header.classList.add("sticky");
+  else header.classList.remove("sticky");
+});
 
-function calculateEMI(p, r, n) {
-  if (!validateNumber(p) || !validateNumber(r) || !validateNumber(n)) return 'Invalid input';
-  const monthlyRate = r / 12 / 100;
-  const months = n * 12;
-  const emi = (p * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-  return emi.toFixed(2);
-}
+// Dark mode toggle & save preference
+const darkToggleElems = document.querySelectorAll("#darkModeToggle, #darkModeToggleFitness, #darkModeToggleAbout");
 
-function calculateLoanEMI(p, r, t) {
-  return calculateEMI(p, r, t);
-}
-
-function calculateSIP(pmt, r, n) {
-  if (!validateNumber(pmt) || !validateNumber(r) || !validateNumber(n)) return 'Invalid input';
-  const i = r / 12 / 100;
-  const amount = pmt * ((Math.pow(1 + i, n) - 1) * (1 + i)) / i;
-  return amount.toFixed(2);
-}
-
-function calculateGST(amount, rate) {
-  if (!validateNumber(amount) || !validateNumber(rate)) return 'Invalid input';
-  const gst = (amount * rate) / 100;
-  const total = amount + gst;
-  return { gst: gst.toFixed(2), total: total.toFixed(2) };
-}
-
-function calculateIncomeTax(income) {
-  if (!validateNumber(income)) return 'Invalid input';
-  let tax = 0;
-  if (income <= 250000) tax = 0;
-  else if (income <= 500000) tax = (income - 250000) * 0.05;
-  else if (income <= 1000000) tax = (250000 * 0.05) + (income - 500000) * 0.2;
-  else tax = (250000 * 0.05) + (500000 * 0.2) + (income - 1000000) * 0.3;
-  return tax.toFixed(2);
-}
-
-function calculateCompoundInterest(p, r, n, t) {
-  if (![p, r, n, t].every(validateNumber)) return 'Invalid input';
-  const amount = p * Math.pow(1 + r / (n * 100), n * t);
-  return (amount - p).toFixed(2);
-}
-
-function calculateBMI(weight, height, unit) {
-  if (!validateNumber(weight) || !validateNumber(height)) return 'Invalid input';
-  const h = unit === 'inch' ? height * 0.0254 : height / 100;
-  const bmi = weight / (h * h);
-  return bmi.toFixed(2);
-}
-
-function calculateBMR(weight, height, age, gender) {
-  if (![weight, height, age].every(validateNumber)) return 'Invalid input';
-  if (gender === 'male') return (88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)).toFixed(2);
-  else return (447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age)).toFixed(2);
-}
-
-function calculateIdealWeight(height, gender) {
-  if (!validateNumber(height)) return 'Invalid input';
-  if (gender === 'male') return (50 + 0.91 * (height - 152.4)).toFixed(2);
-  else return (45.5 + 0.91 * (height - 152.4)).toFixed(2);
-}
-
-function calculateCalories(bmr, activityLevel) {
-  if (!validateNumber(bmr)) return 'Invalid input';
-  const multipliers = {
-    sedentary: 1.2,
-    light: 1.375,
-    moderate: 1.55,
-    active: 1.725,
-    veryActive: 1.9
-  };
-  return (bmr * multipliers[activityLevel]).toFixed(2);
-}
-
-function calculateBodyFat(waist, neck, height, gender, hip = 0) {
-  if (![waist, neck, height].every(validateNumber)) return 'Invalid input';
-  let bf;
-  if (gender === 'male') {
-    bf = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+function setDarkMode(enabled) {
+  if (enabled) {
+    document.body.classList.add("dark");
+    darkToggleElems.forEach((el) => (el.checked = true));
+    localStorage.setItem("darkMode", "enabled");
   } else {
-    if (!validateNumber(hip)) return 'Invalid input';
-    bf = 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+    document.body.classList.remove("dark");
+    darkToggleElems.forEach((el) => (el.checked = false));
+    localStorage.setItem("darkMode", "disabled");
   }
-  return bf.toFixed(2);
 }
 
-function calculateWaterIntake(weight) {
-  if (!validateNumber(weight)) return 'Invalid input';
-  return (weight * 0.033).toFixed(2);
+function toggleDarkMode() {
+  setDarkMode(!document.body.classList.contains("dark"));
 }
 
-function calculateAge(birthYear) {
-  if (!validateNumber(birthYear)) return 'Invalid input';
-  return new Date().getFullYear() - birthYear;
-}
+// On load - apply saved theme
+document.addEventListener("DOMContentLoaded", () => {
+  const darkModeSetting = localStorage.getItem("darkMode");
+  setDarkMode(darkModeSetting === "enabled");
+  // Load calculators on homepage
+  if (document.getElementById("calculatorContainer")) loadAllCalculators();
 
-function calculatePercentage(part, total) {
-  if (!validateNumber(part) || !validateNumber(total) || total === 0) return 'Invalid input';
-  return ((part / total) * 100).toFixed(2);
-}
+  // Load fitness calculators on fitness page
+  if (document.getElementById("fitnessCalculators")) loadFitnessCalculators();
 
-function calculateDiscount(price, percent) {
-  if (!validateNumber(price) || !validateNumber(percent)) return 'Invalid input';
-  const discount = (price * percent) / 100;
-  return (price - discount).toFixed(2);
-}
+  // Sync toggle inputs
+  darkToggleElems.forEach((toggle) =>
+    toggle.addEventListener("change", toggleDarkMode)
+  );
+});
 
-function calculateAverage(numbers) {
-  if (!Array.isArray(numbers) || numbers.some(n => !validateNumber(n))) return 'Invalid input';
-  const sum = numbers.reduce((a, b) => a + b, 0);
-  return (sum / numbers.length).toFixed(2);
-}
+// Category filtering
+function showCategory(category) {
+  const buttons = document.querySelectorAll(".category-btn");
+  buttons.forEach((btn) => {
+    btn.classList.remove("active");
+    btn.setAttribute("aria-pressed", "false");
+  });
 
-function calculateFactorial(n) {
-  if (!validateNumber(n) || n > 170) return 'Invalid input';
-  let result = 1;
-  for (let i = 2; i <= n; i++) result *= i;
-  return result;
-}
-
-function calculatePower(base, exponent) {
-  if (!validateNumber(base) || !validateNumber(exponent)) return 'Invalid input';
-  return Math.pow(base, exponent);
-}
-
-function cmToInch(cm) {
-  if (!validateNumber(cm)) return 'Invalid input';
-  return (cm / 2.54).toFixed(2);
-}
-
-function inchToCm(inch) {
-  if (!validateNumber(inch)) return 'Invalid input';
-  return (inch * 2.54).toFixed(2);
-}
-
-function kmToMiles(km) {
-  if (!validateNumber(km)) return 'Invalid input';
-  return (km * 0.621371).toFixed(2);
-}
-
-function celsiusToF(c) {
-  if (!validateNumber(c)) return 'Invalid input';
-  return ((c * 9 / 5) + 32).toFixed(2);
-}
-
-function convertCurrency(amount, rate) {
-  if (!validateNumber(amount) || !validateNumber(rate)) return 'Invalid input';
-  return (amount * rate).toFixed(2);
-}
-
-function convertTimeZone(date, offset) {
-  const parsed = new Date(date);
-  if (isNaN(parsed.getTime())) return 'Invalid date';
-  const utc = parsed.getTime() + (parsed.getTimezoneOffset() * 60000);
-  return new Date(utc + 3600000 * offset).toUTCString();
-}
-
-function daysBetween(d1, d2) {
-  const date1 = new Date(d1);
-  const date2 = new Date(d2);
-  if (isNaN(date1) || isNaN(date2)) return 'Invalid dates';
-  const diff = Math.abs(date2 - date1);
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
-}
-
-function futureDate(start, days) {
-  const date = new Date(start);
-  if (!validateNumber(days) || isNaN(date)) return 'Invalid input';
-  date.setDate(date.getDate() + days);
-  return date.toDateString();
-}
-
-function calculateCountdown(targetDate) {
-  const now = new Date();
-  const target = new Date(targetDate);
-  if (isNaN(target)) return 'Invalid date';
-  const diff = target - now;
-  if (diff <= 0) return "Time's up!";
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
-function getWorldClock(cityOffset) {
-  if (!validateNumber(cityOffset)) return 'Invalid input';
-  const now = new Date();
-  const local = now.getTime();
-  const utc = local + (now.getTimezoneOffset() * 60000);
-  const newTime = new Date(utc + (3600000 * cityOffset));
-  return newTime.toLocaleString();
-}
-
-function setReminder(message, timeInMin) {
-  if (!validateNumber(timeInMin)) return 'Invalid time';
-  setTimeout(() => alert(`⏰ Reminder: ${message}`), timeInMin * 60000);
-  return `Reminder set for ${timeInMin} minutes.`;
-}
-
-function getStopwatchLogic() {
-  return "Use Start/Stop/Pause button logic in UI for stopwatch.";
-}
-
-function calculate(id, inputs) {
-  switch(id) {
-    case 'emi': return calculateEMI(...inputs);
-    case 'loan': return calculateLoanEMI(...inputs);
-    case 'sip': return calculateSIP(...inputs);
-    case 'gst': return calculateGST(...inputs);
-    case 'incomeTax': return calculateIncomeTax(inputs[0]);
-    case 'compoundInterest': return calculateCompoundInterest(...inputs);
-
-    case 'bmi': return calculateBMI(...inputs);
-    case 'bmr': return calculateBMR(...inputs);
-    case 'idealWeight': return calculateIdealWeight(...inputs);
-    case 'calorie': return calculateCalories(...inputs);
-    case 'bodyFat': return calculateBodyFat(...inputs);
-    case 'waterIntake': return calculateWaterIntake(inputs[0]);
-
-    case 'age': return calculateAge(inputs[0]);
-    case 'percentage': return calculatePercentage(...inputs);
-    case 'discount': return calculateDiscount(...inputs);
-    case 'average': return calculateAverage(inputs);
-    case 'factorial': return calculateFactorial(inputs[0]);
-    case 'power': return calculatePower(...inputs);
-
-    case 'cmToInch': return cmToInch(inputs[0]);
-    case 'inchToCm': return inchToCm(inputs[0]);
-    case 'kmToMiles': return kmToMiles(inputs[0]);
-    case 'celsiusToF': return celsiusToF(inputs[0]);
-    case 'currency': return convertCurrency(...inputs);
-    case 'timeZone': return convertTimeZone(...inputs);
-
-    case 'daysBetween': return daysBetween(...inputs);
-    case 'futureDate': return futureDate(...inputs);
-    case 'countdown': return calculateCountdown(inputs[0]);
-    case 'stopwatch': return getStopwatchLogic();
-    case 'worldClock': return getWorldClock(inputs[0]);
-    case 'reminder': return setReminder(...inputs);
-
-    default: return "Coming soon...";
+  const clickedBtn = [...buttons].find((btn) => btn.textContent.toLowerCase().includes(category));
+  if (clickedBtn) {
+    clickedBtn.classList.add("active");
+    clickedBtn.setAttribute("aria-pressed", "true");
   }
+
+  if (category === "all") {
+    loadAllCalculators();
+    return;
+  }
+
+  const filtered = calculators.filter((calc) => calc.category === category);
+  renderCalculators(filtered);
+}
+
+// Search filter
+function filterCalculators() {
+  const input = document.getElementById("searchBar").value.toLowerCase();
+  const filtered = calculators.filter((calc) =>
+    calc.name.toLowerCase().includes(input)
+  );
+  renderCalculators(filtered);
+}
+
+// Render calculators on homepage container
+function loadAllCalculators() {
+  renderCalculators(calculators);
+}
+
+function renderCalculators(calcs) {
+  const container = document.getElementById("calculatorContainer");
+  if (!container) return;
+
+  container.innerHTML = calcs.map(calcTemplate).join("");
+  attachCalculatorHandlers();
+}
+
+// Render fitness calculators on fitness page (subset)
+function loadFitnessCalculators() {
+  const fitnessCalcs = calculators.filter((c) => c.category === "health");
+  const container = document.getElementById("fitnessCalculators");
+  if (!container) return;
+
+  container.innerHTML = fitnessCalcs.map(calcTemplate).join("");
+  attachCalculatorHandlers();
+}
+
+// Calculator HTML Template
+function calcTemplate(calc) {
+  switch(calc.id) {
+    case "emi":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="principal">Principal Amount (₹)</label>
+        <input type="number" id="principal" min="0" placeholder="e.g., 500000" />
+        <label for="rate">Annual Interest Rate (%)</label>
+        <input type="number" id="rate" min="0" step="0.01" placeholder="e.g., 7.5" />
+        <label for="tenure">Tenure (Years)</label>
+        <input type="number" id="tenure" min="0" placeholder="e.g., 15" />
+        <button onclick="calculateEMI()">Calculate</button>
+        <div class="result" id="emiResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "loan":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="loanAmount">Loan Amount (₹)</label>
+        <input type="number" id="loanAmount" min="0" placeholder="e.g., 1000000" />
+        <label for="loanInterest">Interest Rate (%)</label>
+        <input type="number" id="loanInterest" min="0" step="0.01" placeholder="e.g., 9" />
+        <label for="loanTenure">Tenure (Years)</label>
+        <input type="number" id="loanTenure" min="0" placeholder="e.g., 10" />
+        <button onclick="calculateLoan()">Calculate</button>
+        <div class="result" id="loanResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "bmi":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="weight">Weight (kg)</label>
+        <input type="number" id="weight" min="0" placeholder="e.g., 70" />
+        <label for="height">Height (cm)</label>
+        <input type="number" id="height" min="0" placeholder="e.g., 170" />
+        <button onclick="calculateBMI()">Calculate</button>
+        <div class="result" id="bmiResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "bmr":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="bmrWeight">Weight (kg)</label>
+        <input type="number" id="bmrWeight" min="0" placeholder="e.g., 70" />
+        <label for="bmrHeight">Height (cm)</label>
+        <input type="number" id="bmrHeight" min="0" placeholder="e.g., 170" />
+        <label for="age">Age (years)</label>
+        <input type="number" id="age" min="0" placeholder="e.g., 30" />
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="" disabled selected>Select gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <button onclick="calculateBMR()">Calculate</button>
+        <div class="result" id="bmrResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "percentage":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="part">Part</label>
+        <input type="number" id="part" min="0" placeholder="e.g., 50" />
+        <label for="total">Total</label>
+        <input type="number" id="total" min="0" placeholder="e.g., 200" />
+        <button onclick="calculatePercentage()">Calculate</button>
+        <div class="result" id="percentageResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "discount":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="originalPrice">Original Price (₹)</label>
+        <input type="number" id="originalPrice" min="0" placeholder="e.g., 1000" />
+        <label for="discountPercent">Discount Percentage (%)</label>
+        <input type="number" id="discountPercent" min="0" max="100" placeholder="e.g., 15" />
+        <button onclick="calculateDiscount()">Calculate</button>
+        <div class="result" id="discountResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "cmToInch":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="cm">Centimeters (cm)</label>
+        <input type="number" id="cm" min="0" placeholder="e.g., 180" />
+        <button onclick="calculateCmToInch()">Calculate</button>
+        <div class="result" id="cmToInchResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "kmToMiles":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="km">Kilometers (km)</label>
+        <input type="number" id="km" min="0" placeholder="e.g., 10" />
+        <button onclick="calculateKmToMiles()">Calculate</button>
+        <div class="result" id="kmToMilesResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "daysBetween":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" />
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" />
+        <button onclick="calculateDaysBetween()">Calculate</button>
+        <div class="result" id="daysBetweenResult" aria-live="polite"></div>
+      </section>
+      `;
+    case "futureDate":
+      return `
+      <section class="calculator" id="calc-${calc.id}" aria-label="${calc.name}">
+        <h3>${calc.name}</h3>
+        <label for="currentDate">Current Date</label>
+        <input type="date" id="currentDate" />
+        <label for="daysToAdd">Days to Add</label>
+        <input type="number" id="daysToAdd" min="0" placeholder="e.g., 30" />
+        <button onclick="calculateFutureDate()">Calculate</button>
+        <div class="result" id="futureDateResult" aria-live="polite"></div>
+      </section>
+      `;
+    default:
+      return "";
+  }
+}
+
+// Attach event handlers if needed
+function attachCalculatorHandlers() {
+  // Could attach event listeners if you want live calculation or validation
+}
+
+// Calculator logic functions
+
+function calculateEMI() {
+  const P = parseFloat(document.getElementById("principal").value);
+  const r = parseFloat(document.getElementById("rate").value) / 1200;
+  const n = parseFloat(document.getElementById("tenure").value) * 12;
+
+  const resultDiv = document.getElementById("emiResult");
+
+  if (isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || r <= 0 || n <= 0) {
+    resultDiv.textContent = "Please enter valid positive inputs.";
+    return;
+  }
+
+  const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  resultDiv.textContent = `Monthly EMI: ₹${emi.toFixed(2)}`;
+}
+
+function calculateLoan() {
+  const amount = parseFloat(document.getElementById("loanAmount").value);
+  const rate = parseFloat(document.getElementById("loanInterest").value) / 100;
+  const years = parseFloat(document.getElementById("loanTenure").value);
+
+  const resultDiv = document.getElementById("loanResult");
+
+  if (isNaN(amount) || isNaN(rate) || isNaN(years) || amount <= 0 || rate <= 0 || years <= 0) {
+    resultDiv.textContent = "Please enter valid positive inputs.";
+    return;
+  }
+
+  const totalInterest = amount * rate * years;
+  const totalPayment = amount + totalInterest;
+  const monthlyPayment = totalPayment / (years * 12);
+
+  resultDiv.textContent = `Total Interest: ₹${totalInterest.toFixed(2)}, Total Payment: ₹${totalPayment.toFixed(2)}, Monthly Payment: ₹${monthlyPayment.toFixed(2)}`;
+}
+
+function calculateBMI() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const heightCm = parseFloat(document.getElementById("height").value);
+
+  const resultDiv = document.getElementById("bmiResult");
+
+  if (isNaN(weight) || isNaN(heightCm) || weight <= 0 || heightCm <= 0) {
+    resultDiv.textContent = "Please enter valid positive inputs.";
+    return;
+  }
+
+  const heightM = heightCm / 100;
+  const bmi = weight / (heightM * heightM);
+
+  let category = "";
+  if (bmi < 18.5) category = "Underweight";
+  else if (bmi < 25) category = "Normal weight";
+  else if (bmi < 30) category = "Overweight";
+  else category = "Obese";
+
+  resultDiv.textContent = `BMI: ${bmi.toFixed(2)} (${category})`;
+}
+
+function calculateBMR() {
+  const weight = parseFloat(document.getElementById("bmrWeight").value);
+  const height = parseFloat(document.getElementById("bmrHeight").value);
+  const age = parseFloat(document.getElementById("age").value);
+  const gender = document.getElementById("gender").value;
+
+  const resultDiv = document.getElementById("bmrResult");
+
+  if (
+    isNaN(weight) ||
+    isNaN(height) ||
+    isNaN(age) ||
+    weight <= 0 ||
+    height <= 0 ||
+    age <= 0 ||
+    !["male", "female"].includes(gender)
+  ) {
+    resultDiv.textContent = "Please enter valid inputs and select gender.";
+    return;
+  }
+
+  let bmr = 0;
+  if (gender === "male") {
+    bmr = 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+  } else {
+    bmr = 447.593 + 9.247 * weight + 3.098 * height - 4.330 * age;
+  }
+
+  resultDiv.textContent = `BMR: ${bmr.toFixed(2)} calories/day`;
+}
+
+function calculatePercentage() {
+  const part = parseFloat(document.getElementById("part").value);
+  const total = parseFloat(document.getElementById("total").value);
+  const resultDiv = document.getElementById("percentageResult");
+
+  if (isNaN(part) || isNaN(total) || part < 0 || total <= 0 || part > total) {
+    resultDiv.textContent = "Please enter valid inputs (part ≤ total).";
+    return;
+  }
+
+  const percentage = (part / total) * 100;
+  resultDiv.textContent = `Percentage: ${percentage.toFixed(2)}%`;
+}
+
+function calculateDiscount() {
+  const original = parseFloat(document.getElementById("originalPrice").value);
+  const discount = parseFloat(document.getElementById("discountPercent").value);
+  const resultDiv = document.getElementById("discountResult");
+
+  if (
+    isNaN(original) ||
+    isNaN(discount) ||
+    original <= 0 ||
+    discount < 0 ||
+    discount > 100
+  ) {
+    resultDiv.textContent = "Please enter valid inputs (discount 0-100%).";
+    return;
+  }
+
+  const discountedPrice = original * (1 - discount / 100);
+  resultDiv.textContent = `Discounted Price: ₹${discountedPrice.toFixed(2)}`;
+}
+
+function calculateCmToInch() {
+  const cm = parseFloat(document.getElementById("cm").value);
+  const resultDiv = document.getElementById("cmToInchResult");
+
+  if (isNaN(cm) || cm < 0) {
+    resultDiv.textContent = "Please enter valid non-negative input.";
+    return;
+  }
+
+  const inches = cm / 2.54;
+  resultDiv.textContent = `${cm} cm = ${inches.toFixed(2)} inches`;
+}
+
+function calculateKmToMiles() {
+  const km = parseFloat(document.getElementById("km").value);
+  const resultDiv = document.getElementById("kmToMilesResult");
+
+  if (isNaN(km) || km < 0) {
+    resultDiv.textContent = "Please enter valid non-negative input.";
+    return;
+  }
+
+  const miles = km * 0.621371;
+  resultDiv.textContent = `${km} km = ${miles.toFixed(2)} miles`;
+}
+
+function calculateDaysBetween() {
+  const start = document.getElementById("startDate").value;
+  const end = document.getElementById("endDate").value;
+  const resultDiv = document.getElementById("daysBetweenResult");
+
+  if (!start || !end) {
+    resultDiv.textContent = "Please select both start and end dates.";
+    return;
+  }
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  if (endDate < startDate) {
+    resultDiv.textContent = "End date must be after start date.";
+    return;
+  }
+
+  const diffTime = Math.abs(endDate - startDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  resultDiv.textContent = `Days Between: ${diffDays} days`;
+}
+
+function calculateFutureDate() {
+  const current = document.getElementById("currentDate").value;
+  const days = parseInt(document.getElementById("daysToAdd").value, 10);
+  const resultDiv = document.getElementById("futureDateResult");
+
+  if (!current || isNaN(days) || days < 0) {
+    resultDiv.textContent = "Please select date and enter valid days.";
+    return;
+  }
+
+  const currentDate = new Date(current);
+  currentDate.setDate(currentDate.getDate() + days);
+
+  resultDiv.textContent = `Future Date: ${currentDate.toISOString().split("T")[0]}`;
 }
