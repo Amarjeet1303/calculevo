@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Calculator</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Loan Calculator</h1>
+
+  <label>
+    Loan Amount (₹):
+    <input type="number" id="amount" placeholder="Enter loan amount">
+  </label>
+
+  <label>
+    Annual Interest Rate (%):
+    <input type="number" id="rate" placeholder="Enter interest rate">
+  </label>
+
+  <label>
+    Loan Term (in years):
+    <input type="number" id="years" placeholder="Enter loan term">
+  </label>
+
+  <button onclick="calculateLoan()">Calculate</button>
+
+  <p id="result"></p>
+
+  <script>
+    function calculateLoan() {
+      const principal = parseFloat(document.getElementById('amount').value);
+      const annualRate = parseFloat(document.getElementById('rate').value);
+      const years = parseFloat(document.getElementById('years').value);
+
+      if (isNaN(principal) || isNaN(annualRate) || isNaN(years)) {
+        document.getElementById('result').innerText = "Please fill all fields correctly.";
+        return;
+      }
+
+      const monthlyRate = annualRate / 12 / 100;
+      const months = years * 12;
+      const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+                  (Math.pow(1 + monthlyRate, months) - 1);
+
+      document.getElementById('result').innerText =
+        `Monthly EMI: ₹${emi.toFixed(2)}\nTotal Payment: ₹${(emi * months).toFixed(2)}\nTotal Interest: ₹${((emi * months) - principal).toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
