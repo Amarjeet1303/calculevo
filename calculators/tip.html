@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tip Calculator</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Tip Calculator</h1>
+
+  <label>
+    Bill Amount (₹):
+    <input type="number" id="billAmount" placeholder="Enter bill amount">
+  </label>
+
+  <label>
+    Tip Percentage (%):
+    <input type="number" id="tipPercent" placeholder="Enter tip %">
+  </label>
+
+  <label>
+    Number of People:
+    <input type="number" id="people" placeholder="Enter number of people">
+  </label>
+
+  <button onclick="calculateTip()">Calculate</button>
+
+  <p id="result"></p>
+
+  <script>
+    function calculateTip() {
+      const bill = parseFloat(document.getElementById('billAmount').value);
+      const tipPercent = parseFloat(document.getElementById('tipPercent').value);
+      const people = parseInt(document.getElementById('people').value);
+
+      if (isNaN(bill) || isNaN(tipPercent) || isNaN(people) || people <= 0) {
+        document.getElementById('result').innerText = "Please fill all fields correctly.";
+        return;
+      }
+
+      const tip = (bill * tipPercent) / 100;
+      const total = bill + tip;
+      const perPerson = total / people;
+
+      document.getElementById('result').innerText =
+        `Total Tip: ₹${tip.toFixed(2)}\nTotal Amount: ₹${total.toFixed(2)}\nPer Person: ₹${perPerson.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
