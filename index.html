@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculevo | 10 Calculators Hub</title>
+  <meta name="description" content="Calculevo - Smart Calculator Hub" />
+  <title>Calculevo - Smart Calculator Hub</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="icon" href="assets/logo.png" />
 </head>
 <body>
   <header class="header">
     <div class="logo">📊 Calculevo</div>
-    <button class="menu-toggle" aria-label="Toggle navigation">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
     <nav class="navbar">
-      <ul class="nav-links">
+      <ul>
         <li><a href="#" class="active">Home</a></li>
         <li><a href="#">Fitness</a></li>
         <li><a href="#">About</a></li>
       </ul>
-      <label class="theme-toggle" title="Toggle Dark Mode">
-        <input type="checkbox" class="dark-toggle" />
+    </nav>
+    <div class="theme-toggle">
+      <label class="switch" aria-label="Toggle Dark Mode">
+        <input type="checkbox" id="darkModeToggle" />
         <span class="slider"></span>
       </label>
-    </nav>
+    </div>
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
   </header>
 
   <main>
@@ -33,27 +32,27 @@
       <h1>Welcome to Calculevo</h1>
       <p>Premium Calculator Hub Inspired by BMW & Apple Design</p>
       <input
-        type="text"
-        placeholder="Search calculators..."
+        type="search"
         id="searchBar"
-        autocomplete="off"
+        placeholder="Search calculators..."
+        aria-label="Search calculators"
       />
     </section>
 
     <section class="categories">
       <h2>Choose a Category</h2>
-      <div class="category-list">
-        <button class="category-btn active" data-category="all">All</button>
-        <button class="category-btn" data-category="finance">💰 Finance</button>
-        <button class="category-btn" data-category="health">❤️ Health</button>
-        <button class="category-btn" data-category="math">📐 Math</button>
-        <button class="category-btn" data-category="conversion">🔄 Conversion</button>
-        <button class="category-btn" data-category="datetime">📅 Date & Time</button>
+      <div class="category-buttons" role="list" aria-label="Calculator categories">
+        <button class="category-btn active" data-category="all" aria-pressed="true">All</button>
+        <button class="category-btn" data-category="finance" aria-pressed="false">💰 Finance</button>
+        <button class="category-btn" data-category="health" aria-pressed="false">❤️ Health</button>
+        <button class="category-btn" data-category="math" aria-pressed="false">📐 Math</button>
+        <button class="category-btn" data-category="conversion" aria-pressed="false">🔄 Conversion</button>
+        <button class="category-btn" data-category="datetime" aria-pressed="false">📅 Date & Time</button>
       </div>
     </section>
 
-    <section class="calculator-container" id="calculatorContainer">
-      <!-- Calculators will be injected here -->
+    <section id="calculatorContainer" class="calculator-container" aria-live="polite">
+      <!-- Calculators will load here -->
     </section>
   </main>
 
@@ -61,6 +60,6 @@
     <p>© 2025 Calculevo. All rights reserved.</p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
