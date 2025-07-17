@@ -1,6 +1,8 @@
 /* Reset and base */
 * {
-  margin: 0; padding: 0; box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -25,7 +27,7 @@ body.dark {
 
 /* Header */
 .header {
-  background-color: #001f3f;
+  background-color: #000814;
   color: white;
   padding: 1rem 2rem;
   display: flex;
@@ -38,19 +40,26 @@ body.dark {
 }
 
 body.dark .header {
-  background-color: #002244;
+  background-color: #001d3d;
 }
 
 .logo {
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   user-select: none;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  gap: 2rem;
 }
 
 .navbar ul {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   list-style: none;
+  align-items: center;
 }
 
 .navbar a {
@@ -58,8 +67,8 @@ body.dark .header {
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
 }
 
@@ -69,10 +78,46 @@ body.dark .header {
   color: white;
 }
 
+/* Mobile Menu Toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .navbar ul {
+    display: none;
+    flex-direction: column;
+    background: #001f3f;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    border-radius: 0 0 8px 8px;
+    padding: 1rem;
+  }
+
+  .navbar ul.show {
+    display: flex;
+  }
+}
+
 /* Dark mode toggle */
 .theme-toggle {
-  display: flex;
-  align-items: center;
+  margin-left: 1.5rem;
 }
 
 .switch {
@@ -91,7 +136,10 @@ body.dark .header {
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
   border-radius: 30px;
@@ -100,8 +148,10 @@ body.dark .header {
 .slider:before {
   position: absolute;
   content: "";
-  height: 20px; width: 20px;
-  left: 3px; bottom: 3px;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
@@ -119,7 +169,7 @@ input:checked + .slider:before {
 main {
   flex-grow: 1;
   padding: 3rem 1rem 2rem;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
 }
@@ -131,9 +181,9 @@ main {
 }
 
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
-  color: #00264d;
+  color: #001d3d;
 }
 
 body.dark .hero h1 {
@@ -170,6 +220,7 @@ body.dark .hero p {
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #003366;
+  text-align: center;
 }
 
 body.dark .categories h2 {
@@ -187,14 +238,13 @@ body.dark .categories h2 {
 .category-btn {
   background-color: #1464f4;
   border: none;
-  padding: 0.55rem 1.4rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 40px;
   color: white;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
   user-select: none;
-  min-width: 80px;
 }
 
 .category-btn:hover,
@@ -206,19 +256,19 @@ body.dark .categories h2 {
 /* Calculator container */
 .calculator-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2rem;
 }
 
-/* Individual calculator card */
+/* Calculator card */
 .calculator {
   background-color: white;
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 1.8rem 1.6rem;
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.07);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease;
 }
 
 body.dark .calculator {
@@ -227,14 +277,14 @@ body.dark .calculator {
 }
 
 .calculator:hover {
-  box-shadow: 0 15px 30px rgb(0 0 0 / 0.15);
-  transform: translateY(-6px);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
 .calculator h3 {
   margin-bottom: 1rem;
+  font-size: 1.4rem;
   color: #00264d;
-  font-weight: 700;
 }
 
 body.dark .calculator h3 {
@@ -242,7 +292,7 @@ body.dark .calculator h3 {
 }
 
 .calculator label {
-  margin: 0.6rem 0 0.2rem;
+  margin-top: 0.6rem;
   font-weight: 600;
   color: #003366;
 }
@@ -253,7 +303,7 @@ body.dark .calculator label {
 
 .calculator input,
 .calculator select {
-  padding: 0.55rem 0.8rem;
+  padding: 0.6rem 0.8rem;
   font-size: 1rem;
   border-radius: 10px;
   border: 1.5px solid #ccc;
@@ -283,8 +333,6 @@ body.dark .calculator select {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  align-self: flex-start;
-  margin-top: auto;
 }
 
 .calculator button:hover {
@@ -302,13 +350,14 @@ body.dark .result {
   color: #80b3ff;
 }
 
-/* About Section */
+/* About */
 .about-section {
-  max-width: 700px;
+  max-width: 800px;
   margin: 3rem auto;
   font-size: 1.2rem;
   line-height: 1.6;
   color: #222;
+  text-align: center;
 }
 
 body.dark .about-section {
@@ -317,27 +366,14 @@ body.dark .about-section {
 
 /* Footer */
 footer {
-  background-color: #001f3f;
+  background-color: #000814;
   color: white;
   padding: 1.5rem 2rem;
   text-align: center;
   font-size: 0.9rem;
-  user-select: none;
+  margin-top: auto;
 }
 
 body.dark footer {
-  background-color: #002244;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .navbar ul {
-    gap: 1rem;
-  }
-  main {
-    padding: 2rem 1rem 2rem;
-  }
-  .calculator-container {
-    grid-template-columns: 1fr;
-  }
+  background-color: #001d3d;
 }
