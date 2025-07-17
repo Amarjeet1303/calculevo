@@ -2,23 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculevo - Smart Calculators</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077cc;
+    }
+
+    .dark-mode h1 {
+      color: #66ccff;
+    }
+
+    #toggle-dark {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #search {
+      display: block;
+      margin: 1.5rem auto;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding-top: 2rem;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .dark-mode .card {
+      background-color: #1e1e1e;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+    }
+
+    .card a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #0077cc;
+    }
+
+    .dark-mode .card a {
+      color: #66ccff;
+    }
+  </style>
 </head>
 <body>
+  <button id="toggle-dark">Toggle Dark Mode</button>
+
   <h1>Welcome to Calculevo</h1>
-  <p>Select a calculator:</p>
-  <ul style="list-style: none; padding: 0;">
-    <li><a href="calculators/bmi.html">BMI Calculator</a></li>
-    <li><a href="calculators/percentage.html">Percentage Calculator</a></li>
-    <li><a href="calculators/emi.html">EMI Calculator</a></li>
-    <li><a href="calculators/age.html">Age Calculator</a></li>
-    <li><a href="calculators/simple-interest.html">Simple Interest Calculator</a></li>
-    <li><a href="calculators/compound-interest.html">Compound Interest Calculator</a></li>
-    <li><a href="calculators/loan.html">Loan Calculator</a></li>
-    <li><a href="calculators/tip.html">Tip Calculator</a></li>
-    <li><a href="calculators/discount.html">Discount Calculator</a></li>
-    <li><a href="calculators/currency.html">Currency Converter</a></li>
-  </ul>
+  <input type="text" id="search" placeholder="Search calculators...">
+
+  <div class="grid" id="calculator-list">
+    <div class="card"><a href="calculators/bmi.html">BMI Calculator</a></div>
+    <div class="card"><a href="calculators/percentage.html">Percentage Calculator</a></div>
+    <div class="card"><a href="calculators/emi.html">EMI Calculator</a></div>
+    <div class="card"><a href="calculators/age.html">Age Calculator</a></div>
+    <div class="card"><a href="calculators/simple-interest.html">Simple Interest Calculator</a></div>
+    <div class="card"><a href="calculators/compound-interest.html">Compound Interest Calculator</a></div>
+    <div class="card"><a href="calculators/loan.html">Loan Calculator</a></div>
+    <div class="card"><a href="calculators/tip.html">Tip Calculator</a></div>
+    <div class="card"><a href="calculators/discount.html">Discount Calculator</a></div>
+    <div class="card"><a href="calculators/currency.html">Currency Converter</a></div>
+  </div>
+
+  <script>
+    const toggleButton = document.getElementById('toggle-dark');
+    toggleButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+
+    const searchInput = document.getElementById('search');
+    const calculatorCards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      calculatorCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
