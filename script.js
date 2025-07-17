@@ -27,16 +27,16 @@ const calculators = [
   // Add more calculators as needed
 ];
 
-// Render calculator template
+// Render calculator template with data-category for filtering
 function calcTemplate(calc) {
   return `
-    <div class="calculator-card" id="${calc.id}">
+    <div class="calculator-card" id="${calc.id}" data-category="${calc.category}">
       ${calc.html}
     </div>
   `;
 }
 
-// Attach button handlers after render
+// Attach button handlers after render (if needed)
 function attachCalculatorHandlers() {
   // Add other calc-specific events if needed
 }
@@ -98,7 +98,7 @@ function filterCalculators() {
   }, 200);
 }
 
-// Toggle Dark Mode
+// Toggle Dark Mode (optional)
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle("dark");
   localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -106,8 +106,8 @@ function toggleDarkMode() {
 
 // Mobile Menu Toggle
 function initMobileMenuToggle() {
-  const toggleBtn = document.querySelector(".mobile-menu-toggle");
-  const nav = document.querySelector(".main-nav");
+  const toggleBtn = document.querySelector("#menuToggle");
+  const nav = document.querySelector("#navbar");
 
   if (toggleBtn && nav) {
     toggleBtn.addEventListener("click", () => {
@@ -131,12 +131,13 @@ function initTheme() {
   });
 }
 
-// Init app
+// Initialize app after DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   loadAllCalculators();
   initMobileMenuToggle();
   initTheme();
 
+  // Category buttons event listeners
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -145,12 +146,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Search input event listener
   const searchBar = document.getElementById("searchBar");
   if (searchBar) {
     searchBar.addEventListener("input", filterCalculators);
   }
 });
-
 
 // === Calculator Functions ===
 
