@@ -21,28 +21,31 @@ body {
 
 /* Header */
 .header {
-  background: #ffffff;
+  background: linear-gradient(90deg, #0052cc, #007acc, #3399ff); /* Modern blue gradient */
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
+  border-bottom: none; /* Removed border for cleaner look */
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 122, 204, 0.6); /* subtle glow */
 }
 
 .dark .header {
-  background: #1e1e1e;
-  border-bottom: 1px solid #333;
+  background: linear-gradient(90deg, #003366, #004c99, #0066cc);
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.8);
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #007acc;
+  font-size: 1.6rem; /* slightly smaller */
+  font-weight: 700;
+  color: white;
+  user-select: none;
 }
 
+/* Navbar */
 .navbar ul {
   list-style: none;
   display: flex;
@@ -51,16 +54,20 @@ body {
 
 .navbar a {
   text-decoration: none;
-  color: inherit;
-  font-weight: 500;
+  color: white;
+  font-weight: 600;
   transition: color 0.3s ease;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
 }
 
 .navbar a:hover,
 .navbar a.active {
-  color: #007acc;
+  background-color: rgba(255 255 255 / 0.2);
+  color: #dbe9ff;
 }
 
+/* Theme Toggle & Menu */
 .theme-toggle {
   margin-left: auto;
   margin-right: 1rem;
@@ -104,14 +111,13 @@ body {
 }
 
 input:checked + .slider {
-  background-color: #007acc;
+  background-color: #3399ff;
 }
 
 input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Mobile Menu Toggle */
 .menu-toggle {
   display: none;
   font-size: 1.8rem;
@@ -132,16 +138,14 @@ input:checked + .slider:before {
     position: absolute;
     top: 4.5rem;
     right: 1rem;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 1rem;
+    background: #007acc;
     border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+    padding: 1rem;
   }
 
   .dark .navbar ul {
-    background: #222;
-    border-color: #444;
+    background: #004c99;
   }
 
   .menu-toggle {
@@ -153,7 +157,11 @@ input:checked + .slider:before {
 .hero {
   padding: 4rem 2rem 2rem;
   text-align: center;
-  background-color: #f0f4f8;
+  background-color: #e8f0fe;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 1rem auto 2rem;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.1);
 }
 
 .dark .hero {
@@ -161,13 +169,17 @@ input:checked + .slider:before {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 2.4rem; /* slightly smaller */
   margin-bottom: 0.5rem;
+  color: #004a99;
+  font-weight: 800;
+  letter-spacing: 0.03em;
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   margin-bottom: 1.5rem;
+  color: #3366cc;
 }
 
 #searchBar {
@@ -175,10 +187,16 @@ input:checked + .slider:before {
   font-size: 1rem;
   width: 90%;
   max-width: 500px;
-  border: 1px solid #ccc;
+  border: 1.5px solid #3399ff;
   border-radius: 30px;
   outline: none;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(51, 153, 255, 0.25);
+}
+
+#searchBar:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 10px #3399ff;
 }
 
 .dark #searchBar {
@@ -193,6 +211,17 @@ input:checked + .slider:before {
   text-align: center;
 }
 
+.categories h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #004a99;
+  margin-bottom: 1rem;
+}
+
+.dark .categories h2 {
+  color: #66a3ff;
+}
+
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -202,34 +231,37 @@ input:checked + .slider:before {
 }
 
 .category-btn {
-  padding: 0.7rem 1.2rem;
+  padding: 0.6rem 1.4rem;
   border: none;
-  background: #f0f0f0;
+  background: #d6e4ff;
   border-radius: 30px;
   cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s ease;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #004a99;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+  box-shadow: 0 3px 6px rgba(0, 122, 204, 0.4);
 }
 
-.category-btn:hover {
-  background: #007acc;
-  color: white;
-}
-
+.category-btn:hover,
 .category-btn.active {
-  background: #007acc;
+  background: #3399ff;
   color: white;
+  box-shadow: 0 6px 12px rgba(51, 153, 255, 0.7);
 }
 
 .dark .category-btn {
-  background: #333;
-  color: #ddd;
+  background: #004a99;
+  color: #cce0ff;
+  box-shadow: none;
 }
 
 .dark .category-btn:hover,
 .dark .category-btn.active {
-  background: #007acc;
-  color: white;
+  background: #66a3ff;
+  color: #003366;
+  box-shadow: 0 6px 12px rgba(102, 163, 255, 0.7);
 }
 
 /* Calculator Display Area */
@@ -240,14 +272,15 @@ input:checked + .slider:before {
   gap: 2rem;
   max-width: 1000px;
   margin: auto;
+  transition: opacity 0.4s ease;
 }
 
 .calculator-card {
   background: white;
-  border-radius: 1rem;
+  border-radius: 1rem; /* rounded corners */
   padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dark .calculator-card {
@@ -257,13 +290,15 @@ input:checked + .slider:before {
 }
 
 .calculator-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 122, 255, 0.25);
 }
 
 .calculator-card h3 {
   margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem; /* smaller size */
   color: #007acc;
+  font-weight: 700;
 }
 
 /* Input and Button Styling */
@@ -295,6 +330,7 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 button:hover {
