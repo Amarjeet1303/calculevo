@@ -1,0 +1,30 @@
+<!-- calculators/emi.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EMI Calculator - Calculevo</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>EMI Calculator</h1>
+  <label>Principal (₹): <input type="number" id="principal"></label>
+  <label>Annual Interest Rate (%): <input type="number" id="rate"></label>
+  <label>Loan Term (months): <input type="number" id="months"></label>
+  <button onclick="calcEMI()">Calculate</button>
+  <p id="emi-result"></p>
+  <script>
+    function calcEMI() {
+      const p = parseFloat(document.getElementById('principal').value);
+      const r = parseFloat(document.getElementById('rate').value) / 12 / 100;
+      const n = parseInt(document.getElementById('months').value);
+      if (p > 0 && r > 0 && n > 0) {
+        const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        document.getElementById('emi-result').innerText = `Monthly EMI is ₹${emi.toFixed(2)}`;
+      } else {
+        document.getElementById('emi-result').innerText = 'Enter valid inputs.';
+      }
+    }
+  </script>
+</body>
+</html>
