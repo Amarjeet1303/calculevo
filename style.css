@@ -55,7 +55,7 @@ body.dark .header {
   gap: 2rem;
 }
 
-.navbar ul {
+.navbar ul.nav-links {
   display: flex;
   gap: 1.5rem;
   list-style: none;
@@ -98,7 +98,7 @@ body.dark .header {
     display: flex;
   }
 
-  .navbar ul {
+  .navbar ul.nav-links {
     display: none;
     flex-direction: column;
     background: #001f3f;
@@ -110,7 +110,7 @@ body.dark .header {
     padding: 1rem;
   }
 
-  .navbar ul.show {
+  .navbar.show ul.nav-links {
     display: flex;
   }
 }
