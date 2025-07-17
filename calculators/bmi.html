@@ -1,1 +1,28 @@
-
+<!-- calculators/bmi.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI Calculator - Calculevo</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>BMI Calculator</h1>
+  <label>Height (cm): <input type="number" id="height"></label>
+  <label>Weight (kg): <input type="number" id="weight"></label>
+  <button onclick="calcBMI()">Calculate</button>
+  <p id="bmi-result"></p>
+  <script>
+    function calcBMI() {
+      const h = parseFloat(document.getElementById('height').value) / 100;
+      const w = parseFloat(document.getElementById('weight').value);
+      if (h > 0 && w > 0) {
+        const bmi = w / (h * h);
+        document.getElementById('bmi-result').innerText = `Your BMI is ${bmi.toFixed(2)}`;
+      } else {
+        document.getElementById('bmi-result').innerText = 'Enter valid inputs.';
+      }
+    }
+  </script>
+</body>
+</html>
