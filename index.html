@@ -7,21 +7,25 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f4f7fb;
+      --bg: #f5f9ff;
       --text: #1f2937;
       --card: #ffffff;
       --accent: #6366f1;
       --accent-hover: #4f46e5;
-      --header-bg: #ffffffcc;
+      --header-bg: linear-gradient(90deg, #6366f1, #60a5fa);
     }
 
     [data-theme="dark"] {
       --bg: #0f172a;
-      --text: #e2e8f0;
+      --text: #f3f4f6;
       --card: #1e293b;
       --accent: #818cf8;
       --accent-hover: #6366f1;
-      --header-bg: #1e293bcc;
+      --header-bg: linear-gradient(90deg, #312e81, #1e40af);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
@@ -30,111 +34,130 @@
       background: var(--bg);
       color: var(--text);
       transition: background 0.3s, color 0.3s;
-      padding-top: 70px;
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 999;
-      background-color: var(--header-bg);
-      backdrop-filter: blur(10px);
+      z-index: 1000;
+      background: var(--header-bg);
+      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     }
 
     .title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: var(--accent);
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
 
     .dark-toggle {
-      background: var(--accent);
-      color: #fff;
+      background: white;
+      color: var(--accent);
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
+      padding: 0.6rem 1.1rem;
+      border-radius: 30px;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s ease;
+      transition: background 0.3s, color 0.3s;
     }
 
     .dark-toggle:hover {
       background: var(--accent-hover);
+      color: white;
     }
 
     section {
-      max-width: 720px;
+      max-width: 1000px;
       margin: 2rem auto;
       padding: 0 1rem;
+    }
+
+    section p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: center;
     }
 
     .category-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.75rem;
-      margin: 1.5rem 0;
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 0 1rem;
     }
 
     .category-buttons button {
-      padding: 0.6rem 1.2rem;
+      flex: 1 1 150px;
+      max-width: 200px;
+      padding: 1rem;
       background: var(--card);
-      border: 1px solid var(--accent);
       color: var(--text);
+      border: 2px solid var(--accent);
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
       cursor: pointer;
-      border-radius: 6px;
       transition: background 0.3s, transform 0.2s, color 0.3s;
-      font-size: 1rem;
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.15);
     }
 
     .category-buttons button:hover {
       background: var(--accent);
       color: white;
-      transform: scale(1.05);
+      transform: translateY(-4px);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-      padding: 0 1rem 2rem;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1rem 3rem;
+      max-width: 1300px;
       margin: auto;
     }
 
     .card {
       background: var(--card);
-      padding: 1rem;
-      border-radius: 12px;
+      padding: 1.3rem;
+      border-radius: 14px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     .card a {
+      display: block;
       text-decoration: none;
       color: var(--accent);
+      font-size: 1.05rem;
       font-weight: 600;
-      font-size: 1rem;
+      transition: color 0.2s;
+    }
+
+    .card a:hover {
+      color: var(--accent-hover);
     }
 
     @media (max-width: 600px) {
-      .category-buttons {
-        justify-content: center;
+      .title {
+        font-size: 1.5rem;
       }
 
-      header {
+      .category-buttons {
         flex-direction: column;
-        gap: 0.5rem;
+        align-items: center;
       }
     }
   </style>
@@ -146,15 +169,14 @@
   </header>
 
   <section>
-    <p style="font-size: 1.1rem; line-height: 1.6;">
-      🧠 <strong>Calculevo</strong> is your one-stop hub for over 50+ smart, accurate, and categorized calculators 
-      for daily use in health, finance, math, and utility tasks. Whether you're planning your budget, tracking your 
-      health, or solving quick math, we’ve got you covered!
+    <p>
+      🧠 <strong>Calculevo</strong> offers 50+ categorized smart calculators for Health 💪, Finance 💰, Math 📐,
+      and Utility 🧰. From budgeting and interest to BMI and age – we've got your everyday needs covered!
     </p>
   </section>
 
   <div class="category-buttons">
-    <button onclick="filterCategory('all')">📋 All</button>
+    <button onclick="filterCategory('all')">📋 All Calculators</button>
     <button onclick="filterCategory('health')">💪 Health</button>
     <button onclick="filterCategory('finance')">💰 Finance</button>
     <button onclick="filterCategory('math')">📐 Math</button>
