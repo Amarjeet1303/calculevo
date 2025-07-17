@@ -1,0 +1,31 @@
+<!-- calculators/age.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Age Calculator - Calculevo</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h1>Age Calculator</h1>
+  <label>Date of Birth: <input type="date" id="dob"></label>
+  <button onclick="calcAge()">Calculate</button>
+  <p id="age-result"></p>
+  <script>
+    function calcAge() {
+      const dob = new Date(document.getElementById('dob').value);
+      const today = new Date();
+      if (!isNaN(dob)) {
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        document.getElementById('age-result').innerText = `Your age is ${age} years.`;
+      } else {
+        document.getElementById('age-result').innerText = 'Enter a valid date.';
+      }
+    }
+  </script>
+</body>
+</html>
