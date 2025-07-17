@@ -12,7 +12,7 @@
   <header class="header" role="banner">
     <div class="logo" aria-label="Calculevo Logo">📊 Calculevo</div>
     <nav class="navbar" role="navigation" aria-label="Primary Navigation">
-      <ul>
+      <ul class="nav-list">
         <li><a href="#" class="active" aria-current="page">Home</a></li>
         <li><a href="#" tabindex="-1" aria-disabled="true">Fitness</a></li>
         <li><a href="#" tabindex="-1" aria-disabled="true">About</a></li>
@@ -28,43 +28,46 @@
   </header>
 
   <main role="main">
-    <section class="hero" aria-label="Hero Section">
-      <h1>Welcome to Calculevo</h1>
-      <p>Premium Calculator Hub Inspired by BMW &amp; Apple Design</p>
-      <input
-        type="search"
-        id="searchBar"
-        placeholder="Search calculators..."
-        aria-label="Search calculators"
-        autocomplete="off"
-        spellcheck="false"
-        role="search"
-      />
-    </section>
+    <div class="main-wrapper">
+      <section class="hero" aria-label="Hero Section">
+        <h1>Welcome to Calculevo</h1>
+        <p>Premium Calculator Hub Inspired by BMW &amp; Apple Design</p>
+        <input
+          type="search"
+          id="searchBar"
+          placeholder="Search calculators..."
+          aria-label="Search calculators"
+          autocomplete="off"
+          spellcheck="false"
+          role="search"
+        />
+      </section>
 
-    <section class="categories" aria-label="Calculator Categories">
-      <h2>Choose a Category</h2>
-      <div class="category-buttons" role="list" aria-label="Calculator categories">
-        <button class="category-btn active" data-category="all" aria-pressed="true">All</button>
-        <button class="category-btn" data-category="finance" aria-pressed="false">💰 Finance</button>
-        <button class="category-btn" data-category="health" aria-pressed="false">❤️ Health</button>
-        <button class="category-btn" data-category="math" aria-pressed="false">📐 Math</button>
-        <button class="category-btn" data-category="conversion" aria-pressed="false">🔄 Conversion</button>
-        <button class="category-btn" data-category="datetime" aria-pressed="false">📅 Date &amp; Time</button>
-      </div>
-    </section>
+      <section class="categories" aria-label="Calculator Categories">
+        <h2>Choose a Category</h2>
+        <div class="category-buttons" role="list" aria-label="Calculator categories">
+          <button class="category-btn active" data-category="all" aria-pressed="true">All</button>
+          <button class="category-btn" data-category="finance" aria-pressed="false">💰 Finance</button>
+          <button class="category-btn" data-category="health" aria-pressed="false">❤️ Health</button>
+          <button class="category-btn" data-category="math" aria-pressed="false">📐 Math</button>
+          <button class="category-btn" data-category="conversion" aria-pressed="false">🔄 Conversion</button>
+          <button class="category-btn" data-category="datetime" aria-pressed="false">📅 Date &amp; Time</button>
+          <button class="category-btn" data-category="physics" aria-pressed="false">⚡ Physics</button>
+        </div>
+      </section>
 
-    <section
-      id="calculatorContainer"
-      class="calculator-container"
-      aria-live="polite"
-      aria-relevant="additions removals"
-      tabindex="0"
-      role="region"
-      aria-label="Calculator display area"
-    >
-      <!-- Calculators will load here -->
-    </section>
+      <section
+        id="calculatorContainer"
+        class="calculator-container"
+        aria-live="polite"
+        aria-relevant="additions removals"
+        tabindex="0"
+        role="region"
+        aria-label="Calculator display area"
+      >
+        <!-- Calculators will load here -->
+      </section>
+    </div>
   </main>
 
   <footer role="contentinfo">
