@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Calculevo Fitness Calculators" />
+  <title>Calculevo | Fitness Calculators</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">📊 Calculevo</div>
+    <nav class="navbar" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="fitness.html" class="active">Fitness</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggleFitness" aria-label="Toggle Dark Mode" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Fitness Calculators</h1>
+      <p>Calculate BMI, BMR, Ideal Weight, and more to stay healthy!</p>
+    </section>
+
+    <section class="calculator-container" id="fitnessCalculators" aria-live="polite" aria-atomic="true">
+      <!-- Fitness calculators loaded dynamically -->
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Calculevo. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
