@@ -1,4 +1,4 @@
-// 10 calculators data with html & categories
+// Calculator data with 10 calculators and their HTML + logic ids
 const calculators = [
   {
     id: "bmi",
@@ -6,11 +6,24 @@ const calculators = [
     category: "health",
     html: `
       <h3>BMI Calculator</h3>
-      <label>Height (cm): <input type="number" id="bmiHeight" min="0" /></label>
-      <label>Weight (kg): <input type="number" id="bmiWeight" min="0" /></label>
-      <button onclick="calculateBMI()">Calculate</button>
-      <p class="result" id="bmiResult"></p>
-    `
+      <label for="bmiHeight">Height (cm):</label>
+      <input type="number" id="bmiHeight" min="0" step="any" placeholder="e.g., 170" />
+      <label for="bmiWeight">Weight (kg):</label>
+      <input type="number" id="bmiWeight" min="0" step="any" placeholder="e.g., 65" />
+      <button id="bmiCalcBtn">Calculate</button>
+      <p class="result" id="bmiResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const h = parseFloat(document.getElementById("bmiHeight").value) / 100;
+      const w = parseFloat(document.getElementById("bmiWeight").value);
+      const r = document.getElementById("bmiResult");
+      if (!h || !w || h <= 0 || w <= 0) {
+        r.textContent = "Please enter valid height and weight.";
+        return;
+      }
+      const bmi = w / (h * h);
+      r.textContent = `Your BMI is ${bmi.toFixed(2)}`;
+    }
   },
   {
     id: "gst",
@@ -18,11 +31,25 @@ const calculators = [
     category: "finance",
     html: `
       <h3>GST Calculator</h3>
-      <label>Amount (₹): <input type="number" id="gstAmount" min="0" /></label>
-      <label>GST %: <input type="number" id="gstRate" min="0" /></label>
-      <button onclick="calculateGST()">Calculate</button>
-      <p class="result" id="gstResult"></p>
-    `
+      <label for="gstAmount">Amount:</label>
+      <input type="number" id="gstAmount" min="0" step="any" placeholder="e.g., 1000" />
+      <label for="gstRate">GST %:</label>
+      <input type="number" id="gstRate" min="0" step="any" placeholder="e.g., 18" />
+      <button id="gstCalcBtn">Calculate</button>
+      <p class="result" id="gstResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const amount = parseFloat(document.getElementById("gstAmount").value);
+      const rate = parseFloat(document.getElementById("gstRate").value);
+      const r = document.getElementById("gstResult");
+      if (!amount || !rate || amount < 0 || rate < 0) {
+        r.textContent = "Please enter valid amount and GST rate.";
+        return;
+      }
+      const gst = (amount * rate) / 100;
+      const total = amount + gst;
+      r.textContent = `GST: ₹${gst.toFixed(2)} | Total: ₹${total.toFixed(2)}`;
+    }
   },
   {
     id: "loan",
@@ -30,125 +57,282 @@ const calculators = [
     category: "finance",
     html: `
       <h3>Loan EMI Calculator</h3>
-      <label>Principal (₹): <input type="number" id="loanPrincipal" min="0" /></label>
-      <label>Annual Interest Rate (%): <input type="number" id="loanRate" min="0" step="0.01"/></label>
-      <label>Tenure (Years): <input type="number" id="loanTenure" min="0" /></label>
-      <button onclick="calculateLoanEMI()">Calculate</button>
-      <p class="result" id="loanResult"></p>
-    `
+      <label for="loanAmount">Loan Amount:</label>
+      <input type="number" id="loanAmount" min="0" step="any" placeholder="e.g., 500000" />
+      <label for="loanRate">Annual Interest Rate (%):</label>
+      <input type="number" id="loanRate" min="0" step="any" placeholder="e.g., 7.5" />
+      <label for="loanTenure">Tenure (years):</label>
+      <input type="number" id="loanTenure" min="0" step="any" placeholder="e.g., 15" />
+      <button id="loanCalcBtn">Calculate</button>
+      <p class="result" id="loanResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const P = parseFloat(document.getElementById("loanAmount").value);
+      const r = parseFloat(document.getElementById("loanRate").value) / 100 / 12;
+      const n = parseFloat(document.getElementById("loanTenure").value) * 12;
+      const res = document.getElementById("loanResult");
+      if (!P || !r || !n || P <= 0 || r < 0 || n <= 0) {
+        res.textContent = "Please enter valid loan details.";
+        return;
+      }
+      const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      res.textContent = `EMI per month: ₹${emi.toFixed(2)}`;
+    }
   },
   {
-    id: "fahrenheit",
-    name: "Fahrenheit to Celsius",
-    category: "conversion",
-    html: `
-      <h3>Fahrenheit to Celsius</h3>
-      <label>Fahrenheit: <input type="number" id="fahrenheitInput" /></label>
-      <button onclick="convertFtoC()">Convert</button>
-      <p class="result" id="fahrenheitResult"></p>
-    `
-  },
-  {
-    id: "celsius",
-    name: "Celsius to Fahrenheit",
-    category: "conversion",
-    html: `
-      <h3>Celsius to Fahrenheit</h3>
-      <label>Celsius: <input type="number" id="celsiusInput" /></label>
-      <button onclick="convertCtoF()">Convert</button>
-      <p class="result" id="celsiusResult"></p>
-    `
-  },
-  {
-    id: "simpleInterest",
-    name: "Simple Interest Calculator",
-    category: "finance",
-    html: `
-      <h3>Simple Interest Calculator</h3>
-      <label>Principal (₹): <input type="number" id="siPrincipal" min="0" /></label>
-      <label>Rate of Interest (%): <input type="number" id="siRate" min="0" step="0.01"/></label>
-      <label>Time (Years): <input type="number" id="siTime" min="0" /></label>
-      <button onclick="calculateSimpleInterest()">Calculate</button>
-      <p class="result" id="siResult"></p>
-    `
-  },
-  {
-    id: "ageCalc",
+    id: "age",
     name: "Age Calculator",
     category: "datetime",
     html: `
       <h3>Age Calculator</h3>
-      <label>Date of Birth: <input type="date" id="dobInput" max="${new Date().toISOString().split('T')[0]}" /></label>
-      <button onclick="calculateAge()">Calculate</button>
-      <p class="result" id="ageResult"></p>
-    `
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" max="${new Date().toISOString().split('T')[0]}" />
+      <button id="ageCalcBtn">Calculate</button>
+      <p class="result" id="ageResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const dob = new Date(document.getElementById("dob").value);
+      const res = document.getElementById("ageResult");
+      if (!dob || dob == "Invalid Date") {
+        res.textContent = "Please enter a valid date.";
+        return;
+      }
+      const today = new Date();
+      if (dob > today) {
+        res.textContent = "Date of birth cannot be in the future.";
+        return;
+      }
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      res.textContent = `Your age is ${age} year${age !== 1 ? 's' : ''}.`;
+    }
   },
   {
-    id: "percentage",
+    id: "temp",
+    name: "Temperature Converter",
+    category: "conversion",
+    html: `
+      <h3>Temperature Converter</h3>
+      <label for="tempInput">Temperature:</label>
+      <input type="number" id="tempInput" step="any" placeholder="e.g., 32" />
+      <select id="tempUnit">
+        <option value="c">Celsius (°C)</option>
+        <option value="f">Fahrenheit (°F)</option>
+        <option value="k">Kelvin (K)</option>
+      </select>
+      <button id="tempCalcBtn">Convert</button>
+      <p class="result" id="tempResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const val = parseFloat(document.getElementById("tempInput").value);
+      const unit = document.getElementById("tempUnit").value;
+      const res = document.getElementById("tempResult");
+      if (isNaN(val)) {
+        res.textContent = "Please enter a valid temperature.";
+        return;
+      }
+      let c, f, k;
+      switch (unit) {
+        case 'c':
+          c = val;
+          f = (val * 9/5) + 32;
+          k = val + 273.15;
+          break;
+        case 'f':
+          c = (val - 32) * 5/9;
+          f = val;
+          k = c + 273.15;
+          break;
+        case 'k':
+          c = val - 273.15;
+          f = (c * 9/5) + 32;
+          k = val;
+          break;
+      }
+      res.textContent = `Celsius: ${c.toFixed(2)} °C | Fahrenheit: ${f.toFixed(2)} °F | Kelvin: ${k.toFixed(2)} K`;
+    }
+  },
+  {
+    id: "percent",
     name: "Percentage Calculator",
     category: "math",
     html: `
       <h3>Percentage Calculator</h3>
-      <label>Part: <input type="number" id="partInput" min="0" /></label>
-      <label>Total: <input type="number" id="totalInput" min="0" /></label>
-      <button onclick="calculatePercentage()">Calculate</button>
-      <p class="result" id="percentageResult"></p>
-    `
+      <label for="percentTotal">Total Value:</label>
+      <input type="number" id="percentTotal" min="0" step="any" placeholder="e.g., 500" />
+      <label for="percentValue">Value:</label>
+      <input type="number" id="percentValue" min="0" step="any" placeholder="e.g., 125" />
+      <button id="percentCalcBtn">Calculate</button>
+      <p class="result" id="percentResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const total = parseFloat(document.getElementById("percentTotal").value);
+      const val = parseFloat(document.getElementById("percentValue").value);
+      const res = document.getElementById("percentResult");
+      if (!total || !val || total <= 0 || val < 0) {
+        res.textContent = "Please enter valid values.";
+        return;
+      }
+      const percent = (val / total) * 100;
+      res.textContent = `${val} is ${percent.toFixed(2)}% of ${total}`;
+    }
   },
   {
-    id: "compoundInterest",
-    name: "Compound Interest Calculator",
+    id: "simple-int",
+    name: "Simple Interest Calculator",
     category: "finance",
     html: `
-      <h3>Compound Interest Calculator</h3>
-      <label>Principal (₹): <input type="number" id="ciPrincipal" min="0" /></label>
-      <label>Annual Rate (%): <input type="number" id="ciRate" min="0" step="0.01"/></label>
-      <label>Times Compounded Per Year: <input type="number" id="ciTimes" min="1" value="1" /></label>
-      <label>Time (Years): <input type="number" id="ciTime" min="0" /></label>
-      <button onclick="calculateCompoundInterest()">Calculate</button>
-      <p class="result" id="ciResult"></p>
-    `
+      <h3>Simple Interest Calculator</h3>
+      <label for="siPrincipal">Principal Amount:</label>
+      <input type="number" id="siPrincipal" min="0" step="any" placeholder="e.g., 10000" />
+      <label for="siRate">Interest Rate (% per annum):</label>
+      <input type="number" id="siRate" min="0" step="any" placeholder="e.g., 5" />
+      <label for="siTime">Time (years):</label>
+      <input type="number" id="siTime" min="0" step="any" placeholder="e.g., 3" />
+      <button id="siCalcBtn">Calculate</button>
+      <p class="result" id="siResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const P = parseFloat(document.getElementById("siPrincipal").value);
+      const r = parseFloat(document.getElementById("siRate").value);
+      const t = parseFloat(document.getElementById("siTime").value);
+      const res = document.getElementById("siResult");
+      if (!P || !r || !t || P <= 0 || r < 0 || t <= 0) {
+        res.textContent = "Please enter valid input values.";
+        return;
+      }
+      const SI = (P * r * t) / 100;
+      res.textContent = `Simple Interest = ₹${SI.toFixed(2)}`;
+    }
   },
   {
-    id: "daysBetween",
-    name: "Days Between Dates",
+    id: "time-diff",
+    name: "Time Difference Calculator",
     category: "datetime",
     html: `
-      <h3>Days Between Dates</h3>
-      <label>Start Date: <input type="date" id="startDate" /></label>
-      <label>End Date: <input type="date" id="endDate" /></label>
-      <button onclick="calculateDaysBetween()">Calculate</button>
-      <p class="result" id="daysResult"></p>
-    `
+      <h3>Time Difference Calculator</h3>
+      <label for="startTime">Start Time:</label>
+      <input type="time" id="startTime" />
+      <label for="endTime">End Time:</label>
+      <input type="time" id="endTime" />
+      <button id="timeDiffCalcBtn">Calculate</button>
+      <p class="result" id="timeDiffResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const start = document.getElementById("startTime").value;
+      const end = document.getElementById("endTime").value;
+      const res = document.getElementById("timeDiffResult");
+      if (!start || !end) {
+        res.textContent = "Please select both start and end times.";
+        return;
+      }
+      const startDate = new Date(`1970-01-01T${start}:00`);
+      const endDate = new Date(`1970-01-01T${end}:00`);
+      let diff = (endDate - startDate) / 1000 / 60; // in minutes
+      if (diff < 0) diff += 24 * 60; // next day
+      const h = Math.floor(diff / 60);
+      const m = Math.floor(diff % 60);
+      res.textContent = `Difference is ${h} hour${h !== 1 ? 's' : ''} and ${m} minute${m !== 1 ? 's' : ''}.`;
+    }
+  },
+  {
+    id: "currency",
+    name: "Currency Converter (Static Rates)",
+    category: "finance",
+    html: `
+      <h3>Currency Converter</h3>
+      <label for="amountCur">Amount:</label>
+      <input type="number" id="amountCur" min="0" step="any" placeholder="e.g., 100" />
+      <label for="fromCur">From:</label>
+      <select id="fromCur">
+        <option value="USD">USD</option>
+        <option value="INR" selected>INR</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="JPY">JPY</option>
+      </select>
+      <label for="toCur">To:</label>
+      <select id="toCur">
+        <option value="INR">INR</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="JPY">JPY</option>
+      </select>
+      <button id="curConvCalcBtn">Convert</button>
+      <p class="result" id="curConvResult" aria-live="polite"></p>
+    `,
+    calcFunc: function () {
+      const amount = parseFloat(document.getElementById("amountCur").value);
+      const from = document.getElementById("fromCur").value;
+      const to = document.getElementById("toCur").value;
+      const res = document.getElementById("curConvResult");
+      if (!amount || amount < 0) {
+        res.textContent = "Please enter a valid amount.";
+        return;
+      }
+      if (from === to) {
+        res.textContent = `Same currency selected: ${amount.toFixed(2)} ${to}`;
+        return;
+      }
+      // Static exchange rates relative to USD (for demo)
+      const rates = {
+        USD: 1,
+        INR: 82,
+        EUR: 0.91,
+        GBP: 0.79,
+        JPY: 139,
+      };
+      const amountInUSD = amount / rates[from];
+      const converted = amountInUSD * rates[to];
+      res.textContent = `${amount.toFixed(2)} ${from} = ${converted.toFixed(2)} ${to}`;
+    }
   },
 ];
 
-// Render calculator cards
-function calcTemplate(calc) {
-  return `
-    <article class="calculator" id="${calc.id}" data-category="${calc.category}">
-      ${calc.html}
-    </article>
-  `;
-}
-
-// Render calculators in container
-function renderCalculators(calcs) {
+// Render calculators into container
+function renderCalculators(calcList) {
   const container = document.getElementById("calculatorContainer");
   if (!container) return;
 
-  if (calcs.length === 0) {
+  if (calcList.length === 0) {
     container.innerHTML = `<p class="no-results">No calculators found.</p>`;
     return;
   }
-  container.innerHTML = calcs.map(calcTemplate).join("");
+
+  container.innerHTML = calcList
+    .map(
+      (calc) => `
+    <article class="calculator-card" id="${calc.id}" role="region" aria-labelledby="${calc.id}-title" tabindex="0">
+      ${calc.html.replace(/<h3>(.*?)<\/h3>/, `<h3 id="${calc.id}-title">$1</h3>`)}
+    </article>
+  `
+    )
+    .join("");
+
+  attachHandlers(calcList);
 }
 
-// Show calculators by category
+// Attach event listeners to buttons of each calculator
+function attachHandlers(calcList) {
+  calcList.forEach((calc) => {
+    const btn = document.getElementById(`${calc.id}CalcBtn`);
+    if (btn) {
+      btn.onclick = calc.calcFunc;
+    }
+  });
+}
+
+// Filter calculators by category
 function showCategory(category) {
   const buttons = document.querySelectorAll(".category-btn");
   buttons.forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.category === category);
+    const pressed = btn.dataset.category === category;
+    btn.classList.toggle("active", pressed);
+    btn.setAttribute("aria-pressed", pressed ? "true" : "false");
   });
 
   if (category === "all") {
@@ -159,219 +343,73 @@ function showCategory(category) {
   }
 }
 
-// Search calculators by name
+// Filter calculators by search input
 let searchTimeout;
 function filterCalculators() {
   clearTimeout(searchTimeout);
   searchTimeout = setTimeout(() => {
-    const term = document.getElementById("searchBar").value.toLowerCase();
+    const input = document.getElementById("searchBar");
+    if (!input) return;
+
+    const term = input.value.trim().toLowerCase();
+    if (!term) {
+      // If search empty, show active category calculators
+      const activeBtn = document.querySelector(".category-btn.active");
+      if (activeBtn) {
+        showCategory(activeBtn.dataset.category);
+      } else {
+        renderCalculators(calculators);
+      }
+      return;
+    }
+
     const filtered = calculators.filter((calc) =>
       calc.name.toLowerCase().includes(term)
     );
     renderCalculators(filtered);
-
-    // Reset category buttons active state
-    const buttons = document.querySelectorAll(".category-btn");
-    buttons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.category === "all");
-    });
-  }, 200);
+  }, 300);
 }
 
-// Dark Mode Toggle
-function toggleDarkMode() {
-  const isDark = document.body.classList.toggle("dark");
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-}
-
-// Load saved theme
-function initTheme() {
-  const saved = localStorage.getItem("theme");
-  if (saved === "dark") {
+// Dark mode toggle
+function initDarkMode() {
+  const toggle = document.getElementById("darkModeToggle");
+  // Load saved theme
+  if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
-    document.querySelector(".dark-toggle").checked = true;
+    toggle.checked = true;
   }
-  document.querySelector(".dark-toggle").addEventListener("change", toggleDarkMode);
-}
-
-// Mobile menu toggle
-function initMobileMenuToggle() {
-  const toggleBtn = document.querySelector(".menu-toggle");
-  const nav = document.querySelector(".navbar");
-
-  toggleBtn.addEventListener("click", () => {
-    nav.classList.toggle("show");
-    toggleBtn.setAttribute("aria-expanded", nav.classList.contains("show"));
+  toggle.addEventListener("change", () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
   });
 }
 
-// Calculator functions below
+// Mobile menu toggle
+function initMobileMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const navbar = document.querySelector(".navbar ul");
 
-function calculateBMI() {
-  const h = parseFloat(document.getElementById("bmiHeight").value) / 100;
-  const w = parseFloat(document.getElementById("bmiWeight").value);
-  const r = document.getElementById("bmiResult");
-
-  if (!h || !w) {
-    r.textContent = "Please enter valid height and weight.";
-    return;
-  }
-  const bmi = w / (h * h);
-  r.textContent = `Your BMI is ${bmi.toFixed(2)}`;
+  menuToggle.addEventListener("click", () => {
+    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", !expanded);
+    navbar.classList.toggle("show");
+  });
 }
 
-function calculateGST() {
-  const amount = parseFloat(document.getElementById("gstAmount").value);
-  const rate = parseFloat(document.getElementById("gstRate").value);
-  const r = document.getElementById("gstResult");
-
-  if (!amount || !rate) {
-    r.textContent = "Please enter valid amount and GST rate.";
-    return;
-  }
-  const gst = (amount * rate) / 100;
-  const total = amount + gst;
-  r.textContent = `GST: ₹${gst.toFixed(2)} | Total: ₹${total.toFixed(2)}`;
-}
-
-function calculateLoanEMI() {
-  const P = parseFloat(document.getElementById("loanPrincipal").value);
-  const R = parseFloat(document.getElementById("loanRate").value) / 12 / 100;
-  const N = parseInt(document.getElementById("loanTenure").value) * 12;
-  const r = document.getElementById("loanResult");
-
-  if (!P || !R || !N) {
-    r.textContent = "Please enter valid principal, interest rate and tenure.";
-    return;
-  }
-
-  const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
-  r.textContent = `Your monthly EMI is ₹${emi.toFixed(2)}`;
-}
-
-function convertFtoC() {
-  const f = parseFloat(document.getElementById("fahrenheitInput").value);
-  const r = document.getElementById("fahrenheitResult");
-  if (isNaN(f)) {
-    r.textContent = "Please enter a valid number.";
-    return;
-  }
-  const c = (f - 32) * (5 / 9);
-  r.textContent = `${f}°F = ${c.toFixed(2)}°C`;
-}
-
-function convertCtoF() {
-  const c = parseFloat(document.getElementById("celsiusInput").value);
-  const r = document.getElementById("celsiusResult");
-  if (isNaN(c)) {
-    r.textContent = "Please enter a valid number.";
-    return;
-  }
-  const f = (c * 9) / 5 + 32;
-  r.textContent = `${c}°C = ${f.toFixed(2)}°F`;
-}
-
-function calculateSimpleInterest() {
-  const P = parseFloat(document.getElementById("siPrincipal").value);
-  const R = parseFloat(document.getElementById("siRate").value);
-  const T = parseFloat(document.getElementById("siTime").value);
-  const r = document.getElementById("siResult");
-
-  if (!P || !R || !T) {
-    r.textContent = "Please enter valid principal, rate and time.";
-    return;
-  }
-  const SI = (P * R * T) / 100;
-  r.textContent = `Simple Interest: ₹${SI.toFixed(2)}`;
-}
-
-function calculateAge() {
-  const dobInput = document.getElementById("dobInput").value;
-  const r = document.getElementById("ageResult");
-  if (!dobInput) {
-    r.textContent = "Please select your date of birth.";
-    return;
-  }
-  const dob = new Date(dobInput);
-  const today = new Date();
-
-  if (dob > today) {
-    r.textContent = "Date of birth cannot be in the future.";
-    return;
-  }
-
-  let age = today.getFullYear() - dob.getFullYear();
-  const m = today.getMonth() - dob.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-    age--;
-  }
-  r.textContent = `Your age is ${age} years`;
-}
-
-function calculatePercentage() {
-  const part = parseFloat(document.getElementById("partInput").value);
-  const total = parseFloat(document.getElementById("totalInput").value);
-  const r = document.getElementById("percentageResult");
-
-  if (!part || !total || total === 0) {
-    r.textContent = "Please enter valid part and total (total must be > 0).";
-    return;
-  }
-
-  const percentage = (part / total) * 100;
-  r.textContent = `${percentage.toFixed(2)}%`;
-}
-
-function calculateCompoundInterest() {
-  const P = parseFloat(document.getElementById("ciPrincipal").value);
-  const R = parseFloat(document.getElementById("ciRate").value) / 100;
-  const n = parseInt(document.getElementById("ciTimes").value);
-  const t = parseFloat(document.getElementById("ciTime").value);
-  const r = document.getElementById("ciResult");
-
-  if (!P || !R || !n || !t) {
-    r.textContent = "Please enter valid principal, rate, times/year, and time.";
-    return;
-  }
-
-  const amount = P * Math.pow(1 + R / n, n * t);
-  const ci = amount - P;
-  r.textContent = `Compound Interest: ₹${ci.toFixed(2)} | Amount: ₹${amount.toFixed(2)}`;
-}
-
-function calculateDaysBetween() {
-  const start = document.getElementById("startDate").value;
-  const end = document.getElementById("endDate").value;
-  const r = document.getElementById("daysResult");
-
-  if (!start || !end) {
-    r.textContent = "Please select both dates.";
-    return;
-  }
-
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  if (endDate < startDate) {
-    r.textContent = "End date must be after start date.";
-    return;
-  }
-
-  const diffTime = endDate - startDate;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  r.textContent = `There are ${diffDays} day(s) between the two dates.`;
-}
-
-// Initialize app after DOM loads
+// Initialization
 document.addEventListener("DOMContentLoaded", () => {
   renderCalculators(calculators);
 
-  const categoryButtons = document.querySelectorAll(".category-btn");
-  categoryButtons.forEach((btn) =>
-    btn.addEventListener("click", () => showCategory(btn.dataset.category))
+  const categoryBtns = document.querySelectorAll(".category-btn");
+  categoryBtns.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      showCategory(btn.dataset.category);
+      document.getElementById("searchBar").value = "";
+    })
   );
 
   document.getElementById("searchBar").addEventListener("input", filterCalculators);
 
-  initMobileMenuToggle();
-  initTheme();
+  initDarkMode();
+  initMobileMenu();
 });
