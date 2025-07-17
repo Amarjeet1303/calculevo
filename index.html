@@ -32,12 +32,12 @@
   <section class="categories">
     <h2>Choose a Category</h2>
     <div class="category-buttons">
-      <button onclick="showCategory('all')" class="category-btn active">All</button>
-      <button onclick="showCategory('finance')" class="category-btn">💰 Finance</button>
-      <button onclick="showCategory('health')" class="category-btn">❤️ Health</button>
-      <button onclick="showCategory('math')" class="category-btn">📐 Math</button>
-      <button onclick="showCategory('conversion')" class="category-btn">🔄 Conversion</button>
-      <button onclick="showCategory('datetime')" class="category-btn">📅 Date & Time</button>
+      <button onclick="showCategory(event, 'all')" class="category-btn active">All</button>
+      <button onclick="showCategory(event, 'finance')" class="category-btn">💰 Finance</button>
+      <button onclick="showCategory(event, 'health')" class="category-btn">❤️ Health</button>
+      <button onclick="showCategory(event, 'math')" class="category-btn">📐 Math</button>
+      <button onclick="showCategory(event, 'conversion')" class="category-btn">🔄 Conversion</button>
+      <button onclick="showCategory(event, 'datetime')" class="category-btn">📅 Date & Time</button>
     </div>
     <div class="calculator-container" id="calculatorContainer">
       <!-- Calculators will be loaded here -->
@@ -63,7 +63,7 @@
       });
     }
 
-    function showCategory(category) {
+    function showCategory(event, category) {
       const allBtns = document.querySelectorAll(".category-btn");
       allBtns.forEach(btn => btn.classList.remove("active"));
       event.target.classList.add("active");
