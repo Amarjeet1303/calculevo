@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculevo - Smart Calculators</title>
+  <meta name="theme-color" content="#4b0082" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
@@ -37,20 +38,18 @@
       background: var(--bg);
       color: var(--text);
       transition: background 0.4s ease, color 0.4s ease;
-      padding-top: 160px;
-      min-height: 100vh;
     }
 
     header {
-      position: sticky;
-      top: 0;
-      width: 100%;
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
-      padding: 2rem 2rem 3rem;
+      padding: 1.5rem 1rem 2.5rem;
       text-align: center;
       z-index: 1000;
       box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      width: 100%;
     }
 
     .header-top {
@@ -60,12 +59,12 @@
       max-width: 1200px;
       margin: 0 auto;
       flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .title {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: bold;
-      color: white;
     }
 
     .dark-toggle {
@@ -85,7 +84,7 @@
 
     .header-desc {
       margin-top: 1rem;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       max-width: 960px;
       margin-left: auto;
       margin-right: auto;
@@ -130,7 +129,7 @@
 
     .card {
       background: var(--card);
-      padding: 1.5rem;
+      padding: 1.2rem;
       border-radius: 14px;
       box-shadow: 0 2px 14px rgba(0,0,0,0.08);
       transition: all 0.3s ease;
@@ -146,17 +145,35 @@
       text-decoration: none;
       color: var(--accent);
       font-weight: 600;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       text-align: center;
     }
 
-    @media (max-width: 600px) {
-      .header-top {
-        flex-direction: column;
-        gap: 0.8rem;
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.8rem;
+      }
+      .header-desc {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+      .category-buttons {
+        gap: 0.5rem;
+        padding: 0 1rem;
       }
       .category-buttons button {
-        width: 100%;
+        flex: 1 1 40%;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.5rem;
+      }
+      .header-desc {
+        font-size: 0.95rem;
       }
       .card a {
         font-size: 1rem;
