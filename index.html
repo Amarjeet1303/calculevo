@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculevo - Smart Calculators</title>
-  <meta name="theme-color" content="#6f42c1" />
+  <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f4f3f8;
-      --text: #1f1f1f;
+      --bg: #f5f7fa;
+      --text: #1a1a1a;
       --card: #ffffff;
-      --accent: #6f42c1;
-      --accent-light: #8e63db;
-      --button-bg: #ebe5f9;
+      --accent: #4b0082;
+      --accent-light: #6a0dad;
+      --button-bg: #e8eaf6;
       --button-text: #4b0082;
     }
 
@@ -21,57 +21,62 @@
       --text: #f1f5f9;
       --card: #1e293b;
       --accent: #8a2be2;
-      --accent-light: #a46fff;
+      --accent-light: #9f5fff;
       --button-bg: #334155;
       --button-text: #e0e7ff;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.4s ease, color 0.4s ease;
+      padding-top: 80px; /* Reduced from 160px */
+      min-height: 100vh;
     }
 
     header {
-      height: 100vh;
+      position: sticky;
+      top: 0;
       width: 100%;
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      padding: 1rem 1rem 1.5rem;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     }
 
-    .header-container {
-      text-align: center;
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
     }
 
     .title {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: bold;
-      letter-spacing: 1px;
+      color: white;
     }
 
     .dark-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
       background: white;
       color: var(--accent);
       border: none;
-      padding: 0.5rem 1.1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      transition: background 0.3s ease;
+      transition: 0.3s;
     }
 
     .dark-toggle:hover {
@@ -79,12 +84,11 @@
     }
 
     .header-desc {
-      margin: 2rem auto;
-      text-align: center;
+      margin-top: 1rem;
       font-size: 1.15rem;
-      padding: 0 1rem;
-      max-width: 800px;
-      line-height: 1.7;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .category-buttons {
@@ -97,17 +101,16 @@
     }
 
     .category-buttons button {
-      padding: 0.75rem 1.4rem;
+      padding: 0.8rem 1.4rem;
       font-size: 1rem;
       font-weight: 600;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
       background: var(--button-bg);
       color: var(--button-text);
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-      width: 180px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     .category-buttons button:hover {
@@ -127,11 +130,10 @@
 
     .card {
       background: var(--card);
-      padding: 1.2rem;
+      padding: 1.5rem;
       border-radius: 14px;
       box-shadow: 0 2px 14px rgba(0,0,0,0.08);
       transition: all 0.3s ease;
-      text-align: center;
     }
 
     .card:hover {
@@ -144,26 +146,23 @@
       text-decoration: none;
       color: var(--accent);
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      text-align: center;
     }
 
-    @media (max-width: 768px) {
-      .title {
-        font-size: 2rem;
+    @media (max-width: 600px) {
+      .header-top {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
       }
 
-      .category-buttons button {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 480px) {
       .title {
         font-size: 1.5rem;
       }
 
-      .header-desc {
-        font-size: 1rem;
+      .category-buttons button {
+        width: 100%;
       }
 
       .card a {
@@ -173,17 +172,15 @@
   </style>
 </head>
 <body>
-
   <header>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-    <div class="header-container">
+    <div class="header-top">
       <div class="title">Calculevo</div>
+      <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </div>
+    <div class="header-desc">
+      🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
     </div>
   </header>
-
-  <div class="header-desc">
-    🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
-  </div>
 
   <div class="category-buttons">
     <button onclick="filterCategory('all')">📋 All</button>
