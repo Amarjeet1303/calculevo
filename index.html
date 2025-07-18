@@ -2,211 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculevo - Smart Calculators</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculevo</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+    :root {
+      --primary-color: #5f00ba;
+      --text-color: #222;
+      --background-color: #f4f4f9;
+      --card-color: white;
+      --glass: rgba(255, 255, 255, 0.2);
     }
 
     body {
-      background: #f0f2f5;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    body.dark {
-      background: #121212;
-      color: #eee;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--background-color);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
       position: sticky;
       top: 0;
       width: 100%;
-      background: rgba(75, 0, 130, 0.9);
+      background: linear-gradient(135deg, #5f00ba, #8b2df2);
       color: white;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      z-index: 999;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      z-index: 1000;
       backdrop-filter: blur(10px);
     }
 
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem 2rem 1rem 2rem;
-      text-align: center;
-    }
-
-    .title {
-      font-size: 2.8rem;
-      font-weight: 700;
-    }
-
-    .header-desc {
-      margin-top: 1rem;
-      font-size: 1.05rem;
-      line-height: 1.6;
-    }
-
-    .dark-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      padding: 0.6rem 1.1rem;
-      background: white;
-      color: #4b0082;
-      border: none;
-      border-radius: 8px;
+    .site-name {
+      font-size: 2rem;
       font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .dark-mode-toggle {
+      background-color: white;
+      color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.6rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: 0.3s;
     }
 
-    body.dark .dark-toggle {
-      background: #2c2c2c;
-      color: #fff;
+    .dark-mode-toggle:hover {
+      background-color: #eee;
     }
 
-    .category-buttons {
-      margin: 0 auto 2rem auto;
+    .intro {
+      text-align: center;
+      margin: 2rem 2rem 1rem;
+      font-size: 1.2rem;
+      color: var(--text-color);
+    }
+
+    .intro strong {
+      color: var(--primary-color);
+    }
+
+    .category-filters {
+      text-align: center;
+      margin: 1rem auto;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
-      position: sticky;
-      top: 110px;
-      background: inherit;
-      z-index: 998;
-      padding-top: 1rem;
     }
 
-    .category-buttons button {
-      padding: 0.6rem 1.2rem;
-      border: none;
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #4b0082;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .category-buttons button:hover {
-      transform: scale(1.05);
-      background: #f0f0ff;
-    }
-
-    body.dark .category-buttons button {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    .calculators {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto 4rem auto;
-      padding: 0 2rem;
-    }
-
-    .calculator {
-      padding: 1.2rem;
-      border-radius: 14px;
+    .category-filters button {
       background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 12px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .category-filters button:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.2rem;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .calculator-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
       text-align: center;
       font-weight: 600;
-      color: #4b0082;
+      font-size: 1.1rem;
+      color: var(--primary-color);
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-    .calculator:hover {
+    .calculator-card:hover {
       transform: translateY(-5px);
-      background: rgba(240, 240, 255, 0.8);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
 
-    body.dark .calculator {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
+    /* Dark Mode */
+    body.dark {
+      --background-color: #121212;
+      --card-color: #1f1f1f;
+      --text-color: #eaeaea;
+    }
+
+    body.dark .intro,
+    body.dark .calculator-card {
+      color: var(--text-color);
+      background: var(--card-color);
+    }
+
+    body.dark .category-filters button {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    body.dark .category-filters button:hover {
+      background: white;
+      color: var(--primary-color);
     }
 
     @media (max-width: 768px) {
-      .header-inner {
-        padding: 2rem 1.2rem 1rem 1.2rem;
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
       }
 
-      .title {
-        font-size: 2rem;
+      .dark-mode-toggle {
+        align-self: flex-end;
       }
 
-      .header-desc {
-        font-size: 0.95rem;
-      }
-
-      .dark-toggle {
-        top: 1rem;
-        right: 1rem;
-        padding: 0.5rem 1rem;
+      .intro {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-    <div class="header-inner">
-      <div class="title">Calculevo</div>
-      <div class="header-desc">
-        🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
-      </div>
-    </div>
+    <div class="site-name">Calculevo</div>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
   </header>
 
-  <div class="category-buttons">
-    <button onclick="filterCategory('all')">📋 All</button>
-    <button onclick="filterCategory('health')">💪 Health</button>
-    <button onclick="filterCategory('finance')">💰 Finance</button>
-    <button onclick="filterCategory('math')">📐 Math</button>
-    <button onclick="filterCategory('utility')">🧰 Utility</button>
+  <div class="intro">
+    <p>
+      🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility — designed with elegance, speed, and precision.
+    </p>
   </div>
 
-  <div class="calculators" id="calculatorList">
-    <div class="calculator health">BMI Calculator</div>
-    <div class="calculator math">Percentage Calculator</div>
-    <div class="calculator finance">EMI Calculator</div>
-    <div class="calculator utility">Age Calculator</div>
-    <div class="calculator finance">Simple Interest Calculator</div>
-    <div class="calculator finance">Compound Interest Calculator</div>
-    <div class="calculator finance">Loan Calculator</div>
-    <div class="calculator utility">Tip Calculator</div>
-    <div class="calculator finance">Discount Calculator</div>
-    <div class="calculator finance">Currency Converter</div>
+  <div class="category-filters">
+    <button onclick="filterCalculators('all')">🗂 All</button>
+    <button onclick="filterCalculators('health')">💪 Health</button>
+    <button onclick="filterCalculators('finance')">💰 Finance</button>
+    <button onclick="filterCalculators('math')">📐 Math</button>
+    <button onclick="filterCalculators('utility')">🧰 Utility</button>
+  </div>
+
+  <div class="calculator-grid">
+    <div class="calculator-card health">BMI Calculator</div>
+    <div class="calculator-card math">Percentage Calculator</div>
+    <div class="calculator-card finance">EMI Calculator</div>
+    <div class="calculator-card health">Age Calculator</div>
+    <div class="calculator-card finance">Simple Interest Calculator</div>
+    <div class="calculator-card finance">Compound Interest Calculator</div>
+    <div class="calculator-card finance">Loan Calculator</div>
+    <div class="calculator-card utility">Tip Calculator</div>
+    <div class="calculator-card finance">Discount Calculator</div>
+    <div class="calculator-card utility">Currency Converter</div>
   </div>
 
   <script>
-    function filterCategory(category) {
-      const all = document.querySelectorAll('.calculator');
-      all.forEach(el => {
-        if (category === 'all') {
-          el.style.display = 'block';
-        } else {
-          el.style.display = el.classList.contains(category) ? 'block' : 'none';
-        }
-      });
-    }
-
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
+    }
+
+    function filterCalculators(category) {
+      const cards = document.querySelectorAll('.calculator-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.classList.contains(category)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
   </script>
 </body>
