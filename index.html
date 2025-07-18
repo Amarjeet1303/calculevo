@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculevo - Smart Calculators</title>
+  <meta name="theme-color" content="#4b0082" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f5f7fa;
+      --bg: #f4f6fb;
       --text: #1a1a1a;
       --card: #ffffff;
       --accent: #4b0082;
@@ -37,58 +38,56 @@
       background: var(--bg);
       color: var(--text);
       transition: background 0.4s ease, color 0.4s ease;
-      padding-top: 80px; /* Reduced from 160px */
-      min-height: 100vh;
+      line-height: 1.6;
     }
 
     header {
-      position: sticky;
-      top: 0;
-      width: 100%;
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
-      padding: 1rem 1rem 1.5rem;
-      text-align: center;
+      padding: 2rem 1rem;
+      width: 100%;
+      position: sticky;
+      top: 0;
       z-index: 1000;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
 
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .header-inner {
       max-width: 1200px;
       margin: 0 auto;
-      flex-wrap: wrap;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: white;
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .header-desc {
+      font-size: 1.1rem;
+      max-width: 900px;
     }
 
     .dark-toggle {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
       background: white;
       color: var(--accent);
       border: none;
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 1rem;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     .dark-toggle:hover {
       background: #ddd;
-    }
-
-    .header-desc {
-      margin-top: 1rem;
-      font-size: 1.15rem;
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .category-buttons {
@@ -96,12 +95,13 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      margin: 2rem auto;
+      margin: 2rem auto 1rem;
       max-width: 1000px;
+      padding: 0 1rem;
     }
 
     .category-buttons button {
-      padding: 0.8rem 1.4rem;
+      padding: 0.7rem 1.2rem;
       font-size: 1rem;
       font-weight: 600;
       border-radius: 12px;
@@ -123,22 +123,23 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1.5rem;
-      padding: 2rem;
+      padding: 2rem 1rem;
       max-width: 1200px;
       margin: auto;
     }
 
     .card {
       background: var(--card);
-      padding: 1.5rem;
+      padding: 1.2rem;
       border-radius: 14px;
-      box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
       transition: all 0.3s ease;
+      text-align: center;
     }
 
     .card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     .card a {
@@ -146,23 +147,36 @@
       text-decoration: none;
       color: var(--accent);
       font-weight: 600;
-      font-size: 1.15rem;
-      text-align: center;
+      font-size: 1.1rem;
     }
 
-    @media (max-width: 600px) {
-      .header-top {
-        flex-direction: column;
-        gap: 0.8rem;
-        text-align: center;
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.8rem;
       }
 
-      .title {
-        font-size: 1.5rem;
+      .dark-toggle {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.4rem 0.9rem;
+      }
+
+      .category-buttons {
+        gap: 0.75rem;
       }
 
       .category-buttons button {
         width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .header-desc {
+        font-size: 0.95rem;
       }
 
       .card a {
@@ -172,13 +186,14 @@
   </style>
 </head>
 <body>
+
   <header>
-    <div class="header-top">
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <div class="header-inner">
       <div class="title">Calculevo</div>
-      <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-    </div>
-    <div class="header-desc">
-      🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
+      <div class="header-desc">
+        🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
+      </div>
     </div>
   </header>
 
