@@ -7,19 +7,21 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f3f4f6;
-      --text: #1f2937;
+      --bg: #f5f7fa;
+      --text: #1a1a1a;
       --card: #ffffff;
-      --accent: #4f46e5;
-      --button-bg: #e0e7ff;
-      --button-text: #3730a3;
+      --accent: #4b0082;
+      --accent-light: #6a0dad;
+      --button-bg: #e8eaf6;
+      --button-text: #4b0082;
     }
 
     [data-theme="dark"] {
       --bg: #0f172a;
-      --text: #f8fafc;
+      --text: #f1f5f9;
       --card: #1e293b;
-      --accent: #818cf8;
+      --accent: #8a2be2;
+      --accent-light: #9f5fff;
       --button-bg: #334155;
       --button-text: #e0e7ff;
     }
@@ -34,50 +36,59 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.4s ease, color 0.4s ease;
+      padding-top: 160px;
       min-height: 100vh;
-      padding-top: 80px;
     }
 
     header {
       position: sticky;
       top: 0;
       width: 100%;
-      z-index: 1000;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
+      padding: 2rem 2rem 3rem;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
     }
 
     .title {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: bold;
+      color: white;
     }
 
     .dark-toggle {
       background: white;
       color: var(--accent);
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 8px;
       cursor: pointer;
-      font-weight: 500;
-      transition: background 0.3s, color 0.3s;
+      font-weight: 600;
+      transition: 0.3s;
     }
 
     .dark-toggle:hover {
       background: #ddd;
     }
 
-    section.intro {
+    .header-desc {
+      margin-top: 1rem;
+      font-size: 1.15rem;
       max-width: 960px;
-      margin: 2rem auto;
-      text-align: center;
-      padding: 1rem;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .category-buttons {
@@ -85,28 +96,27 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      margin: 1.5rem auto;
-      max-width: 960px;
+      margin: 2rem auto;
+      max-width: 1000px;
     }
 
     .category-buttons button {
-      padding: 0.8rem 1.2rem;
+      padding: 0.8rem 1.4rem;
       font-size: 1rem;
       font-weight: 600;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
       background: var(--button-bg);
       color: var(--button-text);
       cursor: pointer;
       transition: all 0.3s ease;
-      width: 160px;
-      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     .category-buttons button:hover {
       background: var(--accent);
       color: white;
-      transform: translateY(-2px) scale(1.03);
+      transform: scale(1.05);
     }
 
     .grid {
@@ -121,13 +131,14 @@
     .card {
       background: var(--card);
       padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease;
+      border-radius: 14px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     .card a {
@@ -135,18 +146,17 @@
       text-decoration: none;
       color: var(--accent);
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       text-align: center;
     }
 
     @media (max-width: 600px) {
-      header {
+      .header-top {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.8rem;
       }
       .category-buttons button {
         width: 100%;
-        font-size: 1rem;
       }
       .card a {
         font-size: 1rem;
@@ -156,15 +166,14 @@
 </head>
 <body>
   <header>
-    <div class="title">Calculevo</div>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <div class="header-top">
+      <div class="title">Calculevo</div>
+      <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </div>
+    <div class="header-desc">
+      🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
+    </div>
   </header>
-
-  <section class="intro">
-    <p style="font-size: 1.15rem; line-height: 1.7;">
-      🔢 <strong>Calculevo</strong> brings together 50+ smart and beautifully designed calculators for every need—be it 💰 finance, 💪 health, 📐 math, or 🧰 utility. Calculate anything—accurately and fast!
-    </p>
-  </section>
 
   <div class="category-buttons">
     <button onclick="filterCategory('all')">📋 All</button>
