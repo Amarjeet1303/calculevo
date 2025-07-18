@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     :root {
-      --bg: #f6f9fc;
+      --bg: #f5f7fa;
       --text: #1a1a1a;
       --card: #ffffff;
       --accent: #4b0082;
-      --accent-light: #7b1fa2;
-      --button-bg: #e0e7ff;
+      --accent-light: #6a0dad;
+      --button-bg: #e8eaf6;
       --button-text: #4b0082;
     }
 
@@ -41,33 +41,39 @@
     }
 
     header {
-      height: 100vh;
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      text-align: center;
-      padding: 2rem 1rem;
+      flex-wrap: wrap;
+      padding: 0.5rem 1rem;
     }
 
     .title {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
-      margin-bottom: 1rem;
     }
 
     .dark-toggle {
       background: white;
       color: var(--accent);
       border: none;
-      padding: 0.5rem 1.1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-top: 1rem;
+      font-weight: 600;
       transition: 0.3s ease;
     }
 
@@ -76,10 +82,10 @@
     }
 
     .header-desc {
-      font-size: 1.05rem;
-      max-width: 720px;
       margin-top: 1rem;
-      line-height: 1.6;
+      text-align: center;
+      font-size: 1.1rem;
+      padding: 0 1rem;
     }
 
     .category-buttons {
@@ -87,22 +93,22 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      margin: 3rem auto 1rem;
+      margin: 2rem auto;
       max-width: 1000px;
     }
 
     .category-buttons button {
-      padding: 0.7rem 1.3rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-radius: 10px;
+      padding: 0.8rem 1.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
       border: none;
       background: var(--button-bg);
       color: var(--button-text);
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      width: 160px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      width: 180px;
     }
 
     .category-buttons button:hover {
@@ -122,15 +128,15 @@
 
     .card {
       background: var(--card);
-      padding: 1.1rem;
-      border-radius: 12px;
+      padding: 1.2rem;
+      border-radius: 14px;
       box-shadow: 0 2px 14px rgba(0,0,0,0.08);
       transition: all 0.3s ease;
       text-align: center;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
@@ -139,16 +145,12 @@
       text-decoration: none;
       color: var(--accent);
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
     }
 
     @media (max-width: 768px) {
       .title {
-        font-size: 2rem;
-      }
-
-      .header-desc {
-        font-size: 0.95rem;
+        font-size: 1.7rem;
       }
 
       .category-buttons button {
@@ -158,11 +160,11 @@
 
     @media (max-width: 480px) {
       .title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
       }
 
       .header-desc {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
 
       .card a {
@@ -173,11 +175,13 @@
 </head>
 <body>
   <header>
-    <div class="title">Calculevo</div>
-    <div class="header-desc">
-      🔢 <strong>Calculevo</strong> is your all-in-one calculator hub with 50+ tools in 💪 Health, 💰 Finance, 📐 Math, & 🧰 Utility—built with style, speed, and accuracy.
+    <div class="header-container">
+      <div class="title">Calculevo</div>
+      <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
     </div>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    <div class="header-desc">
+      🔢 <strong>Calculevo</strong> is your all-in-one smart calculator hub with over 50 powerful tools across 💪 Health, 💰 Finance, 📐 Math, and 🧰 Utility—designed with elegance, speed, and precision.
+    </div>
   </header>
 
   <div class="category-buttons">
