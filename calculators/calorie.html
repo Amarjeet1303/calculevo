@@ -1,0 +1,62 @@
+<!-- Calorie Calculator -->
+<!-- Save this as calorie.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calorie Calculator</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Calorie Calculator</h1>
+    <div class="card">
+      <label>Age: <input type="number" id="age"></label>
+      <label>Gender:
+        <select id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </label>
+      <label>Weight (kg): <input type="number" id="weight"></label>
+      <label>Height (cm): <input type="number" id="height"></label>
+      <label>Activity Level:
+        <select id="activity">
+          <option value="1.2">Sedentary</option>
+          <option value="1.375">Lightly Active</option>
+          <option value="1.55">Moderately Active</option>
+          <option value="1.725">Very Active</option>
+          <option value="1.9">Super Active</option>
+        </select>
+      </label>
+      <button onclick="calculateCalories()">Calculate</button>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+  <script>
+    function calculateCalories() {
+      const age = parseInt(document.getElementById("age").value);
+      const gender = document.getElementById("gender").value;
+      const weight = parseFloat(document.getElementById("weight").value);
+      const height = parseFloat(document.getElementById("height").value);
+      const activity = parseFloat(document.getElementById("activity").value);
+
+      if (isNaN(age) || isNaN(weight) || isNaN(height)) {
+        document.getElementById("result").innerText = "Please fill in all fields correctly.";
+        return;
+      }
+
+      let bmr;
+      if (gender === "male") {
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else {
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      const calories = bmr * activity;
+      document.getElementById("result").innerText = `You need approximately ${Math.round(calories)} calories/day.`;
+    }
+  </script>
+</body>
+</html>
