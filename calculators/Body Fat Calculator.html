@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Body Fat Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #234f9b;
+    }
+    .calculator {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem;
+      width: 100%;
+      background-color: #234f9b;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Body Fat Calculator</h1>
+  <div class="calculator">
+    <label for="gender">Gender:</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="age">Age (years):</label>
+    <input type="number" id="age" />
+
+    <label for="waist">Waist (inches):</label>
+    <input type="number" id="waist" />
+
+    <label for="neck">Neck (inches):</label>
+    <input type="number" id="neck" />
+
+    <div id="hipInput" style="display:none">
+      <label for="hip">Hip (inches):</label>
+      <input type="number" id="hip" />
+    </div>
+
+    <label for="height">Height (inches):</label>
+    <input type="number" id="height" />
+
+    <button onclick="calculateBodyFat()">Calculate</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("gender").addEventListener("change", function () {
+      document.getElementById("hipInput").style.display = this.value === "female" ? "block" : "none";
+    });
+
+    function calculateBodyFat() {
+      const gender = document.getElementById("gender").value;
+      const waist = parseFloat(document.getElementById("waist").value);
+      const neck = parseFloat(document.getElementById("neck").value);
+      const height = parseFloat(document.getElementById("height").value);
+      const hip = parseFloat(document.getElementById("hip").value);
+
+      if (gender === "male") {
+        const bf = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+        document.getElementById("result").innerText = `Estimated Body Fat: ${bf.toFixed(2)}%`;
+      } else {
+        const bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387;
+        document.getElementById("result").innerText = `Estimated Body Fat: ${bf.toFixed(2)}%`;
+      }
+    }
+  </script>
+</body>
+</html>
