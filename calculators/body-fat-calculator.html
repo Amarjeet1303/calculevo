@@ -4,52 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Body Fat Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #eef2f3, #dfe6e9);
+      margin: 0;
       padding: 2rem;
+      color: #2d3436;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
+
     h1 {
-      text-align: center;
-      color: #234f9b;
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
     }
+
     .calculator {
-      max-width: 500px;
-      margin: 2rem auto;
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
       padding: 2rem;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
     }
+
     label {
-      display: block;
       margin-top: 1rem;
+      font-weight: 600;
     }
+
     input, select {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.6rem;
       margin-top: 0.3rem;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
     }
+
+    input:focus, select:focus {
+      border-color: #2980b9;
+      outline: none;
+    }
+
     button {
-      margin-top: 1.5rem;
-      padding: 0.7rem;
+      margin-top: 2rem;
+      padding: 0.75rem;
       width: 100%;
-      background-color: #234f9b;
+      background-color: #2980b9;
       color: white;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 1rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
+
+    button:hover {
+      background-color: #1f6391;
+    }
+
     #result {
-      margin-top: 1.5rem;
-      font-weight: bold;
+      margin-top: 2rem;
       font-size: 1.2rem;
+      font-weight: bold;
       text-align: center;
+      color: #2d3436;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -63,17 +97,17 @@
     </select>
 
     <label for="age">Age (years):</label>
-    <input type="number" id="age" />
+    <input type="number" id="age" placeholder="Enter age" />
 
     <label for="weight">Weight:</label>
-    <input type="number" id="weight" />
+    <input type="number" id="weight" placeholder="Enter weight" />
     <select id="weightUnit">
       <option value="kg">Kilograms</option>
       <option value="lbs">Pounds</option>
     </select>
 
     <label for="waist">Waist:</label>
-    <input type="number" id="waist" />
+    <input type="number" id="waist" placeholder="Enter waist size" />
     <select id="waistUnit">
       <option value="in">Inches</option>
       <option value="cm">Centimeters</option>
@@ -82,7 +116,7 @@
     </select>
 
     <label for="neck">Neck:</label>
-    <input type="number" id="neck" />
+    <input type="number" id="neck" placeholder="Enter neck size" />
     <select id="neckUnit">
       <option value="in">Inches</option>
       <option value="cm">Centimeters</option>
@@ -92,7 +126,7 @@
 
     <div id="hipInput" style="display:none">
       <label for="hip">Hip:</label>
-      <input type="number" id="hip" />
+      <input type="number" id="hip" placeholder="Enter hip size" />
       <select id="hipUnit">
         <option value="in">Inches</option>
         <option value="cm">Centimeters</option>
@@ -102,7 +136,7 @@
     </div>
 
     <label for="height">Height:</label>
-    <input type="number" id="height" />
+    <input type="number" id="height" placeholder="Enter height" />
     <select id="heightUnit">
       <option value="in">Inches</option>
       <option value="cm">Centimeters</option>
@@ -123,15 +157,15 @@
       if (unit === "cm") return value / 2.54;
       if (unit === "m") return value * 39.3701;
       if (unit === "ft") return value * 12;
-      return value; // inches
+      return value;
     }
 
     function toPounds(value, unit) {
-      return unit === "kg" ? value * 2.20462 : value; // convert kg to lbs if needed
+      return unit === "kg" ? value * 2.20462 : value;
     }
 
     function toKilograms(value, unit) {
-      return unit === "lbs" ? value / 2.20462 : value; // convert lbs to kg if needed
+      return unit === "lbs" ? value / 2.20462 : value;
     }
 
     function calculateBodyFat() {
