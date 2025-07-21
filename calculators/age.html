@@ -1,3 +1,4 @@
+<!-- calculators/age.html -->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -5,153 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Age Calculator - Calculevo</title>
   <link rel="stylesheet" href="../css/style.css" />
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --text: #1e293b;
-      --header-bg: rgba(255, 255, 255, 0.85);
-      --accent: #2563eb;
-      --card-bg: #ffffff;
-      --card-blur: 14px;
-      --button-bg: #2563eb;
-      --button-text: #ffffff;
-    }
-
-    [data-theme="dark"] {
-      --bg: #0f172a;
-      --text: #e2e8f0;
-      --header-bg: rgba(15, 23, 42, 0.85);
-      --accent: #60a5fa;
-      --card-bg: #1e293b;
-      --button-bg: #60a5fa;
-      --button-text: #0f172a;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      background-color: var(--header-bg);
-      backdrop-filter: blur(12px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      z-index: 1000;
-    }
-
-    .site-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .dark-toggle {
-      background-color: var(--button-bg);
-      color: var(--button-text);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .calculator-card {
-      background-color: var(--card-bg);
-      max-width: 500px;
-      margin: 3rem auto;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    input[type="date"] {
-      width: 100%;
-      padding: 0.6rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-top: 0.3rem;
-    }
-
-    button {
-      background-color: var(--button-bg);
-      color: var(--button-text);
-      padding: 0.7rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 1.2rem;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    #result {
-      margin-top: 1.5rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
+
+  <!-- Header from main index.html -->
   <header>
     <div class="site-title">Calculevo</div>
     <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
   </header>
 
-  <div class="calculator-card">
-    <h1>Age Calculator</h1>
-
-    <label for="dob">From Date (DOB or Start Date):</label>
-    <input type="date" id="dob">
-
-    <label for="toDate">To Date (Optional):</label>
-    <input type="date" id="toDate">
-
-    <button onclick="calcAge()">Calculate</button>
-    <div id="result"></div>
-  </div>
+  <main class="container">
+    <div class="card">
+      <h2>Age Calculator</h2>
+      <label>From Date (DOB or Start Date):</label>
+      <input type="date" id="fromDate" />
+      <label>To Date (Optional):</label>
+      <input type="date" id="toDate" />
+      <button onclick="calculateAge()">Calculate</button>
+      <p id="result"></p>
+    </div>
+  </main>
 
   <script>
     function toggleDarkMode() {
       const html = document.documentElement;
-      const current = html.getAttribute("data-theme");
-      html.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+      const currentTheme = html.getAttribute("data-theme");
+      html.setAttribute("data-theme", currentTheme === "dark" ? "light" : "dark");
     }
 
-    function calcAge() {
-      const from = new Date(document.getElementById('dob').value);
-      let to = new Date(document.getElementById('toDate').value);
+    function calculateAge() {
+      const from = new Date(document.getElementById("fromDate").value);
+      const toInput = document.getElementById("toDate").value;
+      const to = toInput ? new Date(toInput) : new Date();
+
       if (isNaN(from)) {
-        document.getElementById('result').innerText = "Please enter a valid start date.";
+        document.getElementById("result").innerText = "Please enter a valid start date.";
         return;
       }
-
-      if (isNaN(to)) to = new Date();
 
       let years = to.getFullYear() - from.getFullYear();
       let months = to.getMonth() - from.getMonth();
@@ -161,13 +52,14 @@
         months--;
         days += new Date(to.getFullYear(), to.getMonth(), 0).getDate();
       }
+
       if (months < 0) {
         years--;
         months += 12;
       }
 
-      document.getElementById('result').innerText =
-        `Duration: ${years} year(s), ${months} month(s), and ${days} day(s).`;
+      document.getElementById("result").innerText =
+        `Difference: ${years} years, ${months} months, ${days} days`;
     }
   </script>
 </body>
